@@ -1,0 +1,1142 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<title>SO Nutriología — Teleflex</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<style>
+:root{
+  --green:#16A34A;--green2:#DCFCE7;--green3:#F0FDF4;--green4:#BBF7D0;
+  --teal:#0D9488;--teal2:#CCFBF1;
+  --navy:#0F2942;--blue:#2563EB;--blue3:#EFF6FF;
+  --amber:#D97706;--amber2:#FEF3C7;
+  --red:#DC2626;--red2:#FEF2F2;
+  --purple:#7C3AED;--purple2:#F5F3FF;
+  --surf:#FFFFFF;--surf2:#F8FAFC;--surf3:#F1F5F9;
+  --bor:#E2E8F0;--bor2:#CBD5E1;
+  --tx:#0F172A;--tx2:#475569;--tx3:#94A3B8;
+  --nav-h:56px;--r:10px;
+  --sh:0 1px 3px rgba(0,0,0,.08),0 1px 2px rgba(0,0,0,.05);
+  --sh-lg:0 10px 25px rgba(0,0,0,.1),0 4px 10px rgba(0,0,0,.05);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;background:var(--surf2);color:var(--tx);font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased}
+
+/* LOGIN */
+#login-screen{position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;background:linear-gradient(145deg,#0F2942 0%,#145A32 40%,#16A34A 100%)}
+.lc{background:#fff;border-radius:18px;padding:40px;width:100%;max-width:380px;box-shadow:0 30px 60px rgba(0,0,0,.3)}
+.lc-brand{text-align:center;margin-bottom:28px}
+.lc-icon{width:56px;height:56px;background:linear-gradient(135deg,var(--green),#166534);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:26px;margin:0 auto 10px}
+.lc-brand h1{font-size:20px;font-weight:800;color:var(--navy)}
+.lc-brand p{font-size:11px;color:var(--tx3);margin-top:2px}
+.lf{margin-bottom:14px}
+.lf label{display:block;font-size:10px;font-weight:700;color:var(--tx2);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
+.lf select,.lf input{width:100%;padding:10px 13px;border:1.5px solid var(--bor);border-radius:8px;font-size:14px;font-family:inherit;outline:none;transition:.15s}
+.lf select:focus,.lf input:focus{border-color:var(--green);box-shadow:0 0 0 3px var(--green3)}
+#lerr{display:none;background:var(--red2);color:var(--red);border-radius:7px;padding:8px 12px;font-size:12px;margin-bottom:12px;text-align:center}
+.lbtn{width:100%;background:linear-gradient(135deg,var(--green),#166534);color:#fff;border:none;padding:12px;border-radius:9px;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;transition:.15s}
+.lbtn:hover{opacity:.92;transform:translateY(-1px)}
+
+/* NAV */
+#app{display:none}
+.nav{position:fixed;top:0;left:0;right:0;height:var(--nav-h);z-index:100;background:var(--navy);display:flex;align-items:center;padding:0 14px;gap:2px;box-shadow:0 2px 10px rgba(0,0,0,.25);overflow-x:auto}
+.nav::-webkit-scrollbar{height:2px}
+.nav-brand{font-size:12px;font-weight:800;color:#fff;white-space:nowrap;margin-right:10px;display:flex;align-items:center;gap:7px}
+.nav-brand .badge{background:var(--green);color:#fff;font-size:9px;font-weight:700;padding:2px 7px;border-radius:5px}
+.tb{background:none;border:none;color:rgba(255,255,255,.55);font-family:inherit;font-size:12px;font-weight:600;cursor:pointer;padding:6px 10px;border-radius:7px;white-space:nowrap;transition:.15s;display:flex;align-items:center;gap:5px}
+.tb:hover{color:#fff;background:rgba(255,255,255,.08)}
+.tb.on{color:#fff;background:rgba(22,163,74,.35)}
+.nav-end{margin-left:auto;display:flex;align-items:center;gap:8px;flex-shrink:0}
+.user-pill{font-size:11px;color:rgba(255,255,255,.7);white-space:nowrap}
+.nav-btn{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:#fff;padding:4px 10px;border-radius:6px;font-size:11px;cursor:pointer;font-family:inherit}
+.nav-btn:hover{background:rgba(255,255,255,.18)}
+
+/* SCREENS */
+.sc{display:none;padding:calc(var(--nav-h) + 16px) 16px 28px;min-height:100vh;max-width:1060px;margin:0 auto}
+.sc.on{display:block}
+
+/* CARDS */
+.card{background:var(--surf);border-radius:var(--r);box-shadow:var(--sh);border:1px solid var(--bor)}
+.cp{padding:16px}
+
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;gap:5px;border:none;border-radius:8px;font-family:inherit;font-size:13px;font-weight:600;cursor:pointer;padding:8px 14px;transition:.15s}
+.btn-green{background:var(--green);color:#fff}.btn-green:hover{background:#15803D}
+.btn-navy{background:var(--navy);color:#fff}.btn-navy:hover{background:#1a3a5c}
+.btn-ghost{background:transparent;color:var(--tx2);border:1.5px solid var(--bor)}.btn-ghost:hover{border-color:var(--bor2);background:var(--surf3)}
+.btn-sm{padding:5px 10px;font-size:12px;border-radius:6px}
+.btn-xs{padding:3px 8px;font-size:11px;border-radius:5px}
+
+/* FORM */
+.fi{margin-bottom:12px}
+.fi label{display:block;font-size:10px;font-weight:700;color:var(--tx2);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
+.fi input,.fi select,.fi textarea{width:100%;padding:9px 12px;border:1.5px solid var(--bor);border-radius:8px;font-size:13px;font-family:inherit;outline:none;background:var(--surf);color:var(--tx);transition:.15s}
+.fi input:focus,.fi select:focus,.fi textarea:focus{border-color:var(--green);box-shadow:0 0 0 3px var(--green3)}
+.fi textarea{resize:vertical;min-height:70px}
+.fi input[readonly]{background:var(--surf3);color:var(--tx2)}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+@media(max-width:640px){.g2,.g3,.g4{grid-template-columns:1fr 1fr}}
+@media(max-width:380px){.g2,.g3,.g4{grid-template-columns:1fr}}
+
+/* MODALS */
+.ov{display:none;position:fixed;inset:0;z-index:500;background:rgba(0,0,0,.5);backdrop-filter:blur(3px);padding:16px;align-items:flex-start;justify-content:center;overflow-y:auto}
+.ov.open{display:flex}
+.mo{background:var(--surf);border-radius:16px;width:100%;max-width:700px;box-shadow:var(--sh-lg);margin:auto;animation:up .2s ease}
+@keyframes up{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+.mh{padding:16px 20px;border-bottom:1px solid var(--bor);display:flex;align-items:center;justify-content:space-between}
+.mt-modal{font-size:15px;font-weight:800;color:var(--navy)}
+.mc{background:none;border:none;font-size:20px;cursor:pointer;color:var(--tx3);width:28px;height:28px;display:flex;align-items:center;justify-content:center;border-radius:5px}
+.mc:hover{background:var(--surf3);color:var(--tx)}
+.mb{padding:20px;max-height:78vh;overflow-y:auto}
+.mf{padding:12px 20px 16px;border-top:1px solid var(--bor);display:flex;gap:8px;justify-content:flex-end}
+
+/* EMP CARD */
+.emp-card{background:linear-gradient(135deg,var(--navy) 0%,#145A32 60%,var(--green) 100%);border-radius:12px;padding:14px 16px;color:#fff;margin-bottom:12px}
+.ec-name{font-size:15px;font-weight:800;margin-bottom:6px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.ec-tag{font-size:10px;font-weight:600;background:rgba(255,255,255,.18);padding:2px 8px;border-radius:8px}
+.ec-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:6px;margin-top:6px}
+.ec-field label{font-size:9px;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:.4px}
+.ec-field div{font-size:12px;font-weight:600;color:#fff}
+
+/* KPIs */
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-bottom:16px}
+.kpi{background:var(--surf);border:1px solid var(--bor);border-radius:var(--r);padding:14px;box-shadow:var(--sh)}
+.kv{font-size:26px;font-weight:800;color:var(--navy);line-height:1;font-family:'JetBrains Mono',monospace}
+.kl{font-size:10px;color:var(--tx3);margin-top:3px;font-weight:600;text-transform:uppercase;letter-spacing:.3px}
+.kpi.green .kv{color:var(--green)}.kpi.amber .kv{color:var(--amber)}.kpi.red .kv{color:var(--red)}.kpi.blue .kv{color:var(--blue)}
+
+/* PILLS */
+.pill{display:inline-flex;align-items:center;padding:2px 7px;border-radius:9px;font-size:10px;font-weight:700;white-space:nowrap}
+.pgreen{background:var(--green2);color:var(--green)}.pamber{background:var(--amber2);color:var(--amber)}
+.pred{background:var(--red2);color:var(--red)}.pgray{background:var(--surf3);color:var(--tx2)}
+.pblue{background:var(--blue3);color:var(--blue)}.ppurple{background:var(--purple2);color:var(--purple)}
+
+/* SEARCH */
+.sw{position:relative}
+.sw input{padding-left:35px}
+.si{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:var(--tx3);pointer-events:none}
+.sr-drop{position:absolute;top:calc(100%+4px);left:0;right:0;background:var(--surf);border:1px solid var(--bor);border-radius:10px;box-shadow:var(--sh-lg);z-index:50;max-height:260px;overflow-y:auto;display:none}
+.sr-drop.show{display:block}
+.sr-item{padding:10px 14px;cursor:pointer;border-bottom:1px solid var(--bor);transition:.12s}
+.sr-item:last-child{border-bottom:none}
+.sr-item:hover{background:var(--surf3)}
+.sr-name{font-weight:700;font-size:13px}
+.sr-meta{font-size:11px;color:var(--tx3)}
+
+/* FILTERS */
+.filters{display:flex;gap:8px;flex-wrap:wrap;align-items:center;background:var(--surf);border:1px solid var(--bor);border-radius:var(--r);padding:10px 13px;margin-bottom:13px}
+.filters select,.filters input[type=text]{padding:6px 10px;border:1.5px solid var(--bor);border-radius:7px;font-size:12px;font-family:inherit;outline:none;background:var(--surf);color:var(--tx);transition:.15s}
+.filters select:focus,.filters input:focus{border-color:var(--green)}
+
+/* IMC METER */
+.imc-meter{background:linear-gradient(to right,#3B82F6 0%,#22C55E 18.5%,#22C55E 25%,#F59E0B 30%,#EF4444 100%);border-radius:4px;height:8px;position:relative;margin:6px 0 2px}
+.imc-needle{position:absolute;top:-4px;width:3px;height:16px;background:var(--navy);border-radius:2px;transform:translateX(-50%);transition:.4s}
+
+/* CHART */
+.cw{position:relative;height:200px}
+
+/* SEC HEADER */
+.sh{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+.sh h2{font-size:17px;font-weight:800;color:var(--navy);letter-spacing:-.3px}
+.sh p{font-size:11px;color:var(--tx3);margin-top:1px}
+
+/* TABS */
+.tabs{display:flex;gap:4px;border-bottom:2px solid var(--bor);margin-bottom:14px;overflow-x:auto}
+.tab{background:none;border:none;font-family:inherit;font-size:12px;font-weight:600;color:var(--tx2);padding:8px 13px;cursor:pointer;border-bottom:2.5px solid transparent;margin-bottom:-2px;transition:.15s;white-space:nowrap}
+.tab.active{color:var(--green);border-bottom-color:var(--green)}
+
+/* SEGUIMIENTO TIMELINE */
+.timeline{padding:0;list-style:none}
+.tl-item{display:flex;gap:12px;padding-bottom:16px;position:relative}
+.tl-item:not(:last-child)::before{content:'';position:absolute;left:15px;top:32px;bottom:0;width:2px;background:var(--bor)}
+.tl-dot{width:32px;height:32px;border-radius:50%;background:var(--green2);border:2px solid var(--green);display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
+.tl-body{flex:1;background:var(--surf);border:1px solid var(--bor);border-radius:var(--r);padding:10px 13px}
+.tl-fecha{font-size:10px;color:var(--tx3);margin-bottom:3px}
+.tl-dx{font-weight:700;font-size:13px;margin-bottom:4px}
+
+/* SYNC DOT */
+.dot{width:7px;height:7px;border-radius:50%;display:inline-block}
+.dok{background:var(--green)}.derr{background:var(--red)}.dbusy{background:var(--amber);animation:pulse 1s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+
+/* TOAST */
+#toast{position:fixed;bottom:20px;right:20px;z-index:9999;display:flex;flex-direction:column;gap:7px}
+.ti{padding:9px 15px;border-radius:9px;font-size:13px;font-weight:600;box-shadow:var(--sh-lg);animation:up .2s ease;max-width:300px}
+.tok{background:#F0FDF4;color:#14532D;border:1px solid #86EFAC}
+.terr{background:var(--red2);color:#991B1B;border:1px solid #FCA5A5}
+.tinf{background:var(--green3);color:#166534;border:1px solid var(--green4)}
+
+/* MISC */
+.folio{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--tx2);background:var(--surf3);padding:2px 7px;border-radius:4px}
+.empty{text-align:center;padding:36px 20px;color:var(--tx3)}
+.empty-i{font-size:34px;margin-bottom:8px}
+.sec-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--tx3);margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--bor)}
+.pr-row{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.pr-lbl{font-size:11px;font-weight:600;min-width:120px;color:var(--tx)}
+.pr-wrap{flex:1;background:var(--surf3);border-radius:4px;height:8px;overflow:hidden}
+.pr-bar{height:100%;border-radius:4px;transition:.4s}
+.pr-n{font-size:11px;font-weight:700;color:var(--tx2);min-width:24px;text-align:right}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="login-screen">
+  <div class="lc">
+    <div class="lc-brand">
+      <div class="lc-icon">🥗</div>
+      <h1>Teleflex SO</h1>
+      <p>Módulo Nutriología — Salud Ocupacional</p>
+    </div>
+    <div id="lerr"></div>
+    <div class="lf">
+      <label>Selecciona tu usuario</label>
+      <select id="lu" onchange="document.getElementById('lerr').style.display='none'">
+        <option value="">— Seleccionar —</option>
+      </select>
+    </div>
+    <button class="lbtn" onclick="doLogin()">Entrar →</button>
+  </div>
+</div>
+
+<div id="app">
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-brand">🥗 <span class="badge">NUT</span></div>
+  <button class="tb on" id="tb-cons" onclick="go('cons')">📋 Nueva consulta</button>
+  <button class="tb" id="tb-pac" onclick="go('pac')">👤 Pacientes</button>
+  <button class="tb" id="tb-seg" onclick="go('seg')">📈 Seguimiento</button>
+  <button class="tb" id="tb-rep" onclick="go('rep')">📊 Reportes</button>
+  <button class="tb" id="tb-hc" onclick="go('hc')">👥 Head Count</button>
+  <div class="nav-end">
+    <span class="dot dok" id="sync-dot"></span>
+    <div class="user-pill" id="nav-user"></div>
+    <button class="nav-btn" onclick="doLogout()">Salir</button>
+  </div>
+</nav>
+
+<!-- ════════════════════════════════════════
+     NUEVA CONSULTA
+════════════════════════════════════════ -->
+<div class="sc on" id="sc-cons">
+  <div class="sh">
+    <div><h2>Nueva Consulta Nutricional</h2><p id="cons-fecha"></p></div>
+    <span id="cons-nut-badge" style="display:none;background:var(--green2);color:var(--green);padding:5px 12px;border-radius:8px;font-size:12px;font-weight:700"></span>
+  </div>
+
+  <!-- Buscar empleado -->
+  <div class="card cp" style="margin-bottom:12px">
+    <div class="sec-title">👤 Paciente</div>
+    <div class="sw" style="margin-bottom:10px">
+      <span class="si">🔍</span>
+      <input type="text" id="num-emp" placeholder="No. empleado o nombre..."
+        style="font-size:15px;font-weight:700" oninput="buscarEmp(this.value)" autocomplete="off">
+      <div class="sr-drop" id="emp-drop"></div>
+    </div>
+    <div id="emp-card" style="display:none"></div>
+    <!-- Antecedentes nutricionales -->
+    <div id="ant-nut" style="display:none;margin-top:10px"></div>
+    <input type="hidden" id="h-noEmp">
+    <input type="hidden" id="h-nombre">
+    <input type="hidden" id="h-planta">
+    <input type="hidden" id="h-turno">
+    <input type="hidden" id="h-depto">
+    <input type="hidden" id="h-nss">
+    <input type="hidden" id="h-genero">
+  </div>
+
+  <!-- Tipo de consulta -->
+  <div class="card cp" style="margin-bottom:12px">
+    <div class="sec-title">📋 Tipo de consulta</div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <label style="display:flex;align-items:center;gap:6px;font-size:13px;font-weight:600;cursor:pointer;padding:9px 16px;border:1.5px solid var(--bor);border-radius:8px;flex:1;transition:.15s" id="lbl-inicial">
+        <input type="radio" name="tipo-cons" value="Evaluación inicial" onchange="onTipoCons()" checked> 🩺 Evaluación inicial
+      </label>
+      <label style="display:flex;align-items:center;gap:6px;font-size:13px;font-weight:600;cursor:pointer;padding:9px 16px;border:1.5px solid var(--bor);border-radius:8px;flex:1;transition:.15s" id="lbl-seguimiento">
+        <input type="radio" name="tipo-cons" value="Seguimiento" onchange="onTipoCons()"> 📈 Seguimiento / Control
+      </label>
+    </div>
+  </div>
+
+  <!-- Antropometría -->
+  <div class="card cp" style="margin-bottom:12px">
+    <div class="sec-title">📏 Antropometría</div>
+    <div class="g4" style="margin-bottom:10px">
+      <div class="fi" style="margin:0"><label>Peso (kg)</label><input type="number" step="0.1" id="f-peso" placeholder="0.0" oninput="calcIMC()"></div>
+      <div class="fi" style="margin:0"><label>Talla (cm)</label><input type="number" id="f-talla" placeholder="0" oninput="calcIMC()"></div>
+      <div class="fi" style="margin:0"><label>IMC</label><input id="f-imc" readonly style="font-weight:700;font-size:15px"></div>
+      <div class="fi" style="margin:0"><label>Clasificación</label><input id="f-imc-cat" readonly></div>
+      <div class="fi" style="margin:0"><label>Cintura (cm)</label><input type="number" step="0.1" id="f-cintura" placeholder="0.0" oninput="calcICC()"></div>
+      <div class="fi" style="margin:0"><label>Cadera (cm)</label><input type="number" step="0.1" id="f-cadera" placeholder="0.0" oninput="calcICC()"></div>
+      <div class="fi" style="margin:0"><label>ICC</label><input id="f-icc" readonly></div>
+      <div class="fi" style="margin:0"><label>Masa muscular (kg)</label><input type="number" step="0.1" id="f-muscular" placeholder="0.0"></div>
+      <div class="fi" style="margin:0"><label>Grasa corporal (%)</label><input type="number" step="0.1" id="f-grasa" placeholder="0.0"></div>
+      <div class="fi" style="margin:0"><label>% Agua</label><input type="number" step="0.1" id="f-agua" placeholder="0.0"></div>
+    </div>
+    <!-- IMC visual -->
+    <div id="imc-visual" style="display:none;margin-top:6px">
+      <div style="font-size:10px;color:var(--tx3);margin-bottom:3px;display:flex;justify-content:space-between">
+        <span>Bajo peso</span><span>Normal</span><span>Sobrepeso</span><span>Obesidad</span>
+      </div>
+      <div class="imc-meter"><div class="imc-needle" id="imc-needle"></div></div>
+      <div style="font-size:11px;font-weight:700;text-align:center;margin-top:4px" id="imc-label"></div>
+    </div>
+  </div>
+
+  <!-- Diagnóstico nutricional -->
+  <div class="card cp" style="margin-bottom:12px">
+    <div class="sec-title">🩺 Diagnóstico Nutricional</div>
+    <div class="g2" style="margin-bottom:8px">
+      <div class="fi" style="margin:0">
+        <label>Categoría *</label>
+        <select id="f-dx-cat">
+          <option value="">— Seleccionar —</option>
+          <option>Peso normal</option>
+          <option>Sobrepeso</option>
+          <option>Obesidad grado I</option>
+          <option>Obesidad grado II</option>
+          <option>Obesidad grado III</option>
+          <option>Bajo peso</option>
+          <option>Desnutrición leve</option>
+          <option>Desnutrición moderada</option>
+          <option>Desnutrición severa</option>
+          <option>Sarcopenia</option>
+          <option>Otro</option>
+        </select>
+      </div>
+      <div class="fi" style="margin:0">
+        <label>Peso meta (kg)</label>
+        <input type="number" step="0.1" id="f-peso-meta" placeholder="Peso objetivo">
+      </div>
+    </div>
+    <div class="fi">
+      <label>Descripción / diagnóstico detallado *</label>
+      <input type="text" id="f-dx" placeholder="Ej. Obesidad con resistencia a la insulina, dislipidemia asociada...">
+    </div>
+    <div class="fi">
+      <label>Comorbilidades / antecedentes relevantes</label>
+      <input type="text" id="f-comorbilidades" placeholder="DM2, HAS, hipotiroidismo...">
+    </div>
+  </div>
+
+  <!-- Plan alimentario -->
+  <div class="card cp" style="margin-bottom:12px">
+    <div class="sec-title">🥦 Plan Alimentario</div>
+    <div class="g3" style="margin-bottom:8px">
+      <div class="fi" style="margin:0"><label>Calorías totales (kcal)</label><input type="number" id="f-kcal" placeholder="0"></div>
+      <div class="fi" style="margin:0"><label>Proteínas (g)</label><input type="number" step="0.1" id="f-proteinas" placeholder="0"></div>
+      <div class="fi" style="margin:0"><label>Carbohidratos (g)</label><input type="number" step="0.1" id="f-carbos" placeholder="0"></div>
+      <div class="fi" style="margin:0"><label>Grasas (g)</label><input type="number" step="0.1" id="f-grasas" placeholder="0"></div>
+      <div class="fi" style="margin:0"><label>Tiempo de comidas</label>
+        <select id="f-tiempos">
+          <option value="">—</option><option>3 tiempos</option><option>4 tiempos</option><option>5 tiempos</option><option>6 tiempos</option>
+        </select>
+      </div>
+      <div class="fi" style="margin:0"><label>Próxima cita</label><input type="date" id="f-proxcita"></div>
+    </div>
+    <div class="fi">
+      <label>Recomendaciones generales</label>
+      <textarea id="f-recomendaciones" rows="3" placeholder="Indicaciones de alimentación, hidratación, actividad física..."></textarea>
+    </div>
+    <div class="fi">
+      <label>Notas adicionales</label>
+      <textarea id="f-notas" rows="2" placeholder="Observaciones, acuerdos con el paciente..."></textarea>
+    </div>
+  </div>
+
+  <button class="btn btn-green" style="width:100%;padding:13px;font-size:14px" onclick="guardarConsulta()">
+    ✅ Guardar consulta nutricional
+  </button>
+</div>
+
+<!-- ════════════════════════════════════════
+     PACIENTES
+════════════════════════════════════════ -->
+<div class="sc" id="sc-pac">
+  <div class="sh">
+    <div><h2>Pacientes</h2><p id="pac-count">0 pacientes con historial</p></div>
+    <button class="btn btn-ghost btn-sm" onclick="syncNut()">🔄 Sync</button>
+  </div>
+  <div class="filters">
+    <div class="sw" style="flex:1;min-width:170px">
+      <span class="si">🔍</span>
+      <input type="text" id="pac-q" placeholder="Nombre o No. empleado..." oninput="renderPacientes()">
+    </div>
+    <select id="pac-planta" onchange="renderPacientes()">
+      <option value="">Todas las plantas</option>
+      <option>Américas</option><option>Barrancas</option><option>Cantera</option><option>Juventud</option>
+    </select>
+    <select id="pac-dx" onchange="renderPacientes()">
+      <option value="">Todos los diagnósticos</option>
+      <option>Sobrepeso</option><option>Obesidad grado I</option><option>Obesidad grado II</option>
+      <option>Obesidad grado III</option><option>Bajo peso</option><option>Peso normal</option>
+    </select>
+  </div>
+  <div id="pac-list"></div>
+</div>
+
+<!-- ════════════════════════════════════════
+     SEGUIMIENTO
+════════════════════════════════════════ -->
+<div class="sc" id="sc-seg">
+  <div class="sh">
+    <div><h2>Seguimiento por Paciente</h2><p>Historial y evolución</p></div>
+  </div>
+  <div class="card cp" style="margin-bottom:14px">
+    <div class="sw">
+      <span class="si">🔍</span>
+      <input type="text" id="seg-q" placeholder="No. empleado o nombre..."
+        oninput="buscarSeg(this.value)" autocomplete="off">
+      <div class="sr-drop" id="seg-drop"></div>
+    </div>
+  </div>
+  <div id="seg-content" style="display:none">
+    <div id="seg-emp-card" class="emp-card" style="margin-bottom:14px"></div>
+    <!-- Gráfica evolución peso -->
+    <div class="card cp" style="margin-bottom:12px">
+      <div style="font-size:12px;font-weight:700;color:var(--navy);margin-bottom:10px">📉 Evolución de peso</div>
+      <div class="cw"><canvas id="ch-peso"></canvas></div>
+    </div>
+    <!-- Timeline de consultas -->
+    <div class="card cp">
+      <div style="font-size:12px;font-weight:700;color:var(--navy);margin-bottom:12px">📋 Historial de consultas</div>
+      <ul class="timeline" id="seg-timeline"></ul>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════
+     REPORTES
+════════════════════════════════════════ -->
+<div class="sc" id="sc-rep">
+  <div class="sh">
+    <div><h2>Reportes</h2><p>Estadísticas nutricionales</p></div>
+    <div style="display:flex;gap:8px">
+      <button class="btn btn-ghost btn-sm" onclick="exportRep()">📊 Excel</button>
+      <button class="btn btn-ghost btn-sm" onclick="syncNut()">🔄 Sync</button>
+    </div>
+  </div>
+  <div class="filters">
+    <select id="rep-yr" onchange="renderRep()"></select>
+    <select id="rep-periodo" onchange="renderRep()">
+      <option value="anio">Por año</option><option value="mes">Por mes</option><option value="semana">Por semana</option>
+    </select>
+    <select id="rep-planta" onchange="renderRep()">
+      <option value="">Todas las plantas</option>
+      <option>Américas</option><option>Barrancas</option><option>Cantera</option><option>Juventud</option>
+    </select>
+    <select id="rep-nut" onchange="renderRep()">
+      <option value="">Todas las nutriólogas</option>
+      <option>Karen Stirk</option><option>Jacqueline Mejia</option>
+    </select>
+  </div>
+  <div class="kpis">
+    <div class="kpi green"><div class="kv" id="r-tot">0</div><div class="kl">Total consultas</div></div>
+    <div class="kpi"><div class="kv" id="r-pac">0</div><div class="kl">Pacientes únicos</div></div>
+    <div class="kpi amber"><div class="kv" id="r-seg">0</div><div class="kl">En seguimiento</div></div>
+    <div class="kpi blue"><div class="kv" id="r-imc">—</div><div class="kl">IMC promedio</div></div>
+  </div>
+  <div style="display:grid;grid-template-columns:2fr 1fr;gap:12px;margin-bottom:12px">
+    <div class="card cp"><div style="font-size:12px;font-weight:700;color:var(--navy);margin-bottom:10px" id="rep-chart-title">Consultas por mes</div><div class="cw"><canvas id="ch-rep"></canvas></div></div>
+    <div class="card cp"><div style="font-size:12px;font-weight:700;color:var(--navy);margin-bottom:10px">Diagnósticos</div><div class="cw"><canvas id="ch-dx"></canvas></div></div>
+  </div>
+  <div class="card cp" style="margin-bottom:12px">
+    <div style="font-size:12px;font-weight:700;color:var(--navy);margin-bottom:10px">📊 Distribución IMC</div>
+    <div id="rep-imc-bars"></div>
+  </div>
+  <div class="card cp">
+    <div style="font-size:12px;font-weight:700;color:var(--navy);margin-bottom:10px">📋 Pacientes en seguimiento activo</div>
+    <div id="rep-seguimiento"></div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════
+     HEAD COUNT
+════════════════════════════════════════ -->
+<div class="sc" id="sc-hc">
+  <div class="sh">
+    <div><h2>Head Count</h2><p id="hc-cnt">0 empleados</p></div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <button class="btn btn-ghost btn-sm" id="btn-del-hc" onclick="delHC()" style="display:none">🗑️ Limpiar</button>
+      <button class="btn btn-ghost btn-sm" onclick="syncHC()">🔄 Sync desde GAS</button>
+      <label class="btn btn-green btn-sm" style="cursor:pointer">📂 Importar Excel
+        <input type="file" accept=".xlsx,.xls,.csv" style="display:none" onchange="importarHC(this)">
+      </label>
+    </div>
+  </div>
+  <div id="hc-upload" style="border:2px dashed var(--bor2);border-radius:var(--r);padding:40px;text-align:center;color:var(--tx3);margin-bottom:14px">
+    <div style="font-size:30px;margin-bottom:8px">📂</div>
+    <div style="font-size:13px;font-weight:600">Arrastra un Excel o usa el botón de arriba</div>
+  </div>
+  <div id="hc-table" style="display:none">
+    <div class="filters"><div class="sw" style="flex:1"><span class="si">🔍</span><input type="text" placeholder="Buscar..." oninput="renderHC(this.value)"></div></div>
+    <div style="overflow-x:auto;border-radius:var(--r);border:1px solid var(--bor)">
+      <table style="width:100%;border-collapse:collapse;font-size:12px">
+        <thead><tr style="background:var(--surf3)">
+          <th style="padding:8px 11px;text-align:left;font-size:10px;font-weight:700;color:var(--tx2);text-transform:uppercase;border-bottom:1px solid var(--bor)">No. Emp</th>
+          <th style="padding:8px 11px;text-align:left;font-size:10px;font-weight:700;color:var(--tx2);text-transform:uppercase;border-bottom:1px solid var(--bor)">Nombre</th>
+          <th style="padding:8px 11px;text-align:left;font-size:10px;font-weight:700;color:var(--tx2);text-transform:uppercase;border-bottom:1px solid var(--bor)">Planta</th>
+          <th style="padding:8px 11px;text-align:left;font-size:10px;font-weight:700;color:var(--tx2);text-transform:uppercase;border-bottom:1px solid var(--bor)">Turno</th>
+          <th style="padding:8px 11px;text-align:left;font-size:10px;font-weight:700;color:var(--tx2);text-transform:uppercase;border-bottom:1px solid var(--bor)">Género</th>
+        </tr></thead>
+        <tbody id="hc-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL EDITAR NOTA -->
+<div class="ov" id="mo-edit">
+  <div class="mo" style="max-width:500px">
+    <div class="mh"><div class="mt-modal" id="edit-title">Editar consulta</div><button class="mc" onclick="closeModal('mo-edit')">✕</button></div>
+    <div class="mb" id="edit-body"></div>
+    <div class="mf">
+      <button class="btn btn-ghost" onclick="closeModal('mo-edit')">Cancelar</button>
+      <button class="btn btn-green" onclick="guardarEdicion()">💾 Guardar cambios</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+</div>
+
+<script>
+'use strict';
+const GAS='https://script.google.com/macros/s/AKfycbwQbVvbIJJwpqrXopIUvoTP8w7nu6c6v2XdhtCqsxEtbq5IC8T9Qt9l__p1Pz1ujhsimw/exec';
+const SK={hc:'so_hc8',nut:'so_nut_v2',users:'so_users_med_v1'};
+const MESES=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+const MSC=['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+const PLANTAS=['Américas','Barrancas','Cantera','Juventud'];
+
+let HC=[],NUT=[],currentUser=null,_editId=null;
+let _charts={};
+let _segEmp=null;
+
+const ld=k=>{try{const r=localStorage.getItem(k);return r?JSON.parse(r):null;}catch(e){return null;}};
+const sv=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}};
+
+// ══════════════════════════════════════════════════
+// AUTH
+// ══════════════════════════════════════════════════
+function initUsers(){
+  return ld(SK.users)||[];
+}
+function poblarSelect(){
+  const sel=document.getElementById('lu'); if(!sel) return;
+  const users=initUsers().filter(x=>x.activo!==false&&(x.app==='nutricion'||x.app==='medico'));
+  sel.innerHTML='<option value="">— Seleccionar —</option>'
+    +users.map(u=>`<option value="${u.user}">${u.nombre}${u.planta&&u.planta!=='Todas'?' · '+u.planta:''}</option>`).join('');
+}
+async function doLogin(){
+  const u=(document.getElementById('lu').value||'').trim();
+  const err=document.getElementById('lerr');
+  err.style.display='none';
+  if(!u){showErr('Selecciona tu usuario');return;}
+  let users=initUsers();
+  let found=users.find(x=>x.user===u&&x.activo!==false&&(x.app==='nutricion'||x.app==='medico'));
+  if(!found){
+    try{
+      const r=await gasGet({action:'getUsers'});
+      if(r.ok&&Array.isArray(r.data)&&r.data.length){sv(SK.users,r.data);poblarSelect();found=r.data.find(x=>x.user===u&&x.activo!==false&&(x.app==='nutricion'||x.app==='medico'));}
+    }catch(e){}
+  }
+  if(!found){showErr('Usuario no encontrado');return;}
+  currentUser=found;
+  document.getElementById('login-screen').style.display='none';
+  document.getElementById('app').style.display='block';
+  document.getElementById('nav-user').textContent=found.nombre;
+  const badge=document.getElementById('cons-nut-badge');
+  if(badge&&found.planta&&found.planta!=='Todas'){badge.textContent='🥗 '+found.nombre;badge.style.display='inline-block';}
+  init();
+}
+function showErr(m){const e=document.getElementById('lerr');e.textContent=m;e.style.display='block';}
+function doLogout(){currentUser=null;location.reload();}
+
+// ══════════════════════════════════════════════════
+// INIT
+// ══════════════════════════════════════════════════
+function init(){
+  HC=ld(SK.hc)||[]; NUT=ld(SK.nut)||[];
+  document.getElementById('cons-fecha').textContent=new Date().toLocaleDateString('es-MX',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+  if(HC.length){document.getElementById('hc-upload').style.display='none';document.getElementById('hc-table').style.display='block';const bd=document.getElementById('btn-del-hc');if(bd)bd.style.display='';renderHC('');}
+}
+function go(id){
+  document.querySelectorAll('.sc').forEach(s=>s.classList.remove('on'));
+  document.querySelectorAll('.tb').forEach(b=>b.classList.remove('on'));
+  const sc=document.getElementById('sc-'+id);if(sc)sc.classList.add('on');
+  const tb=document.getElementById('tb-'+id);if(tb)tb.classList.add('on');
+  if(id==='pac') renderPacientes();
+  if(id==='rep') renderRep();
+  if(id==='hc'&&HC.length) renderHC('');
+}
+
+// ══════════════════════════════════════════════════
+// NETWORK
+// ══════════════════════════════════════════════════
+async function gasGet(p){
+  try{const url=GAS+'?'+Object.entries(p).map(([k,v])=>k+'='+encodeURIComponent(v)).join('&');
+    const ctrl=new AbortController();setTimeout(()=>ctrl.abort(),8000);
+    const r=await fetch(url,{signal:ctrl.signal});return await r.json();
+  }catch(e){return{ok:false};}
+}
+async function gasPost(body){
+  try{const ctrl=new AbortController();setTimeout(()=>ctrl.abort(),8000);
+    const r=await fetch(GAS,{method:'POST',body:JSON.stringify(body),signal:ctrl.signal});return await r.json();
+  }catch(e){return{ok:false};}
+}
+function setSyncDot(s){const d=document.getElementById('sync-dot');if(d)d.className='dot '+(s==='ok'?'dok':s==='busy'?'dbusy':'derr');}
+async function syncNut(){
+  setSyncDot('busy'); toast('Sincronizando...','inf');
+  try{
+    const r=await gasGet({action:'getNut'});
+    if(r.ok&&Array.isArray(r.data)){NUT=r.data;sv(SK.nut,NUT);setSyncDot('ok');toast('✅ '+NUT.length+' consultas sincronizadas','ok');renderPacientes();}
+    else setSyncDot('err');
+  }catch(e){setSyncDot('err');}
+}
+async function syncHC(){
+  setSyncDot('busy');
+  try{
+    const r=await gasGet({action:'getHC'});
+    if(r.ok&&Array.isArray(r.data)&&r.data.length){HC=r.data;sv(SK.hc,HC);document.getElementById('hc-upload').style.display='none';document.getElementById('hc-table').style.display='block';const bd=document.getElementById('btn-del-hc');if(bd)bd.style.display='';renderHC('');document.getElementById('hc-cnt').textContent=HC.length+' empleados';setSyncDot('ok');toast('✅ HC: '+HC.length+' empleados','ok');}
+    else{setSyncDot('err');toast('Sin datos en GAS','err');}
+  }catch(e){setSyncDot('err');}
+}
+
+// ══════════════════════════════════════════════════
+// BUSCAR EMPLEADO
+// ══════════════════════════════════════════════════
+function buscarEmp(val){
+  val=(val||'').trim();
+  const drop=document.getElementById('emp-drop');
+  if(!val||val.length<2){drop.classList.remove('show');return;}
+  const lc=val.toLowerCase();
+  const matches=HC.filter(e=>String(e.noEmp||'').toLowerCase().includes(lc)||String(e.nombre||'').toLowerCase().includes(lc)).slice(0,6);
+  if(!matches.length){drop.classList.remove('show');return;}
+  drop.innerHTML=matches.map(e=>`<div class="sr-item" onclick="selEmp('${esc(e.noEmp)}')" ><div class="sr-name">${e.nombre}</div><div class="sr-meta">No.${e.noEmp} · ${e.planta||'—'} · ${e.turno||'—'}</div></div>`).join('');
+  drop.classList.add('show');
+}
+function selEmp(noEmp){
+  const e=HC.find(x=>String(x.noEmp)===String(noEmp)); if(!e) return;
+  ['h-noEmp','h-nombre','h-planta','h-turno','h-depto','h-nss','h-genero'].forEach((id,i)=>{
+    const el=document.getElementById(id);if(el)el.value=[e.noEmp,e.nombre,e.planta,e.turno,e.depto,e.nss,e.genero][i]||'';
+  });
+  document.getElementById('num-emp').value=e.nombre+' (No.'+e.noEmp+')';
+  document.getElementById('emp-drop').classList.remove('show');
+  const card=document.getElementById('emp-card');
+  card.innerHTML=`<div class="emp-card">
+    <div class="ec-name">${e.nombre} <span class="ec-tag">No. ${e.noEmp}</span></div>
+    <div class="ec-grid">
+      <div class="ec-field"><label>Planta</label><div>${e.planta||'—'}</div></div>
+      <div class="ec-field"><label>Turno</label><div>${e.turno||'—'}</div></div>
+      <div class="ec-field"><label>Depto</label><div>${e.depto||'—'}</div></div>
+      <div class="ec-field"><label>Género</label><div>${e.genero||'—'}</div></div>
+    </div>
+  </div>`;
+  card.style.display='block';
+  mostrarAntNut(e.noEmp);
+}
+
+// ══════════════════════════════════════════════════
+// ANTECEDENTES NUTRICIONALES
+// ══════════════════════════════════════════════════
+function mostrarAntNut(noEmp){
+  const lc=String(noEmp||'').toLowerCase();
+  const hist=[...NUT].filter(r=>String(r.noEmp||'').toLowerCase()===lc).sort((a,b)=>(b.fecha||'').localeCompare(a.fecha||''));
+  const panel=document.getElementById('ant-nut');
+  if(!hist.length){panel.style.display='none';return;}
+  const ult=hist[0];
+  panel.innerHTML=`<div style="background:var(--green3);border:1.5px solid var(--green4);border-radius:9px;padding:11px 13px">
+    <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--green);margin-bottom:7px">📋 ${hist.length} consulta${hist.length>1?'s':''} previas — Última: ${ult.fecha||'—'}</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:6px">
+      ${ult.peso?`<div><div style="font-size:9px;color:var(--tx3);text-transform:uppercase">Peso ant.</div><div style="font-weight:700">${ult.peso} kg</div></div>`:''}
+      ${ult.imc?`<div><div style="font-size:9px;color:var(--tx3);text-transform:uppercase">IMC ant.</div><div style="font-weight:700">${ult.imc}</div></div>`:''}
+      ${ult.pesoMeta?`<div><div style="font-size:9px;color:var(--tx3);text-transform:uppercase">Peso meta</div><div style="font-weight:700">${ult.pesoMeta} kg</div></div>`:''}
+      ${ult.diagnostico?`<div style="grid-column:span 2"><div style="font-size:9px;color:var(--tx3);text-transform:uppercase">Dx anterior</div><div style="font-weight:600;font-size:12px">${ult.diagnostico}</div></div>`:''}
+    </div>
+  </div>`;
+  panel.style.display='block';
+  // Autocompletar tipo según historial
+  const tipoSeg=document.querySelector('input[name="tipo-cons"][value="Seguimiento"]');
+  if(tipoSeg&&hist.length>0) tipoSeg.checked=true;
+}
+
+// ══════════════════════════════════════════════════
+// CÁLCULOS
+// ══════════════════════════════════════════════════
+function calcIMC(){
+  const p=parseFloat(document.getElementById('f-peso').value);
+  const t=parseFloat(document.getElementById('f-talla').value)/100;
+  const imc=document.getElementById('f-imc');
+  const cat=document.getElementById('f-imc-cat');
+  const vis=document.getElementById('imc-visual');
+  if(p&&t&&t>0){
+    const val=(p/(t*t));
+    const v=val.toFixed(1);
+    imc.value=v;
+    let categoria='',color='';
+    if(val<18.5){categoria='Bajo peso';color='#3B82F6';}
+    else if(val<25){categoria='Normal';color='#22C55E';}
+    else if(val<30){categoria='Sobrepeso';color='#F59E0B';}
+    else if(val<35){categoria='Obesidad I';color='#EF4444';}
+    else if(val<40){categoria='Obesidad II';color='#DC2626';}
+    else{categoria='Obesidad III';color='#991B1B';}
+    cat.value=categoria;
+    // Autoselect dx category
+    const dxCat=document.getElementById('f-dx-cat');
+    if(dxCat&&!dxCat.value){
+      const map={'Bajo peso':'Bajo peso','Normal':'Peso normal','Sobrepeso':'Sobrepeso','Obesidad I':'Obesidad grado I','Obesidad II':'Obesidad grado II','Obesidad III':'Obesidad grado III'};
+      if(map[categoria]) dxCat.value=map[categoria];
+    }
+    // Visual meter
+    vis.style.display='block';
+    const pct=Math.min(100,Math.max(0,(val-10)/30*100));
+    document.getElementById('imc-needle').style.left=pct+'%';
+    document.getElementById('imc-label').innerHTML=`<span style="color:${color};font-weight:700">${v} — ${categoria}</span>`;
+  } else {imc.value='';cat.value='';vis.style.display='none';}
+}
+function calcICC(){
+  const cin=parseFloat(document.getElementById('f-cintura').value);
+  const cad=parseFloat(document.getElementById('f-cadera').value);
+  const icc=document.getElementById('f-icc');
+  if(cin&&cad&&cad>0) icc.value=(cin/cad).toFixed(2);
+  else icc.value='';
+}
+function onTipoCons(){
+  // Visual feedback on radio selection
+  document.getElementById('lbl-inicial').style.borderColor=document.querySelector('input[name="tipo-cons"][value="Evaluación inicial"]').checked?'var(--green)':'var(--bor)';
+  document.getElementById('lbl-seguimiento').style.borderColor=document.querySelector('input[name="tipo-cons"][value="Seguimiento"]').checked?'var(--green)':'var(--bor)';
+}
+
+// ══════════════════════════════════════════════════
+// GUARDAR CONSULTA
+// ══════════════════════════════════════════════════
+async function guardarConsulta(){
+  const g=id=>{const e=document.getElementById(id);return e?e.value.trim():'';};
+  const noEmp=g('h-noEmp'); if(!noEmp){toast('Selecciona un empleado primero','err');return;}
+  const dxCat=g('f-dx-cat'),dx=g('f-dx');
+  if(!dxCat&&!dx){toast('El diagnóstico es obligatorio','err');return;}
+  const ahora=new Date();
+  const tipoCons=document.querySelector('input[name="tipo-cons"]:checked')?.value||'Evaluación inicial';
+  const nota={
+    folio:'NUT-'+Date.now().toString().slice(-6),
+    fecha:ahora.toLocaleDateString('es-MX'),
+    hora:ahora.toLocaleTimeString('es-MX',{hour:'2-digit',minute:'2-digit'}),
+    mes:MESES[ahora.getMonth()], mesNum:ahora.getMonth()+1, anio:ahora.getFullYear(),
+    noEmp, nombre:g('h-nombre'), planta:g('h-planta'), turno:g('h-turno'),
+    depto:g('h-depto'), nss:g('h-nss'), genero:g('h-genero'),
+    tipoCons,
+    // Antropometría
+    peso:g('f-peso'), talla:g('f-talla'), imc:g('f-imc'), imcCategoria:g('f-imc-cat'),
+    cintura:g('f-cintura'), cadera:g('f-cadera'), icc:g('f-icc'),
+    masaMuscular:g('f-muscular'), grasaCorporal:g('f-grasa'), aguaCorporal:g('f-agua'),
+    // Diagnóstico
+    dxCategoria:dxCat, diagnostico:dx||dxCat, pesoMeta:g('f-peso-meta'),
+    comorbilidades:g('f-comorbilidades'),
+    // Plan
+    kcal:g('f-kcal'), proteinas:g('f-proteinas'), carbos:g('f-carbos'), grasas:g('f-grasas'),
+    tiemposComida:g('f-tiempos'), proxCita:g('f-proxcita'),
+    recomendaciones:g('f-recomendaciones'), notas:g('f-notas'),
+    nutriologa:currentUser?.nombre||'Nutriología'
+  };
+  NUT.push(nota); sv(SK.nut,NUT);
+  toast('⏳ Guardando...','inf'); setSyncDot('busy');
+  const r=await gasPost({action:'saveNut',val:nota});
+  setSyncDot(r.ok?'ok':'err');
+  toast(r.ok?'✅ Consulta guardada — '+nota.nombre:'⚠️ Guardada local, sin conexión','ok');
+  resetConsulta();
+}
+
+function resetConsulta(){
+  ['h-noEmp','h-nombre','h-planta','h-turno','h-depto','h-nss','h-genero',
+   'f-peso','f-talla','f-imc','f-imc-cat','f-cintura','f-cadera','f-icc',
+   'f-muscular','f-grasa','f-agua','f-dx','f-peso-meta','f-comorbilidades',
+   'f-kcal','f-proteinas','f-carbos','f-grasas','f-recomendaciones','f-notas','f-proxcita']
+  .forEach(id=>{const e=document.getElementById(id);if(e)e.value='';});
+  document.getElementById('f-dx-cat').value='';
+  document.getElementById('f-tiempos').value='';
+  document.querySelector('input[name="tipo-cons"][value="Evaluación inicial"]').checked=true;
+  document.getElementById('emp-card').style.display='none';
+  document.getElementById('ant-nut').style.display='none';
+  document.getElementById('num-emp').value='';
+  document.getElementById('imc-visual').style.display='none';
+  onTipoCons();
+}
+
+// ══════════════════════════════════════════════════
+// PACIENTES
+// ══════════════════════════════════════════════════
+function getPacientes(){
+  // Agrupar por noEmp — última consulta por paciente
+  const map={};
+  NUT.forEach(r=>{
+    const k=String(r.noEmp||'').toLowerCase();
+    if(!map[k]||((r.fecha||'')>(map[k].fecha||''))) map[k]=r;
+  });
+  return Object.values(map);
+}
+
+function renderPacientes(){
+  const q=(document.getElementById('pac-q')||{}).value.toLowerCase()||'';
+  const fp=(document.getElementById('pac-planta')||{}).value||'';
+  const fdx=(document.getElementById('pac-dx')||{}).value||'';
+  let lista=getPacientes();
+  if(q) lista=lista.filter(r=>(r.nombre+r.noEmp).toLowerCase().includes(q));
+  if(fp) lista=lista.filter(r=>r.planta===fp);
+  if(fdx) lista=lista.filter(r=>(r.dxCategoria||r.diagnostico||'').includes(fdx));
+  lista.sort((a,b)=>(b.fecha||'').localeCompare(a.fecha||''));
+  document.getElementById('pac-count').textContent=lista.length+' pacientes con historial';
+  const el=document.getElementById('pac-list');
+  if(!lista.length){el.innerHTML=`<div class="empty"><div class="empty-i">👤</div><div>${NUT.length?'Sin resultados':'Sin consultas aún. Usa 🔄 Sync o captura la primera consulta'}</div></div>`;return;}
+  el.innerHTML=lista.map(r=>{
+    const consultas=NUT.filter(x=>String(x.noEmp||'').toLowerCase()===String(r.noEmp||'').toLowerCase());
+    const imcN=parseFloat(r.imc);
+    const imcCls=!imcN?'pgray':imcN<18.5?'pblue':imcN<25?'pgreen':imcN<30?'pamber':'pred';
+    return `<div class="card cp" style="margin-bottom:8px">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px;flex-wrap:wrap">
+        <div style="flex:1">
+          <div style="display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-bottom:4px">
+            <span style="font-weight:700;font-size:13px">${r.nombre||'—'}</span>
+            ${r.dxCategoria?`<span class="pill ${imcCls}">${r.dxCategoria}</span>`:''}
+          </div>
+          <div style="font-size:12px;color:var(--tx2)">No.${r.noEmp||'—'} · ${r.planta||'—'} · ${r.turno||'—'}</div>
+          <div style="font-size:11px;color:var(--tx3);margin-top:3px;display:flex;gap:12px;flex-wrap:wrap">
+            <span>📅 Última: ${r.fecha||'—'}</span>
+            ${r.peso?`<span>⚖️ ${r.peso}kg</span>`:''}
+            ${r.imc?`<span>IMC: ${r.imc}</span>`:''}
+            ${r.pesoMeta?`<span>🎯 Meta: ${r.pesoMeta}kg</span>`:''}
+            <span>📋 ${consultas.length} consulta${consultas.length!==1?'s':''}</span>
+          </div>
+          ${r.diagnostico?`<div style="font-size:11px;color:var(--tx2);margin-top:2px">${r.diagnostico}</div>`:''}
+        </div>
+        <div style="display:flex;flex-direction:column;gap:4px">
+          <button class="btn btn-ghost btn-xs" onclick="verSeguimiento('${esc(r.noEmp)}')">📈 Seguimiento</button>
+          <button class="btn btn-ghost btn-xs" onclick="editarNota('${esc(r.folio)}')">✏️ Editar</button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ══════════════════════════════════════════════════
+// SEGUIMIENTO
+// ══════════════════════════════════════════════════
+function buscarSeg(val){
+  val=(val||'').trim();
+  const drop=document.getElementById('seg-drop');
+  if(!val||val.length<2){drop.classList.remove('show');return;}
+  const lc=val.toLowerCase();
+  const pacs=getPacientes().filter(r=>(r.nombre+r.noEmp).toLowerCase().includes(lc)).slice(0,6);
+  if(!pacs.length){drop.classList.remove('show');return;}
+  drop.innerHTML=pacs.map(r=>`<div class="sr-item" onclick="verSeguimiento('${esc(r.noEmp)}')"><div class="sr-name">${r.nombre}</div><div class="sr-meta">No.${r.noEmp} · ${r.planta||'—'} · ${NUT.filter(x=>String(x.noEmp).toLowerCase()===String(r.noEmp).toLowerCase()).length} consultas</div></div>`).join('');
+  drop.classList.add('show');
+}
+
+function verSeguimiento(noEmp){
+  go('seg');
+  const lc=String(noEmp||'').toLowerCase();
+  const hist=[...NUT].filter(r=>String(r.noEmp||'').toLowerCase()===lc).sort((a,b)=>(a.fecha||'').localeCompare(b.fecha||''));
+  if(!hist.length) return;
+  _segEmp=hist[hist.length-1];
+  document.getElementById('seg-q').value=_segEmp.nombre+' (No.'+_segEmp.noEmp+')';
+  document.getElementById('seg-drop').classList.remove('show');
+  // Emp card
+  const card=document.getElementById('seg-emp-card');
+  card.innerHTML=`<div class="ec-name">${_segEmp.nombre} <span class="ec-tag">No. ${_segEmp.noEmp}</span></div>
+    <div class="ec-grid">
+      <div class="ec-field"><label>Planta</label><div>${_segEmp.planta||'—'}</div></div>
+      <div class="ec-field"><label>Turno</label><div>${_segEmp.turno||'—'}</div></div>
+      <div class="ec-field"><label>Consultas</label><div>${hist.length}</div></div>
+      <div class="ec-field"><label>Diagnóstico actual</label><div>${_segEmp.dxCategoria||_segEmp.diagnostico||'—'}</div></div>
+      ${_segEmp.peso?`<div class="ec-field"><label>Peso actual</label><div>${_segEmp.peso} kg</div></div>`:''}
+      ${_segEmp.pesoMeta?`<div class="ec-field"><label>Peso meta</label><div>${_segEmp.pesoMeta} kg</div></div>`:''}
+    </div>`;
+  document.getElementById('seg-content').style.display='block';
+  // Gráfica peso
+  const pesos=hist.filter(r=>r.peso).map(r=>({fecha:r.fecha,peso:parseFloat(r.peso),meta:parseFloat(r.pesoMeta||0)}));
+  if(_charts.peso){try{_charts.peso.destroy();}catch(e){}}
+  if(pesos.length){
+    _charts.peso=new Chart(document.getElementById('ch-peso'),{type:'line',
+      data:{labels:pesos.map(x=>x.fecha),datasets:[
+        {label:'Peso (kg)',data:pesos.map(x=>x.peso),borderColor:'#16A34A',backgroundColor:'rgba(22,163,74,.1)',borderWidth:2.5,fill:true,tension:.3,pointRadius:4,pointBackgroundColor:'#16A34A'},
+        ...(pesos.some(x=>x.meta)?[{label:'Peso meta',data:pesos.map(x=>x.meta||null),borderColor:'#D97706',borderDash:[6,3],borderWidth:1.5,fill:false,pointRadius:0}]:[])
+      ]},
+      options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{font:{size:11}}}},scales:{y:{beginAtZero:false,ticks:{callback:v=>v+'kg'}}}}});
+  }
+  // Timeline
+  const tl=document.getElementById('seg-timeline');
+  tl.innerHTML=[...hist].reverse().map(r=>`
+    <li class="tl-item">
+      <div class="tl-dot">${r.tipoCons==='Seguimiento'?'📈':'🩺'}</div>
+      <div class="tl-body">
+        <div class="tl-fecha">${r.fecha||'—'} ${r.hora?'· '+r.hora:''} · <span class="folio">${r.folio}</span></div>
+        <div class="tl-dx">${r.diagnostico||r.dxCategoria||'—'}</div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;font-size:11px;color:var(--tx3);margin-top:4px">
+          ${r.peso?`<span>⚖️ ${r.peso}kg</span>`:''}
+          ${r.imc?`<span>IMC: ${r.imc} (${r.imcCategoria||''})</span>`:''}
+          ${r.cintura?`<span>Cintura: ${r.cintura}cm</span>`:''}
+          ${r.grasaCorporal?`<span>Grasa: ${r.grasaCorporal}%</span>`:''}
+          ${r.masaMuscular?`<span>Músculo: ${r.masaMuscular}kg</span>`:''}
+        </div>
+        ${r.recomendaciones?`<div style="font-size:11px;color:var(--tx2);margin-top:5px;background:var(--surf2);border-radius:6px;padding:6px 9px">${r.recomendaciones}</div>`:''}
+        <div style="display:flex;gap:6px;margin-top:6px">
+          <button class="btn btn-ghost btn-xs" onclick="editarNota('${r.folio}')">✏️ Editar</button>
+          <button class="btn btn-ghost btn-xs" onclick="imprimirNota('${r.folio}')">🖨️ Imprimir</button>
+        </div>
+      </div>
+    </li>`).join('');
+}
+
+// ══════════════════════════════════════════════════
+// EDITAR NOTA
+// ══════════════════════════════════════════════════
+function editarNota(folio){
+  const r=NUT.find(x=>x.folio===folio); if(!r) return;
+  _editId=folio;
+  document.getElementById('edit-title').textContent='Editar — '+r.nombre;
+  document.getElementById('edit-body').innerHTML=`
+    <div class="fi"><label>Diagnóstico (categoría)</label>
+      <select id="ed-cat"><option value="">—</option>${['Peso normal','Sobrepeso','Obesidad grado I','Obesidad grado II','Obesidad grado III','Bajo peso','Desnutrición leve','Desnutrición moderada','Otro'].map(o=>`<option${o===r.dxCategoria?' selected':''}>${o}</option>`).join('')}</select>
+    </div>
+    <div class="fi"><label>Diagnóstico detallado</label><input id="ed-dx" value="${esc(r.diagnostico)}"></div>
+    <div class="g2">
+      <div class="fi" style="margin:0"><label>Peso (kg)</label><input type="number" id="ed-peso" step="0.1" value="${r.peso||''}"></div>
+      <div class="fi" style="margin:0"><label>Peso meta (kg)</label><input type="number" id="ed-meta" step="0.1" value="${r.pesoMeta||''}"></div>
+    </div>
+    <div class="fi"><label>Recomendaciones</label><textarea id="ed-rec" rows="3">${esc(r.recomendaciones)}</textarea></div>
+    <div class="fi"><label>Notas</label><textarea id="ed-notas" rows="2">${esc(r.notas)}</textarea></div>`;
+  openModal('mo-edit');
+}
+function guardarEdicion(){
+  if(!_editId) return;
+  const g=id=>{const e=document.getElementById(id);return e?e.value.trim():'';};
+  const idx=NUT.findIndex(x=>x.folio===_editId); if(idx<0) return;
+  Object.assign(NUT[idx],{dxCategoria:g('ed-cat'),diagnostico:g('ed-dx')||g('ed-cat'),
+    peso:g('ed-peso'),pesoMeta:g('ed-meta'),recomendaciones:g('ed-rec'),notas:g('ed-notas'),
+    editado:new Date().toLocaleDateString('es-MX')});
+  sv(SK.nut,NUT); renderPacientes(); toast('✅ Nota actualizada','ok');
+  closeModal('mo-edit'); _editId=null;
+  if(_segEmp) verSeguimiento(_segEmp.noEmp);
+}
+
+// ══════════════════════════════════════════════════
+// IMPRIMIR NOTA
+// ══════════════════════════════════════════════════
+function imprimirNota(folio){
+  const r=NUT.find(x=>x.folio===folio); if(!r) return;
+  const w=window.open('','_blank','width=800,height=950'); if(!w){toast('Popup bloqueado','err');return;}
+  w.document.write(`<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><title>Nota Nutricional ${r.folio}</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap');
+    *{box-sizing:border-box;margin:0;padding:0}body{font-family:'Plus Jakarta Sans',Arial,sans-serif;font-size:11.5px}
+    @page{size:letter;margin:14mm 16mm}@media print{.no-print{display:none!important}}
+    .page{max-width:680px;margin:0 auto;padding:20px}
+    .hdr{display:flex;justify-content:space-between;align-items:flex-start;padding-bottom:10px;border-bottom:2.5px solid #16A34A;margin-bottom:14px}
+    .hdr h1{font-size:15px;font-weight:800;color:#0F2942}.hdr p{font-size:10px;color:#666;margin-top:2px}
+    .hdr-r{text-align:right;font-size:10px;color:#666}
+    .sec{margin-bottom:12px}
+    .sec-title{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;color:#64748B;margin-bottom:6px;padding-bottom:4px;border-bottom:1px solid #E2E8F0}
+    .pac{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;background:#F8FAFC;border:1px solid #E2E8F0;border-radius:7px;padding:10px}
+    .pf label{font-size:9px;text-transform:uppercase;color:#94A3B8;display:block}.pf span{font-size:12px;font-weight:700}
+    .antro{display:grid;grid-template-columns:repeat(5,1fr);gap:5px}
+    .av{background:#F0FDF4;border:1px solid #BBF7D0;border-radius:6px;padding:6px;text-align:center}
+    .av label{font-size:8.5px;text-transform:uppercase;color:#94A3B8;display:block}
+    .av span{font-size:14px;font-weight:800;color:#15803D}
+    .dx-box{background:#F0FDF4;border:2px solid #16A34A;border-radius:8px;padding:12px;margin-bottom:12px}
+    .dx-cat{font-size:16px;font-weight:800;color:#0F2942;margin-bottom:4px}
+    .mt{background:#FAFAFA;border:1px solid #E2E8F0;border-radius:6px;padding:9px 11px;font-size:11.5px;line-height:1.55}
+    .sig{margin-top:30px;display:flex;justify-content:flex-end}
+    .sig-box{text-align:center;width:200px;border-top:1.5px solid #0F2942;padding-top:5px;font-size:11px;font-weight:700}
+    .print-btn{position:fixed;bottom:16px;right:16px;background:#16A34A;color:#fff;border:none;padding:10px 20px;border-radius:8px;cursor:pointer;font-family:inherit;font-size:13px}
+  </style></head><body>
+  <div class="page">
+    <div class="hdr">
+      <div><h1>Nota de Consulta Nutricional</h1><p>Teleflex · Salud Ocupacional · NOM-030-STPS</p></div>
+      <div class="hdr-r"><strong>${r.nutriologa||'Nutriología'}</strong><br>Folio: ${r.folio}<br>${r.fecha||'—'} ${r.hora?'· '+r.hora:''}</div>
+    </div>
+    <div class="sec">
+      <div class="sec-title">Datos del paciente</div>
+      <div class="pac">
+        <div class="pf"><label>Nombre</label><span>${r.nombre||'—'}</span></div>
+        <div class="pf"><label>No. Empleado</label><span>${r.noEmp||'—'}</span></div>
+        <div class="pf"><label>NSS</label><span>${r.nss||'—'}</span></div>
+        <div class="pf"><label>Planta</label><span>${r.planta||'—'}</span></div>
+        <div class="pf"><label>Turno</label><span>${r.turno||'—'}</span></div>
+        <div class="pf"><label>Tipo</label><span>${r.tipoCons||'—'}</span></div>
+      </div>
+    </div>
+    ${(r.peso||r.imc||r.cintura)?`<div class="sec">
+      <div class="sec-title">Antropometría</div>
+      <div class="antro">
+        ${r.peso?`<div class="av"><label>Peso</label><span>${r.peso} kg</span></div>`:''}
+        ${r.talla?`<div class="av"><label>Talla</label><span>${r.talla} cm</span></div>`:''}
+        ${r.imc?`<div class="av"><label>IMC</label><span>${r.imc}</span></div>`:''}
+        ${r.cintura?`<div class="av"><label>Cintura</label><span>${r.cintura} cm</span></div>`:''}
+        ${r.cadera?`<div class="av"><label>Cadera</label><span>${r.cadera} cm</span></div>`:''}
+        ${r.icc?`<div class="av"><label>ICC</label><span>${r.icc}</span></div>`:''}
+        ${r.masaMuscular?`<div class="av"><label>Músculo</label><span>${r.masaMuscular} kg</span></div>`:''}
+        ${r.grasaCorporal?`<div class="av"><label>Grasa</label><span>${r.grasaCorporal}%</span></div>`:''}
+        ${r.aguaCorporal?`<div class="av"><label>Agua</label><span>${r.aguaCorporal}%</span></div>`:''}
+      </div>
+    </div>`:''}
+    <div class="dx-box">
+      <div class="dx-cat">${r.dxCategoria||r.diagnostico||'—'}</div>
+      ${r.diagnostico&&r.diagnostico!==r.dxCategoria?`<div style="font-size:12px;color:#166534">${r.diagnostico}</div>`:''}
+      ${r.pesoMeta?`<div style="font-size:11px;color:#64748B;margin-top:4px">Peso meta: <strong>${r.pesoMeta} kg</strong></div>`:''}
+      ${r.comorbilidades?`<div style="font-size:11px;color:#64748B;margin-top:2px">Comorbilidades: ${r.comorbilidades}</div>`:''}
+    </div>
+    ${r.recomendaciones?`<div class="sec"><div class="sec-title">Plan y recomendaciones</div><div class="mt">${r.recomendaciones.replace(/\n/g,'<br>')}</div></div>`:''}
+    ${(r.kcal||r.proteinas)?`<div class="sec"><div class="sec-title">Plan alimentario</div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;font-size:11.5px">
+        ${r.kcal?`<span>Calorías: <strong>${r.kcal} kcal</strong></span>`:''}
+        ${r.proteinas?`<span>Proteínas: <strong>${r.proteinas}g</strong></span>`:''}
+        ${r.carbos?`<span>Carbohidratos: <strong>${r.carbos}g</strong></span>`:''}
+        ${r.grasas?`<span>Grasas: <strong>${r.grasas}g</strong></span>`:''}
+        ${r.tiemposComida?`<span>Tiempos: <strong>${r.tiemposComida}</strong></span>`:''}
+      </div>
+    </div>`:''}
+    ${r.notas?`<div class="sec"><div class="sec-title">Notas</div><div class="mt">${r.notas}</div></div>`:''}
+    ${r.proxCita?`<div style="background:#F0FDF4;border:1px solid #BBF7D0;border-radius:7px;padding:8px 12px;font-size:12px"><strong>Próxima cita:</strong> ${r.proxCita}</div>`:''}
+    <div class="sig"><div class="sig-box">${r.nutriologa||'Nutrióloga'}<br><small>Teleflex SO · ${r.fecha||''}</small></div></div>
+  </div>
+  <button class="print-btn no-print" onclick="window.print()">🖨️ Imprimir / PDF</button>
+  <script>setTimeout(()=>window.print(),700);<\/script>
+  </body></html>`);
+  w.document.close();
+}
+
+// ══════════════════════════════════════════════════
+// REPORTES
+// ══════════════════════════════════════════════════
+function renderRep(){
+  const yr=document.getElementById('rep-yr');
+  const years=[...new Set(NUT.map(r=>r.anio||new Date().getFullYear()))].sort((a,b)=>b-a);
+  if(!years.includes(new Date().getFullYear())) years.unshift(new Date().getFullYear());
+  const sy=parseInt(yr.value)||new Date().getFullYear();
+  yr.innerHTML=years.map(y=>`<option value="${y}"${y===sy?' selected':''}>${y}</option>`).join('');
+  const fp=(document.getElementById('rep-planta')||{}).value||'';
+  const fn=(document.getElementById('rep-nut')||{}).value||'';
+  const periodo=(document.getElementById('rep-periodo')||{}).value||'anio';
+  let data=NUT.filter(r=>(r.anio||new Date().getFullYear())===sy);
+  if(fp) data=data.filter(r=>r.planta===fp);
+  if(fn) data=data.filter(r=>r.nutriologa===fn);
+  // KPIs
+  const pacs=new Set(data.map(r=>String(r.noEmp||'').toLowerCase()));
+  const enSeg=Object.values(Object.fromEntries([...pacs].map(p=>[p,data.filter(r=>String(r.noEmp||'').toLowerCase()===p)]))).filter(arr=>arr.length>1);
+  const imcs=data.filter(r=>r.imc).map(r=>parseFloat(r.imc)).filter(x=>!isNaN(x));
+  const imcProm=imcs.length?(imcs.reduce((a,b)=>a+b,0)/imcs.length).toFixed(1):null;
+  const sv2=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v;};
+  sv2('r-tot',data.length); sv2('r-pac',pacs.size); sv2('r-seg',enSeg.length); sv2('r-imc',imcProm||'—');
+  // Chart principal
+  let labels=MSC,valores=Array(12).fill(0);
+  if(periodo==='anio'){data.forEach(r=>{const m=(r.mesNum||1)-1;if(m>=0&&m<12)valores[m]++;});}
+  else{labels=['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'];valores=Array(7).fill(0);data.forEach(r=>{if(!r.fecha)return;const p=r.fecha.split('/');if(p.length<3)return;const d=new Date(p[2]+'-'+p[1].padStart(2,'0')+'-'+p[0].padStart(2,'0'));if(!isNaN(d))valores[d.getDay()]++;});}
+  document.getElementById('rep-chart-title').textContent=periodo==='anio'?'Consultas por mes':'Consultas por día';
+  if(_charts.rep){try{_charts.rep.destroy();}catch(e){}}
+  _charts.rep=new Chart(document.getElementById('ch-rep'),{type:'bar',data:{labels,datasets:[{label:'Consultas',data:valores,backgroundColor:'rgba(22,163,74,.15)',borderColor:'#16A34A',borderWidth:2,borderRadius:5}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,ticks:{stepSize:1}}}}});
+  // Dx chart
+  const dxCnt={};data.forEach(r=>{const d=r.dxCategoria||r.diagnostico||'Sin dx';dxCnt[d]=(dxCnt[d]||0)+1;});
+  const dxArr=Object.entries(dxCnt).sort((a,b)=>b[1]-a[1]).slice(0,6);
+  const COLORS=['#16A34A','#D97706','#EF4444','#2563EB','#7C3AED','#0D9488'];
+  if(_charts.dx){try{_charts.dx.destroy();}catch(e){}}
+  if(dxArr.length) _charts.dx=new Chart(document.getElementById('ch-dx'),{type:'doughnut',data:{labels:dxArr.map(([k])=>k),datasets:[{data:dxArr.map(([,v])=>v),backgroundColor:COLORS.map(c=>c+'55'),borderColor:COLORS,borderWidth:2}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{font:{size:10},boxWidth:10}}}}});
+  // IMC bars
+  const imcCats={'Bajo peso':0,'Peso normal':0,'Sobrepeso':0,'Obesidad grado I':0,'Obesidad grado II':0,'Obesidad grado III':0};
+  data.forEach(r=>{if(r.dxCategoria&&imcCats[r.dxCategoria]!==undefined)imcCats[r.dxCategoria]++;});
+  const total=data.length||1;
+  document.getElementById('rep-imc-bars').innerHTML=Object.entries(imcCats).filter(([,v])=>v>0).map(([k,v])=>{
+    const pct=Math.round(v/total*100);
+    const c=k.includes('Obesidad')?'#EF4444':k==='Sobrepeso'?'#F59E0B':k==='Bajo peso'?'#3B82F6':'#16A34A';
+    return `<div class="pr-row"><div class="pr-lbl">${k}</div><div class="pr-wrap"><div class="pr-bar" style="width:${pct}%;background:${c}"></div></div><div class="pr-n">${v}</div><span style="font-size:10px;color:var(--tx3);min-width:30px;text-align:right">${pct}%</span></div>`;
+  }).join('')||'<div style="color:var(--tx3);font-size:12px;text-align:center;padding:12px">Sin datos</div>';
+  // Seguimiento activo
+  const prox30=new Date();prox30.setDate(prox30.getDate()+30);
+  const segRows=enSeg.map(arr=>{
+    const ult=arr.sort((a,b)=>(b.fecha||'').localeCompare(a.fecha||''))[0];
+    const prox=ult.proxCita?new Date(ult.proxCita+'T12:00'):null;
+    const vence=prox&&prox<=prox30;
+    return `<div style="display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid var(--bor);flex-wrap:wrap;gap:6px">
+      <div><span style="font-weight:600">${ult.nombre||'—'}</span> <span style="font-size:11px;color:var(--tx3)">· No.${ult.noEmp||'—'} · ${ult.planta||'—'}</span></div>
+      <div style="display:flex;align-items:center;gap:8px;font-size:11px">
+        <span style="color:var(--tx3)">${arr.length} consultas</span>
+        ${ult.proxCita?`<span class="pill ${vence?'pred':'pgreen'}">${vence?'⚠️ ':''}Próx: ${ult.proxCita}</span>`:''}
+      </div>
+    </div>`;
+  }).join('');
+  document.getElementById('rep-seguimiento').innerHTML=segRows||'<div style="color:var(--tx3);font-size:12px;text-align:center;padding:12px">Sin pacientes en seguimiento</div>';
+}
+
+function exportRep(){
+  if(typeof XLSX==='undefined'){toast('XLSX no disponible','err');return;}
+  const wb=XLSX.utils.book_new();
+  const sy=parseInt(document.getElementById('rep-yr').value)||new Date().getFullYear();
+  const rows=[['Folio','Fecha','No.Emp','Nombre','Planta','Turno','Tipo','Peso','Talla','IMC','Clasificación','Cintura','Cadera','ICC','Músculo','Grasa%','Agua%','Dx Categoría','Diagnóstico','Peso Meta','Comorbilidades','Kcal','Proteínas','Carbos','Grasas','Recomendaciones','Próxima cita','Nutrióloga','Mes','Año']];
+  NUT.filter(r=>(r.anio||new Date().getFullYear())===sy).forEach(r=>rows.push([
+    r.folio||'',r.fecha||'',r.noEmp||'',r.nombre||'',r.planta||'',r.turno||'',r.tipoCons||'',
+    r.peso||'',r.talla||'',r.imc||'',r.imcCategoria||'',r.cintura||'',r.cadera||'',r.icc||'',
+    r.masaMuscular||'',r.grasaCorporal||'',r.aguaCorporal||'',
+    r.dxCategoria||'',r.diagnostico||'',r.pesoMeta||'',r.comorbilidades||'',
+    r.kcal||'',r.proteinas||'',r.carbos||'',r.grasas||'',
+    r.recomendaciones||'',r.proxCita||'',r.nutriologa||'',r.mes||'',r.anio||''
+  ]));
+  XLSX.utils.book_append_sheet(wb,XLSX.utils.aoa_to_sheet(rows),'Nutriología');
+  XLSX.writeFile(wb,'Nutriologia_'+sy+'.xlsx');
+  toast('✅ Excel exportado','ok');
+}
+
+// ══════════════════════════════════════════════════
+// HEAD COUNT
+// ══════════════════════════════════════════════════
+function importarHC(input){
+  const file=input.files[0];if(!file)return;
+  const reader=new FileReader();
+  reader.onload=e=>{
+    try{
+      const wb=XLSX.read(e.target.result,{type:'binary'});
+      const ws=wb.Sheets[wb.SheetNames[0]];
+      const rows=XLSX.utils.sheet_to_json(ws,{defval:''});
+      if(!rows.length){toast('Archivo vacío','err');return;}
+      const cols=Object.keys(rows[0]);
+      const find=pats=>cols.find(c=>pats.some(p=>c.toLowerCase().includes(p)))||'';
+      const m={noEmp:find(['no.emp','noemp','numero']),nombre:find(['nombre']),depto:find(['depto','departamento','area']),puesto:find(['puesto','cargo']),planta:find(['planta','site']),turno:find(['turno','shift']),nss:find(['nss','seguro']),genero:find(['genero','género','sexo'])};
+      HC=rows.map(r=>({noEmp:String(r[m.noEmp]||'').trim(),nombre:String(r[m.nombre]||'').trim(),depto:String(r[m.depto]||'').trim(),puesto:String(r[m.puesto]||'').trim(),planta:String(r[m.planta]||'').trim(),turno:String(r[m.turno]||'').trim(),nss:String(r[m.nss]||'').trim(),genero:String(r[m.genero]||'').trim()})).filter(r=>r.noEmp&&r.nombre);
+      sv(SK.hc,HC);document.getElementById('hc-upload').style.display='none';document.getElementById('hc-table').style.display='block';const bd=document.getElementById('btn-del-hc');if(bd)bd.style.display='';renderHC('');document.getElementById('hc-cnt').textContent=HC.length+' empleados';toast('✅ HC: '+HC.length+' empleados','ok');
+    }catch(err){toast('Error: '+err.message,'err');}
+  };
+  reader.readAsBinaryString(file);
+}
+function renderHC(q){
+  q=(q||'').toLowerCase();
+  const lista=HC.filter(e=>!q||(e.nombre+e.noEmp+e.depto).toLowerCase().includes(q)).slice(0,100);
+  document.getElementById('hc-tbody').innerHTML=lista.map(e=>`<tr><td style="padding:8px 11px;border-bottom:1px solid var(--bor)"><span class="folio">${e.noEmp}</span></td><td style="padding:8px 11px;border-bottom:1px solid var(--bor)"><strong>${e.nombre}</strong></td><td style="padding:8px 11px;border-bottom:1px solid var(--bor)">${e.planta||'—'}</td><td style="padding:8px 11px;border-bottom:1px solid var(--bor)">${e.turno||'—'}</td><td style="padding:8px 11px;border-bottom:1px solid var(--bor)">${e.genero||'—'}</td></tr>`).join('');
+  document.getElementById('hc-cnt').textContent=HC.length+' empleados'+(q?' (filtrado)':'');
+}
+function delHC(){if(!confirm('¿Eliminar head count?'))return;HC=[];sv(SK.hc,HC);document.getElementById('hc-upload').style.display='block';document.getElementById('hc-table').style.display='none';const bd=document.getElementById('btn-del-hc');if(bd)bd.style.display='none';document.getElementById('hc-cnt').textContent='0 empleados';}
+
+// ══════════════════════════════════════════════════
+// UTILS
+// ══════════════════════════════════════════════════
+function openModal(id){const el=document.getElementById(id);if(el)el.classList.add('open');}
+function closeModal(id){const el=document.getElementById(id);if(el)el.classList.remove('open');}
+function toast(msg,type='ok'){const c=document.createElement('div');c.className='ti t'+(type==='err'?'err':type==='inf'?'inf':'ok');c.textContent=msg;document.getElementById('toast').appendChild(c);setTimeout(()=>c.remove(),3500);}
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+
+document.addEventListener('click',e=>{if(!e.target.closest('.sw'))document.querySelectorAll('.sr-drop').forEach(d=>d.classList.remove('show'));if(e.target.classList.contains('ov'))e.target.classList.remove('open');});
+
+document.addEventListener('DOMContentLoaded', async function(){
+  try{
+    const r=await gasGet({action:'getUsers'});
+    if(r.ok&&Array.isArray(r.data)&&r.data.length) sv(SK.users,r.data);
+  }catch(e){}
+  poblarSelect();
+});
+window.addEventListener('error',e=>{console.warn('[NUT]',e.message,e.lineno);});
+window.addEventListener('unhandledrejection',e=>{console.warn('[NUT]',e.reason);});
+</script>
+</body>
+</html>
