@@ -714,6 +714,8 @@ function selEmp(noEmp){
   </div>`;
   card.style.display='block';
   mostrarAntNut(e.noEmp);
+  // Cargar datos de médico y enfermería desde GAS
+  cargarAntNutDesdeGAS(e.noEmp);
   // Banner embarazo
   const emb=EMBARAZADAS.find(x=>String(x.noEmp||'').toLowerCase()===String(e.noEmp||'').toLowerCase());
   const panel=document.getElementById('ant-nut');
