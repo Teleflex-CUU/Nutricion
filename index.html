@@ -714,6 +714,18 @@ function selEmp(noEmp){
   </div>`;
   card.style.display='block';
   mostrarAntNut(e.noEmp);
+  // Edad automática desde HC
+  if(e.fechaIngreso||e.fechaNacimiento){
+    const fn=e.fechaNacimiento||'';
+    if(fn){
+      const parts=fn.toString().includes('/')?fn.split('/').reverse():fn.toString().split('-');
+      if(parts.length>=1){
+        const edad=new Date().getFullYear()-parseInt(parts[0]);
+        const edadEl=document.getElementById('f-edad');
+        if(edadEl&&!edadEl.value&&edad>15&&edad<80) edadEl.value=edad;
+      }
+    }
+  }
   // Cargar datos de médico y enfermería desde GAS
   cargarAntNutDesdeGAS(e.noEmp);
   // Banner embarazo
@@ -785,9 +797,9 @@ function calcIMC(){
     else if(val<40){categoria='Obesidad II';color='#DC2626';}
     else{categoria='Obesidad III';color='#991B1B';}
     cat.value=categoria;
-    // Autoselect dx category
+    // Autoseleccionar categoría de diagnóstico siempre (no solo si está vacío)
     const dxCat=document.getElementById('f-dx-cat');
-    if(dxCat&&!dxCat.value){
+    if(dxCat){
       const map={'Bajo peso':'Bajo peso','Normal':'Peso normal','Sobrepeso':'Sobrepeso','Obesidad I':'Obesidad grado I','Obesidad II':'Obesidad grado II','Obesidad III':'Obesidad grado III'};
       if(map[categoria]) dxCat.value=map[categoria];
     }
@@ -797,6 +809,10 @@ function calcIMC(){
     document.getElementById('imc-needle').style.left=pct+'%';
     document.getElementById('imc-label').innerHTML=`<span style="color:${color};font-weight:700">${v} — ${categoria}</span>`;
   } else {imc.value='';cat.value='';vis.style.display='none';}
+  // Recalcular calorías automáticamente si hay actividad y edad
+  const actEl=document.getElementById('f-actividad');
+  const edadEl=document.getElementById('f-edad');
+  if(actEl&&actEl.value&&edadEl&&edadEl.value) calcCalorias();
 }
 function calcICC(){
   const cin=parseFloat(document.getElementById('f-cintura').value);
