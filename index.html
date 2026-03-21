@@ -327,7 +327,37 @@ body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;background:var(--surf2
 
   <!-- Plan alimentario -->
   <div class="card cp" style="margin-bottom:12px">
-    <div class="sec-title">🔥 Cálculo de Calorías</div>
+    <!-- Objetivo del plan -->
+  <div class="card cp" style="margin-bottom:12px">
+    <div class="sec-title">🎯 Objetivo del plan nutricional</div>
+    <div class="g2">
+      <div class="fi" style="margin:0">
+        <label>Objetivo *</label>
+        <select id="f-objetivo" onchange="onObjetivoChange()">
+          <option value="">— Seleccionar —</option>
+          <option value="perdida">Pérdida de peso</option>
+          <option value="muscular">Aumento de masa muscular</option>
+          <option value="mantenimiento">Mantenimiento de peso</option>
+          <option value="diabetes">Control de diabetes / glucosa</option>
+          <option value="colesterol">Control de colesterol / triglicéridos</option>
+          <option value="embarazo">Embarazo / lactancia</option>
+          <option value="habitos">Mejora de hábitos generales</option>
+        </select>
+      </div>
+      <div class="fi" style="margin:0">
+        <label>Intensidad</label>
+        <select id="f-intensidad" onchange="calcCalorias()">
+          <option value="moderado">Moderada</option>
+          <option value="agresivo">Agresiva</option>
+          <option value="suave">Suave / conservadora</option>
+        </select>
+      </div>
+    </div>
+    <div id="objetivo-desc" style="display:none;margin-top:8px;background:var(--green3);border:1.5px solid var(--green4);border-radius:8px;padding:9px 12px;font-size:12px;color:var(--green);font-weight:600"></div>
+  </div>
+
+  <div class="card cp" style="margin-bottom:12px">
+  <div class="sec-title">🔥 Cálculo de Calorías</div>
     <div class="g3" style="margin-bottom:10px">
       <div class="fi" style="margin:0">
         <label>Fórmula</label>
@@ -715,16 +745,15 @@ function selEmp(noEmp){
   card.style.display='block';
   mostrarAntNut(e.noEmp);
   // Edad automática desde HC
-  if(e.fechaIngreso||e.fechaNacimiento){
-    const fn=e.fechaNacimiento||'';
-    if(fn){
-      const parts=fn.toString().includes('/')?fn.split('/').reverse():fn.toString().split('-');
-      if(parts.length>=1){
-        const edad=new Date().getFullYear()-parseInt(parts[0]);
-        const edadEl=document.getElementById('f-edad');
-        if(edadEl&&!edadEl.value&&edad>15&&edad<80) edadEl.value=edad;
-      }
-    }
+  const fn = e.fechaNacimiento||e.FechaNacimiento||'';
+  if(fn){
+    let anioNac = 0;
+    if(String(fn).includes('/')) anioNac = parseInt(String(fn).split('/').pop());
+    else if(String(fn).includes('-')) anioNac = parseInt(String(fn).split('-')[0]);
+    else anioNac = parseInt(String(fn).slice(0,4));
+    const edadCalc = new Date().getFullYear() - anioNac;
+    const edadEl = document.getElementById('f-edad');
+    if(edadEl && !edadEl.value && edadCalc>15 && edadCalc<80) edadEl.value=edadCalc;
   }
   // Cargar datos de médico y enfermería desde GAS
   cargarAntNutDesdeGAS(e.noEmp);
