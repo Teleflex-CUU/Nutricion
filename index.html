@@ -3,187 +3,185 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
-<title>Nutriología SO — Teleflex</title>
+<title>SO Nutriología — Teleflex</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <style>
 :root{
-  --gr:#16A34A;--gr2:#DCFCE7;--gr3:#F0FDF4;--gr4:#BBF7D0;
-  --tl:#0D9488;--tl2:#CCFBF1;--tl3:#F0FDFA;
-  --nv:#0F2942;--bl:#2563EB;--bl3:#EFF6FF;
-  --am:#D97706;--am2:#FEF3C7;
-  --rd:#DC2626;--rd2:#FEF2F2;
-  --pu:#7C3AED;--pu2:#F5F3FF;
-  --sf:#FFFFFF;--sf2:#F8FAFC;--sf3:#F1F5F9;
-  --br:#E2E8F0;--br2:#CBD5E1;
+  --green:#16A34A;--green2:#DCFCE7;--green3:#F0FDF4;--green4:#BBF7D0;
+  --teal:#0D9488;--teal2:#CCFBF1;
+  --navy:#0F2942;--blue:#2563EB;--blue3:#EFF6FF;
+  --amber:#D97706;--amber2:#FEF3C7;
+  --red:#DC2626;--red2:#FEF2F2;
+  --purple:#7C3AED;--purple2:#F5F3FF;
+  --surf:#FFFFFF;--surf2:#F8FAFC;--surf3:#F1F5F9;
+  --bor:#E2E8F0;--bor2:#CBD5E1;
   --tx:#0F172A;--tx2:#475569;--tx3:#94A3B8;
-  --nh:56px;--r:10px;
+  --nav-h:56px;--r:10px;
   --sh:0 1px 3px rgba(0,0,0,.08),0 1px 2px rgba(0,0,0,.05);
-  --shl:0 10px 25px rgba(0,0,0,.1),0 4px 10px rgba(0,0,0,.05);
+  --sh-lg:0 10px 25px rgba(0,0,0,.1),0 4px 10px rgba(0,0,0,.05);
 }
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;background:var(--sf2);color:var(--tx);font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased}
+body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;background:var(--surf2);color:var(--tx);font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased}
 
-/* ── LOGIN ── */
+/* LOGIN */
 #login-screen{position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;background:linear-gradient(145deg,#0F2942 0%,#145A32 40%,#16A34A 100%)}
 .lc{background:#fff;border-radius:18px;padding:40px;width:100%;max-width:380px;box-shadow:0 30px 60px rgba(0,0,0,.3)}
-.lc-icon{width:56px;height:56px;background:linear-gradient(135deg,var(--gr),#166534);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:26px;margin:0 auto 10px}
-.lc h1{font-size:20px;font-weight:800;color:var(--nv);text-align:center}
-.lc p{font-size:11px;color:var(--tx3);text-align:center;margin-top:2px;margin-bottom:24px}
+.lc-brand{text-align:center;margin-bottom:28px}
+.lc-icon{width:56px;height:56px;background:linear-gradient(135deg,var(--green),#166534);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:26px;margin:0 auto 10px}
+.lc-brand h1{font-size:20px;font-weight:800;color:var(--navy)}
+.lc-brand p{font-size:11px;color:var(--tx3);margin-top:2px}
 .lf{margin-bottom:14px}
 .lf label{display:block;font-size:10px;font-weight:700;color:var(--tx2);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
-.lf select{width:100%;padding:10px 13px;border:1.5px solid var(--br);border-radius:8px;font-size:14px;font-family:inherit;outline:none;transition:.15s}
-.lf select:focus{border-color:var(--gr);box-shadow:0 0 0 3px var(--gr3)}
-#lerr{display:none;background:var(--rd2);color:var(--rd);border-radius:7px;padding:8px 12px;font-size:12px;margin-bottom:12px;text-align:center}
-.lbtn{width:100%;background:linear-gradient(135deg,var(--gr),#166534);color:#fff;border:none;padding:12px;border-radius:9px;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;transition:.15s}
+.lf select,.lf input{width:100%;padding:10px 13px;border:1.5px solid var(--bor);border-radius:8px;font-size:14px;font-family:inherit;outline:none;transition:.15s}
+.lf select:focus,.lf input:focus{border-color:var(--green);box-shadow:0 0 0 3px var(--green3)}
+#lerr{display:none;background:var(--red2);color:var(--red);border-radius:7px;padding:8px 12px;font-size:12px;margin-bottom:12px;text-align:center}
+.lbtn{width:100%;background:linear-gradient(135deg,var(--green),#166534);color:#fff;border:none;padding:12px;border-radius:9px;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;transition:.15s}
 .lbtn:hover{opacity:.92;transform:translateY(-1px)}
 
-/* ── NAV ── */
+/* NAV */
 #app{display:none}
-.nav{position:fixed;top:0;left:0;right:0;height:var(--nh);z-index:100;background:var(--nv);display:flex;align-items:center;padding:0 14px;gap:2px;box-shadow:0 2px 10px rgba(0,0,0,.25);overflow-x:auto}
+.nav{position:fixed;top:0;left:0;right:0;height:var(--nav-h);z-index:100;background:var(--navy);display:flex;align-items:center;padding:0 14px;gap:2px;box-shadow:0 2px 10px rgba(0,0,0,.25);overflow-x:auto}
 .nav::-webkit-scrollbar{height:2px}
-.nb{font-size:13px;font-weight:800;color:#fff;white-space:nowrap;margin-right:10px;display:flex;align-items:center;gap:6px}
-.nb span{background:var(--gr);color:#fff;font-size:9px;font-weight:700;padding:2px 7px;border-radius:5px}
+.nav-brand{font-size:12px;font-weight:800;color:#fff;white-space:nowrap;margin-right:10px;display:flex;align-items:center;gap:7px}
+.nav-brand .badge{background:var(--green);color:#fff;font-size:9px;font-weight:700;padding:2px 7px;border-radius:5px}
 .tb{background:none;border:none;color:rgba(255,255,255,.55);font-family:inherit;font-size:12px;font-weight:600;cursor:pointer;padding:6px 10px;border-radius:7px;white-space:nowrap;transition:.15s;display:flex;align-items:center;gap:5px}
 .tb:hover{color:#fff;background:rgba(255,255,255,.08)}
 .tb.on{color:#fff;background:rgba(22,163,74,.35)}
-.ne{margin-left:auto;display:flex;align-items:center;gap:8px;flex-shrink:0}
-.up{font-size:11px;color:rgba(255,255,255,.7);white-space:nowrap}
-.nb2{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:#fff;padding:4px 10px;border-radius:6px;font-size:11px;cursor:pointer;font-family:inherit}
-.dot{width:7px;height:7px;border-radius:50%;display:inline-block}
-.dok{background:var(--gr)}.derr{background:var(--rd)}.dbusy{background:var(--am);animation:pulse 1s infinite}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.nav-end{margin-left:auto;display:flex;align-items:center;gap:8px;flex-shrink:0}
+.user-pill{font-size:11px;color:rgba(255,255,255,.7);white-space:nowrap}
+.nav-btn{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:#fff;padding:4px 10px;border-radius:6px;font-size:11px;cursor:pointer;font-family:inherit}
+.nav-btn:hover{background:rgba(255,255,255,.18)}
 
-/* ── SCREENS ── */
-.sc{display:none;padding:calc(var(--nh)+16px) 16px 28px;min-height:100vh;max-width:1060px;margin:0 auto}
+/* SCREENS */
+.sc{display:none;padding:calc(var(--nav-h) + 16px) 16px 28px;min-height:100vh;max-width:1060px;margin:0 auto}
 .sc.on{display:block}
 
-/* ── CARDS & BUTTONS ── */
-.card{background:var(--sf);border-radius:var(--r);box-shadow:var(--sh);border:1px solid var(--br)}
+/* CARDS */
+.card{background:var(--surf);border-radius:var(--r);box-shadow:var(--sh);border:1px solid var(--bor)}
 .cp{padding:16px}
+
+/* BUTTONS */
 .btn{display:inline-flex;align-items:center;gap:5px;border:none;border-radius:8px;font-family:inherit;font-size:13px;font-weight:600;cursor:pointer;padding:8px 14px;transition:.15s}
-.btn-gr{background:var(--gr);color:#fff}.btn-gr:hover{background:#15803D}
-.btn-nv{background:var(--nv);color:#fff}.btn-nv:hover{background:#1a3a5c}
-.btn-gh{background:transparent;color:var(--tx2);border:1.5px solid var(--br)}.btn-gh:hover{background:var(--sf3)}
+.btn-green{background:var(--green);color:#fff}.btn-green:hover{background:#15803D}
+.btn-navy{background:var(--navy);color:#fff}.btn-navy:hover{background:#1a3a5c}
+.btn-ghost{background:transparent;color:var(--tx2);border:1.5px solid var(--bor)}.btn-ghost:hover{border-color:var(--bor2);background:var(--surf3)}
 .btn-sm{padding:5px 10px;font-size:12px;border-radius:6px}
 .btn-xs{padding:3px 8px;font-size:11px;border-radius:5px}
 
-/* ── FORMS ── */
+/* FORM */
 .fi{margin-bottom:12px}
 .fi label{display:block;font-size:10px;font-weight:700;color:var(--tx2);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
-.fi input,.fi select,.fi textarea{width:100%;padding:9px 12px;border:1.5px solid var(--br);border-radius:8px;font-size:13px;font-family:inherit;outline:none;background:var(--sf);color:var(--tx);transition:.15s}
-.fi input:focus,.fi select:focus,.fi textarea:focus{border-color:var(--gr);box-shadow:0 0 0 3px var(--gr3)}
+.fi input,.fi select,.fi textarea{width:100%;padding:9px 12px;border:1.5px solid var(--bor);border-radius:8px;font-size:13px;font-family:inherit;outline:none;background:var(--surf);color:var(--tx);transition:.15s}
+.fi input:focus,.fi select:focus,.fi textarea:focus{border-color:var(--green);box-shadow:0 0 0 3px var(--green3)}
 .fi textarea{resize:vertical;min-height:70px}
-.fi input[readonly]{background:var(--sf3);color:var(--tx2);font-weight:600}
-.fi input.auto{background:var(--gr3);border-color:var(--gr4);color:#166534;font-weight:700}
+.fi input[readonly]{background:var(--surf3);color:var(--tx2)}
 .g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
 .g4{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
 @media(max-width:640px){.g2,.g3,.g4{grid-template-columns:1fr 1fr}}
 @media(max-width:380px){.g2,.g3,.g4{grid-template-columns:1fr}}
 
-/* ── MODALS ── */
+/* MODALS */
 .ov{display:none;position:fixed;inset:0;z-index:500;background:rgba(0,0,0,.5);backdrop-filter:blur(3px);padding:16px;align-items:flex-start;justify-content:center;overflow-y:auto}
 .ov.open{display:flex}
-.mo{background:var(--sf);border-radius:16px;width:100%;max-width:700px;box-shadow:var(--shl);margin:auto;animation:up .2s ease}
+.mo{background:var(--surf);border-radius:16px;width:100%;max-width:700px;box-shadow:var(--sh-lg);margin:auto;animation:up .2s ease}
 @keyframes up{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
-.mh{padding:16px 20px;border-bottom:1px solid var(--br);display:flex;align-items:center;justify-content:space-between}
-.mt{font-size:15px;font-weight:800;color:var(--nv)}
+.mh{padding:16px 20px;border-bottom:1px solid var(--bor);display:flex;align-items:center;justify-content:space-between}
+.mt-modal{font-size:15px;font-weight:800;color:var(--navy)}
 .mc{background:none;border:none;font-size:20px;cursor:pointer;color:var(--tx3);width:28px;height:28px;display:flex;align-items:center;justify-content:center;border-radius:5px}
-.mc:hover{background:var(--sf3)}
+.mc:hover{background:var(--surf3);color:var(--tx)}
 .mb{padding:20px;max-height:78vh;overflow-y:auto}
-.mf{padding:12px 20px 16px;border-top:1px solid var(--br);display:flex;gap:8px;justify-content:flex-end}
+.mf{padding:12px 20px 16px;border-top:1px solid var(--bor);display:flex;gap:8px;justify-content:flex-end}
 
-/* ── EMP CARD ── */
-.ec{background:linear-gradient(135deg,var(--nv) 0%,#145A32 60%,var(--gr) 100%);border-radius:12px;padding:14px 16px;color:#fff;margin-bottom:12px}
+/* EMP CARD */
+.emp-card{background:linear-gradient(135deg,var(--navy) 0%,#145A32 60%,var(--green) 100%);border-radius:12px;padding:14px 16px;color:#fff;margin-bottom:12px}
 .ec-name{font-size:15px;font-weight:800;margin-bottom:6px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 .ec-tag{font-size:10px;font-weight:600;background:rgba(255,255,255,.18);padding:2px 8px;border-radius:8px}
-.ec-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:6px;margin-top:6px}
-.ec-f label{font-size:9px;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:.4px}
-.ec-f div{font-size:12px;font-weight:600}
+.ec-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:6px;margin-top:6px}
+.ec-field label{font-size:9px;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:.4px}
+.ec-field div{font-size:12px;font-weight:600;color:#fff}
 
-/* ── KPIS ── */
+/* KPIs */
 .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-bottom:16px}
-.kpi{background:var(--sf);border:1px solid var(--br);border-radius:var(--r);padding:14px;box-shadow:var(--sh)}
-.kv{font-size:26px;font-weight:800;color:var(--nv);line-height:1;font-family:'JetBrains Mono',monospace}
+.kpi{background:var(--surf);border:1px solid var(--bor);border-radius:var(--r);padding:14px;box-shadow:var(--sh)}
+.kv{font-size:26px;font-weight:800;color:var(--navy);line-height:1;font-family:'JetBrains Mono',monospace}
 .kl{font-size:10px;color:var(--tx3);margin-top:3px;font-weight:600;text-transform:uppercase;letter-spacing:.3px}
-.kpi.gr .kv{color:var(--gr)}.kpi.am .kv{color:var(--am)}.kpi.bl .kv{color:var(--bl)}
+.kpi.green .kv{color:var(--green)}.kpi.amber .kv{color:var(--amber)}.kpi.red .kv{color:var(--red)}.kpi.blue .kv{color:var(--blue)}
 
-/* ── PILLS ── */
+/* PILLS */
 .pill{display:inline-flex;align-items:center;padding:2px 7px;border-radius:9px;font-size:10px;font-weight:700;white-space:nowrap}
-.pgr{background:var(--gr2);color:var(--gr)}.pam{background:var(--am2);color:var(--am)}
-.prd{background:var(--rd2);color:var(--rd)}.pgy{background:var(--sf3);color:var(--tx2)}
-.pbl{background:var(--bl3);color:var(--bl)}.ppu{background:var(--pu2);color:var(--pu)}
+.pgreen{background:var(--green2);color:var(--green)}.pamber{background:var(--amber2);color:var(--amber)}
+.pred{background:var(--red2);color:var(--red)}.pgray{background:var(--surf3);color:var(--tx2)}
+.pblue{background:var(--blue3);color:var(--blue)}.ppurple{background:var(--purple2);color:var(--purple)}
 
-/* ── SEARCH ── */
+/* SEARCH */
 .sw{position:relative}
 .sw input{padding-left:35px}
 .si{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:var(--tx3);pointer-events:none}
-.sd{position:absolute;top:calc(100%+4px);left:0;right:0;background:var(--sf);border:1px solid var(--br);border-radius:10px;box-shadow:var(--shl);z-index:50;max-height:260px;overflow-y:auto;display:none}
-.sd.show{display:block}
-.si-item{padding:10px 14px;cursor:pointer;border-bottom:1px solid var(--br);transition:.12s}
-.si-item:last-child{border-bottom:none}
-.si-item:hover{background:var(--sf3)}
-.si-name{font-weight:700;font-size:13px}
-.si-meta{font-size:11px;color:var(--tx3)}
+.sr-drop{position:absolute;top:calc(100%+4px);left:0;right:0;background:var(--surf);border:1px solid var(--bor);border-radius:10px;box-shadow:var(--sh-lg);z-index:50;max-height:260px;overflow-y:auto;display:none}
+.sr-drop.show{display:block}
+.sr-item{padding:10px 14px;cursor:pointer;border-bottom:1px solid var(--bor);transition:.12s}
+.sr-item:last-child{border-bottom:none}
+.sr-item:hover{background:var(--surf3)}
+.sr-name{font-weight:700;font-size:13px}
+.sr-meta{font-size:11px;color:var(--tx3)}
 
-/* ── MISC ── */
-.sh2{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:14px}
-.sh2 h2{font-size:17px;font-weight:800;color:var(--nv);letter-spacing:-.3px}
-.sh2 p{font-size:11px;color:var(--tx3);margin-top:1px}
-.tabs{display:flex;gap:4px;border-bottom:2px solid var(--br);margin-bottom:14px;overflow-x:auto}
-.tab{background:none;border:none;font-family:inherit;font-size:12px;font-weight:600;color:var(--tx2);padding:8px 13px;cursor:pointer;border-bottom:2.5px solid transparent;margin-bottom:-2px;transition:.15s;white-space:nowrap}
-.tab.on{color:var(--gr);border-bottom-color:var(--gr)}
+/* FILTERS */
+.filters{display:flex;gap:8px;flex-wrap:wrap;align-items:center;background:var(--surf);border:1px solid var(--bor);border-radius:var(--r);padding:10px 13px;margin-bottom:13px}
+.filters select,.filters input[type=text]{padding:6px 10px;border:1.5px solid var(--bor);border-radius:7px;font-size:12px;font-family:inherit;outline:none;background:var(--surf);color:var(--tx);transition:.15s}
+.filters select:focus,.filters input:focus{border-color:var(--green)}
+
+/* IMC METER */
+.imc-meter{background:linear-gradient(to right,#3B82F6 0%,#22C55E 18.5%,#22C55E 25%,#F59E0B 30%,#EF4444 100%);border-radius:4px;height:8px;position:relative;margin:6px 0 2px}
+.imc-needle{position:absolute;top:-4px;width:3px;height:16px;background:var(--navy);border-radius:2px;transform:translateX(-50%);transition:.4s}
+
+/* CHART */
 .cw{position:relative;height:200px}
-.tl{padding:0;list-style:none}
+
+/* SEC HEADER */
+.sh{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+.sh h2{font-size:17px;font-weight:800;color:var(--navy);letter-spacing:-.3px}
+.sh p{font-size:11px;color:var(--tx3);margin-top:1px}
+
+/* TABS */
+.tabs{display:flex;gap:4px;border-bottom:2px solid var(--bor);margin-bottom:14px;overflow-x:auto}
+.tab{background:none;border:none;font-family:inherit;font-size:12px;font-weight:600;color:var(--tx2);padding:8px 13px;cursor:pointer;border-bottom:2.5px solid transparent;margin-bottom:-2px;transition:.15s;white-space:nowrap}
+.tab.active{color:var(--green);border-bottom-color:var(--green)}
+
+/* SEGUIMIENTO TIMELINE */
+.timeline{padding:0;list-style:none}
 .tl-item{display:flex;gap:12px;padding-bottom:16px;position:relative}
-.tl-item:not(:last-child)::before{content:'';position:absolute;left:15px;top:32px;bottom:0;width:2px;background:var(--br)}
-.tl-dot{width:32px;height:32px;border-radius:50%;background:var(--gr2);border:2px solid var(--gr);display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
-.tl-body{flex:1;background:var(--sf);border:1px solid var(--br);border-radius:var(--r);padding:10px 13px}
+.tl-item:not(:last-child)::before{content:'';position:absolute;left:15px;top:32px;bottom:0;width:2px;background:var(--bor)}
+.tl-dot{width:32px;height:32px;border-radius:50%;background:var(--green2);border:2px solid var(--green);display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
+.tl-body{flex:1;background:var(--surf);border:1px solid var(--bor);border-radius:var(--r);padding:10px 13px}
+.tl-fecha{font-size:10px;color:var(--tx3);margin-bottom:3px}
+.tl-dx{font-weight:700;font-size:13px;margin-bottom:4px}
+
+/* SYNC DOT */
+.dot{width:7px;height:7px;border-radius:50%;display:inline-block}
+.dok{background:var(--green)}.derr{background:var(--red)}.dbusy{background:var(--amber);animation:pulse 1s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+
+/* TOAST */
+#toast{position:fixed;bottom:20px;right:20px;z-index:9999;display:flex;flex-direction:column;gap:7px}
+.ti{padding:9px 15px;border-radius:9px;font-size:13px;font-weight:600;box-shadow:var(--sh-lg);animation:up .2s ease;max-width:300px}
+.tok{background:#F0FDF4;color:#14532D;border:1px solid #86EFAC}
+.terr{background:var(--red2);color:#991B1B;border:1px solid #FCA5A5}
+.tinf{background:var(--green3);color:#166534;border:1px solid var(--green4)}
+
+/* MISC */
+.folio{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--tx2);background:var(--surf3);padding:2px 7px;border-radius:4px}
 .empty{text-align:center;padding:36px 20px;color:var(--tx3)}
 .empty-i{font-size:34px;margin-bottom:8px}
-.sec-t{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--tx3);margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--br)}
-.folio{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--tx2);background:var(--sf3);padding:2px 7px;border-radius:4px}
-
-/* ── RESULTADO CALC ── */
-.calc-result{display:none;background:var(--gr3);border:1.5px solid var(--gr4);border-radius:10px;padding:14px;margin-bottom:14px}
-.calc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:8px;margin-bottom:10px}
-.calc-item{background:#fff;border-radius:8px;padding:10px;text-align:center}
-.calc-val{font-size:20px;font-weight:800;color:var(--nv);font-family:'JetBrains Mono',monospace}
-.calc-lbl{font-size:9px;color:var(--tx3);text-transform:uppercase;margin-top:2px}
-.calc-item.hi .calc-val{color:var(--gr)}
-.macro-bar{display:flex;gap:6px;margin-top:8px;border-radius:6px;overflow:hidden;height:8px}
-.macro-seg{height:100%;transition:.4s}
-
-/* ── MENU IA ── */
-.menu-table{width:100%;border-collapse:collapse;font-size:11px}
-.menu-table th{background:var(--nv);color:#fff;padding:7px 10px;text-align:left;font-size:10px;font-weight:700}
-.menu-table td{padding:7px 10px;border-bottom:1px solid var(--br);vertical-align:top}
-.menu-table tr:nth-child(even) td{background:var(--sf2)}
-.menu-table .kcal{font-size:10px;color:var(--tx3)}
-.menu-ok .calc-val{color:var(--gr)}
-
-/* ── FILTERS ── */
-.filters{display:flex;gap:8px;flex-wrap:wrap;align-items:center;background:var(--sf);border:1px solid var(--br);border-radius:var(--r);padding:10px 13px;margin-bottom:13px}
-.filters select,.filters input{padding:6px 10px;border:1.5px solid var(--br);border-radius:7px;font-size:12px;font-family:inherit;outline:none;background:var(--sf);color:var(--tx);transition:.15s}
-.filters select:focus,.filters input:focus{border-color:var(--gr)}
-
-/* ── TOAST ── */
-#toast{position:fixed;bottom:20px;right:20px;z-index:9999;display:flex;flex-direction:column;gap:7px}
-.ti{padding:9px 15px;border-radius:9px;font-size:13px;font-weight:600;box-shadow:var(--shl);animation:up .2s ease;max-width:300px}
-.tok{background:#F0FDF4;color:#14532D;border:1px solid #86EFAC}
-.terr{background:var(--rd2);color:#991B1B;border:1px solid #FCA5A5}
-.tinf{background:var(--gr3);color:#166534;border:1px solid var(--gr4)}
-
-/* ── IMC METER ── */
-.imc-meter{background:linear-gradient(to right,#3B82F6 0%,#22C55E 18.5%,#22C55E 25%,#F59E0B 30%,#EF4444 100%);border-radius:4px;height:8px;position:relative;margin:6px 0 2px}
-.imc-needle{position:absolute;top:-4px;width:3px;height:16px;background:var(--nv);border-radius:2px;transform:translateX(-50%);transition:.4s}
-
-/* ── MENU EDITABLE ── */
-.menu-cell-edit{display:none;width:100%;padding:4px 6px;border:1px solid var(--br);border-radius:5px;font-size:11px;font-family:inherit;outline:none}
-.menu-cell-edit:focus{border-color:var(--gr)}
+.sec-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--tx3);margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--bor)}
+.pr-row{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.pr-lbl{font-size:11px;font-weight:600;min-width:120px;color:var(--tx)}
+.pr-wrap{flex:1;background:var(--surf3);border-radius:4px;height:8px;overflow:hidden}
+.pr-bar{height:100%;border-radius:4px;transition:.4s}
+.pr-n{font-size:11px;font-weight:700;color:var(--tx2);min-width:24px;text-align:right}
 </style>
 </head>
 <body>
@@ -191,9 +189,11 @@ body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;background:var(--sf2);
 <!-- LOGIN -->
 <div id="login-screen">
   <div class="lc">
-    <div class="lc-icon">🥗</div>
-    <h1>Teleflex SO</h1>
-    <p>Módulo Nutriología — Salud Ocupacional</p>
+    <div class="lc-brand">
+      <div class="lc-icon">🥗</div>
+      <h1>Teleflex SO</h1>
+      <p>Módulo Nutriología — Salud Ocupacional</p>
+    </div>
     <div id="lerr"></div>
     <div class="lf">
       <label>Selecciona tu usuario</label>
@@ -206,262 +206,328 @@ body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;background:var(--sf2);
 </div>
 
 <div id="app">
+<!-- NAV -->
 <nav class="nav">
-  <div class="nb">🥗 <span>NUT</span></div>
+  <div class="nav-brand">🥗 <span class="badge">NUT</span></div>
   <button class="tb on" id="tb-cons" onclick="go('cons')">📋 Nueva consulta</button>
-  <button class="tb" id="tb-pac"  onclick="go('pac')">👤 Pacientes</button>
-  <button class="tb" id="tb-seg"  onclick="go('seg')">📈 Seguimiento</button>
-  <button class="tb" id="tb-rep"  onclick="go('rep')">📊 Reportes</button>
-  <button class="tb" id="tb-hc"   onclick="go('hc')">👥 Head Count</button>
-  <div class="ne">
+  <button class="tb" id="tb-pac" onclick="go('pac')">👤 Pacientes</button>
+  <button class="tb" id="tb-seg" onclick="go('seg')">📈 Seguimiento</button>
+  <button class="tb" id="tb-rep" onclick="go('rep')">📊 Reportes</button>
+  <button class="tb" id="tb-hc" onclick="go('hc')">👥 Head Count</button>
+  <div class="nav-end">
     <span class="dot dok" id="sync-dot"></span>
-    <div class="up" id="nav-user"></div>
-    <button class="nb2" onclick="doLogout()">Salir</button>
+    <div class="user-pill" id="nav-user"></div>
+    <button class="nav-btn" onclick="doLogout()">Salir</button>
   </div>
 </nav>
 
-<!-- ══════════════════════════════════════
+<!-- ════════════════════════════════════════
      NUEVA CONSULTA
-══════════════════════════════════════ -->
+════════════════════════════════════════ -->
 <div class="sc on" id="sc-cons">
-  <div class="sh2">
+  <div class="sh">
     <div><h2>Nueva Consulta Nutricional</h2><p id="cons-fecha"></p></div>
-    <span id="cons-badge" style="display:none;background:var(--gr2);color:var(--gr);padding:5px 12px;border-radius:8px;font-size:12px;font-weight:700"></span>
+    <span id="cons-nut-badge" style="display:none;background:var(--green2);color:var(--green);padding:5px 12px;border-radius:8px;font-size:12px;font-weight:700"></span>
   </div>
 
-  <!-- 1. BUSCAR EMPLEADO -->
+  <!-- Buscar empleado -->
   <div class="card cp" style="margin-bottom:12px">
-    <div class="sec-t">👤 Paciente</div>
+    <div class="sec-title">👤 Paciente</div>
     <div class="sw" style="margin-bottom:10px">
       <span class="si">🔍</span>
-      <input type="text" id="f-emp-q" placeholder="No. empleado o nombre..." oninput="buscarEmp(this.value)" autocomplete="off" style="font-size:15px;font-weight:700">
-      <div class="sd" id="f-emp-drop"></div>
+      <input type="text" id="num-emp" placeholder="No. empleado o nombre..."
+        style="font-size:15px;font-weight:700" oninput="buscarEmp(this.value)" autocomplete="off">
+      <div class="sr-drop" id="emp-drop"></div>
     </div>
-    <div id="f-emp-card" style="display:none"></div>
-    <div id="f-ant" style="display:none;margin-top:10px"></div>
-    <input type="hidden" id="f-noEmp">
-    <input type="hidden" id="f-nombre">
-    <input type="hidden" id="f-planta">
-    <input type="hidden" id="f-turno">
-    <input type="hidden" id="f-depto">
-    <input type="hidden" id="f-nss">
-    <input type="hidden" id="f-genero">
+    <div id="emp-card" style="display:none"></div>
+    <!-- Antecedentes nutricionales -->
+    <div id="ant-nut" style="display:none;margin-top:10px"></div>
+    <input type="hidden" id="h-noEmp">
+    <input type="hidden" id="h-nombre">
+    <input type="hidden" id="h-planta">
+    <input type="hidden" id="h-turno">
+    <input type="hidden" id="h-depto">
+    <input type="hidden" id="h-nss">
+    <input type="hidden" id="h-genero">
   </div>
 
-  <!-- 2. TIPO DE CONSULTA -->
+  <!-- Tipo de consulta -->
   <div class="card cp" style="margin-bottom:12px">
-    <div class="sec-t">📋 Tipo de consulta</div>
+    <div class="sec-title">📋 Tipo de consulta</div>
     <div style="display:flex;gap:8px;flex-wrap:wrap">
-      <label style="display:flex;align-items:center;gap:6px;font-size:13px;font-weight:600;cursor:pointer;padding:9px 16px;border:1.5px solid var(--br);border-radius:8px;flex:1;transition:.15s" id="lbl-ini">
-        <input type="radio" name="tipo-cons" value="Evaluación inicial" onchange="onTipoCons()"> 🩺 Evaluación inicial
+      <label style="display:flex;align-items:center;gap:6px;font-size:13px;font-weight:600;cursor:pointer;padding:9px 16px;border:1.5px solid var(--bor);border-radius:8px;flex:1;transition:.15s" id="lbl-inicial">
+        <input type="radio" name="tipo-cons" value="Evaluación inicial" onchange="onTipoCons()" checked> 🩺 Evaluación inicial
       </label>
-      <label style="display:flex;align-items:center;gap:6px;font-size:13px;font-weight:600;cursor:pointer;padding:9px 16px;border:1.5px solid var(--br);border-radius:8px;flex:1;transition:.15s" id="lbl-seg">
-        <input type="radio" name="tipo-cons" value="Seguimiento" onchange="onTipoCons()"> 📈 Seguimiento
+      <label style="display:flex;align-items:center;gap:6px;font-size:13px;font-weight:600;cursor:pointer;padding:9px 16px;border:1.5px solid var(--bor);border-radius:8px;flex:1;transition:.15s" id="lbl-seguimiento">
+        <input type="radio" name="tipo-cons" value="Seguimiento" onchange="onTipoCons()"> 📈 Seguimiento / Control
       </label>
     </div>
   </div>
 
-  <!-- 3. DATOS QUE CAPTURA LA NUTRIÓLOGA -->
+  <!-- Antropometría -->
   <div class="card cp" style="margin-bottom:12px">
-    <div class="sec-t">📏 Datos a capturar</div>
-    <div class="g3">
-      <div class="fi" style="margin:0">
-        <label>Peso actual (kg) *</label>
-        <input type="number" step="0.1" id="f-peso" placeholder="0.0" oninput="onMedidaCambio()">
-      </div>
-      <div class="fi" style="margin:0">
-        <label>Talla (cm) *</label>
-        <input type="number" id="f-talla" placeholder="0" oninput="onMedidaCambio()">
-      </div>
-      <div class="fi" style="margin:0">
-        <label>Nivel de actividad física *</label>
-        <select id="f-actividad" onchange="onMedidaCambio()">
-          <option value="">— Seleccionar —</option>
-          <option value="1.2">Sedentario (sin ejercicio)</option>
-          <option value="1.375">Ligero (1-3 días/sem)</option>
-          <option value="1.55">Moderado (3-5 días/sem)</option>
-          <option value="1.725">Activo (6-7 días/sem)</option>
-          <option value="1.9">Muy activo (trabajo físico intenso)</option>
-        </select>
-      </div>
-    </div>
-    <div class="fi" style="margin-top:10px;margin-bottom:0">
-      <label>Objetivo del plan *</label>
-      <select id="f-objetivo" onchange="onObjetivoChange()">
-        <option value="">— Seleccionar objetivo —</option>
-        <option value="perdida">📉 Pérdida de peso</option>
-        <option value="muscular">💪 Aumento de masa muscular</option>
-        <option value="mantenimiento">⚖️ Mantenimiento de peso</option>
-        <option value="diabetes">🩺 Control de diabetes / glucosa</option>
-        <option value="colesterol">❤️ Control de colesterol / triglicéridos</option>
-        <option value="embarazo">🤰 Embarazo / lactancia</option>
-        <option value="habitos">🌱 Mejora de hábitos generales</option>
-      </select>
-    </div>
-    <div id="objetivo-info" style="display:none;margin-top:8px;background:var(--tl3);border:1.5px solid var(--tl2);border-radius:8px;padding:8px 12px;font-size:12px;color:var(--tl);font-weight:600"></div>
-  </div>
-
-  <!-- 4. RESULTADOS AUTOMÁTICOS (solo lectura) -->
-  <div class="calc-result" id="calc-panel">
-    <div style="font-size:11px;font-weight:700;color:var(--gr);text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px">✅ Cálculo automático</div>
-    <div class="calc-grid">
-      <div class="calc-item"><div class="calc-val" id="r-imc">—</div><div class="calc-lbl">IMC</div></div>
-      <div class="calc-item"><div class="calc-val" id="r-cat">—</div><div class="calc-lbl">Categoría</div></div>
-      <div class="calc-item"><div class="calc-val" id="r-tmb">—</div><div class="calc-lbl">TMB (kcal)</div></div>
-      <div class="calc-item hi"><div class="calc-val" id="r-get">—</div><div class="calc-lbl">GET (kcal)</div></div>
-      <div class="calc-item"><div class="calc-val" id="r-kcal">—</div><div class="calc-lbl">Plan (kcal)</div></div>
-      <div class="calc-item"><div class="calc-val" id="r-prot">—</div><div class="calc-lbl">Proteínas (g)</div></div>
-      <div class="calc-item"><div class="calc-val" id="r-carbs">—</div><div class="calc-lbl">Carbos (g)</div></div>
-      <div class="calc-item"><div class="calc-val" id="r-gras">—</div><div class="calc-lbl">Grasas (g)</div></div>
+    <div class="sec-title">📏 Antropometría</div>
+    <div class="g4" style="margin-bottom:10px">
+      <div class="fi" style="margin:0"><label>Peso (kg)</label><input type="number" step="0.1" id="f-peso" placeholder="0.0" oninput="calcIMC()"></div>
+      <div class="fi" style="margin:0"><label>Talla (cm)</label><input type="number" id="f-talla" placeholder="0" oninput="calcIMC()"></div>
+      <div class="fi" style="margin:0"><label>IMC</label><input id="f-imc" readonly style="font-weight:700;font-size:15px"></div>
+      <div class="fi" style="margin:0"><label>Clasificación</label><input id="f-imc-cat" readonly></div>
+      <div class="fi" style="margin:0"><label>Cintura (cm)</label><input type="number" step="0.1" id="f-cintura" placeholder="0.0" oninput="calcICC()"></div>
+      <div class="fi" style="margin:0"><label>Cadera (cm)</label><input type="number" step="0.1" id="f-cadera" placeholder="0.0" oninput="calcICC()"></div>
+      <div class="fi" style="margin:0"><label>ICC</label><input id="f-icc" readonly></div>
+      <div class="fi" style="margin:0"><label>Masa muscular (kg)</label><input type="number" step="0.1" id="f-muscular" placeholder="0.0"></div>
+      <div class="fi" style="margin:0"><label>Grasa corporal (%)</label><input type="number" step="0.1" id="f-grasa" placeholder="0.0"></div>
+      <div class="fi" style="margin:0"><label>% Agua</label><input type="number" step="0.1" id="f-agua" placeholder="0.0"></div>
     </div>
     <!-- IMC visual -->
-    <div id="imc-visual" style="margin-bottom:10px">
-      <div style="font-size:10px;color:var(--tx3);display:flex;justify-content:space-between;margin-bottom:2px"><span>Bajo peso</span><span>Normal</span><span>Sobrepeso</span><span>Obesidad</span></div>
-      <div class="imc-meter"><div class="imc-needle" id="imc-needle"></div></div>
-      <div style="font-size:11px;font-weight:700;text-align:center;margin-top:3px" id="imc-label"></div>
-    </div>
-    <!-- Distribución macros -->
-    <div style="font-size:10px;color:var(--tx3);margin-bottom:4px;font-weight:600">DISTRIBUCIÓN DE MACROS</div>
-    <div class="macro-bar">
-      <div class="macro-seg" id="bar-prot" style="background:#3B82F6" title="Proteínas"></div>
-      <div class="macro-seg" id="bar-carbs" style="background:#22C55E" title="Carbos"></div>
-      <div class="macro-seg" id="bar-gras" style="background:#F59E0B" title="Grasas"></div>
-    </div>
-    <div style="display:flex;gap:12px;font-size:10px;color:var(--tx2);margin-top:4px">
-      <span><span style="display:inline-block;width:8px;height:8px;background:#3B82F6;border-radius:2px;margin-right:3px"></span>Proteínas</span>
-      <span><span style="display:inline-block;width:8px;height:8px;background:#22C55E;border-radius:2px;margin-right:3px"></span>Carbos</span>
-      <span><span style="display:inline-block;width:8px;height:8px;background:#F59E0B;border-radius:2px;margin-right:3px"></span>Grasas</span>
-    </div>
-    <!-- Botón generar menú -->
-    <button class="btn btn-gr" style="width:100%;margin-top:12px" id="btn-menu" onclick="generarMenuIA()" disabled>
-      🤖 Generar menú con IA
-    </button>
-  </div>
-
-  <!-- 5. MENÚ GENERADO -->
-  <div id="menu-panel" style="display:none;margin-bottom:12px">
-    <div class="card cp">
-      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:12px">
-        <div style="font-size:13px;font-weight:700;color:var(--nv)">🍽️ Menú semanal generado por IA</div>
-        <div style="display:flex;gap:6px">
-          <button class="btn btn-gh btn-sm" onclick="generarMenuIA()">🔄 Regenerar</button>
-          <button class="btn btn-gh btn-sm" onclick="exportarMenu()">📊 Excel</button>
-        </div>
+    <div id="imc-visual" style="display:none;margin-top:6px">
+      <div style="font-size:10px;color:var(--tx3);margin-bottom:3px;display:flex;justify-content:space-between">
+        <span>Bajo peso</span><span>Normal</span><span>Sobrepeso</span><span>Obesidad</span>
       </div>
-      <div style="font-size:11px;color:var(--tx3);margin-bottom:8px">Puedes editar cualquier celda haciendo doble clic</div>
-      <div style="overflow-x:auto" id="menu-tabla"></div>
-      <button class="btn btn-gh btn-sm" style="margin-top:8px" onclick="copiarMenuAlPlan()">📋 Copiar al plan</button>
+      <div class="imc-meter"><div class="imc-needle" id="imc-needle"></div></div>
+      <div style="font-size:11px;font-weight:700;text-align:center;margin-top:4px" id="imc-label"></div>
     </div>
   </div>
 
-  <!-- 6. DIAGNÓSTICO Y PLAN -->
+  <!-- Diagnóstico nutricional -->
   <div class="card cp" style="margin-bottom:12px">
-    <div class="sec-t">🩺 Diagnóstico y plan</div>
-    <div class="g2">
+    <div class="sec-title">🩺 Diagnóstico Nutricional</div>
+    <div class="g2" style="margin-bottom:8px">
       <div class="fi" style="margin:0">
-        <label>Categoría diagnóstica</label>
-        <input type="text" id="f-dx-cat" readonly class="auto" placeholder="Se calcula automáticamente">
+        <label>Categoría *</label>
+        <select id="f-dx-cat">
+          <option value="">— Seleccionar —</option>
+          <option>Peso normal</option>
+          <option>Sobrepeso</option>
+          <option>Obesidad grado I</option>
+          <option>Obesidad grado II</option>
+          <option>Obesidad grado III</option>
+          <option>Bajo peso</option>
+          <option>Desnutrición leve</option>
+          <option>Desnutrición moderada</option>
+          <option>Desnutrición severa</option>
+          <option>Sarcopenia</option>
+          <option>Otro</option>
+        </select>
       </div>
       <div class="fi" style="margin:0">
         <label>Peso meta (kg)</label>
         <input type="number" step="0.1" id="f-peso-meta" placeholder="Peso objetivo">
       </div>
     </div>
-    <div class="fi" style="margin-top:8px">
-      <label>Diagnóstico / observaciones adicionales</label>
-      <input type="text" id="f-dx" placeholder="Observaciones clínicas adicionales...">
+    <div class="fi">
+      <label>Descripción / diagnóstico detallado *</label>
+      <input type="text" id="f-dx" placeholder="Ej. Obesidad con resistencia a la insulina, dislipidemia asociada...">
     </div>
     <div class="fi">
-      <label>Comorbilidades</label>
+      <label>Comorbilidades / antecedentes relevantes</label>
       <input type="text" id="f-comorbilidades" placeholder="DM2, HAS, hipotiroidismo...">
     </div>
-    <div class="fi">
-      <label>Recomendaciones</label>
-      <textarea id="f-rec" rows="3" placeholder="Indicaciones de alimentación, hidratación, actividad física..."></textarea>
-    </div>
+  </div>
+
+  <!-- Plan alimentario -->
+  <div class="card cp" style="margin-bottom:12px">
+    <!-- Objetivo del plan -->
+  <div class="card cp" style="margin-bottom:12px">
+    <div class="sec-title">🎯 Objetivo del plan nutricional</div>
     <div class="g2">
       <div class="fi" style="margin:0">
-        <label>Próxima cita</label>
-        <input type="date" id="f-proxcita">
+        <label>Objetivo *</label>
+        <select id="f-objetivo" onchange="onObjetivoChange()">
+          <option value="">— Seleccionar —</option>
+          <option value="perdida">Pérdida de peso</option>
+          <option value="muscular">Aumento de masa muscular</option>
+          <option value="mantenimiento">Mantenimiento de peso</option>
+          <option value="diabetes">Control de diabetes / glucosa</option>
+          <option value="colesterol">Control de colesterol / triglicéridos</option>
+          <option value="embarazo">Embarazo / lactancia</option>
+          <option value="habitos">Mejora de hábitos generales</option>
+        </select>
       </div>
       <div class="fi" style="margin:0">
-        <label>Tiempos de comida</label>
+        <label>Intensidad</label>
+        <select id="f-intensidad" onchange="calcCalorias()">
+          <option value="moderado">Moderada</option>
+          <option value="agresivo">Agresiva</option>
+          <option value="suave">Suave / conservadora</option>
+        </select>
+      </div>
+    </div>
+    <div id="objetivo-desc" style="display:none;margin-top:8px;background:var(--green3);border:1.5px solid var(--green4);border-radius:8px;padding:9px 12px;font-size:12px;color:var(--green);font-weight:600"></div>
+  </div>
+
+  <div class="card cp" style="margin-bottom:12px">
+  <div class="sec-title">🔥 Cálculo de Calorías</div>
+    <div class="g3" style="margin-bottom:10px">
+      <div class="fi" style="margin:0">
+        <label>Fórmula</label>
+        <select id="f-formula" onchange="calcCalorias()">
+          <option value="mifflin">Mifflin-St Jeor (recomendada)</option>
+          <option value="harris">Harris-Benedict</option>
+          <option value="oms">OMS / FAO</option>
+        </select>
+      </div>
+      <div class="fi" style="margin:0">
+        <label>Nivel de actividad física</label>
+        <select id="f-actividad" onchange="calcCalorias();setTimeout(()=>{if(document.getElementById('f-objetivo').value)aplicarCalorias();},300)">
+          <option value="">— Seleccionar —</option>
+          <option value="1.2">Sedentario (sin ejercicio)</option>
+          <option value="1.375">Ligero (1-3 días/semana)</option>
+          <option value="1.55">Moderado (3-5 días/semana)</option>
+          <option value="1.725">Activo (6-7 días/semana)</option>
+          <option value="1.9">Muy activo (trabajo físico intenso)</option>
+        </select>
+      </div>
+      <div class="fi" style="margin:0">
+        <label>Edad</label>
+        <input type="number" id="f-edad" placeholder="años" oninput="calcCalorias()">
+      </div>
+    </div>
+    <!-- Resultado cálculo -->
+    <div id="cal-result" style="display:none;background:var(--green3);border:1.5px solid var(--green4);border-radius:9px;padding:12px 14px;margin-bottom:12px">
+      <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--green);margin-bottom:8px">Resultado del cálculo</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:8px">
+        <div style="text-align:center;background:#fff;border-radius:7px;padding:8px">
+          <div style="font-size:9px;color:var(--tx3);text-transform:uppercase">TMB (Basal)</div>
+          <div style="font-size:18px;font-weight:800;color:var(--navy)" id="cal-tmb">—</div>
+          <div style="font-size:9px;color:var(--tx3)">kcal/día</div>
+        </div>
+        <div style="text-align:center;background:#fff;border-radius:7px;padding:8px">
+          <div style="font-size:9px;color:var(--tx3);text-transform:uppercase">GET (Total)</div>
+          <div style="font-size:18px;font-weight:800;color:var(--green)" id="cal-get">—</div>
+          <div style="font-size:9px;color:var(--tx3)">kcal/día</div>
+        </div>
+        <div style="text-align:center;background:#fff;border-radius:7px;padding:8px">
+          <div style="font-size:9px;color:var(--tx3);text-transform:uppercase">Déficit (-500)</div>
+          <div style="font-size:18px;font-weight:800;color:var(--amber)" id="cal-def">—</div>
+          <div style="font-size:9px;color:var(--tx3)">kcal/día</div>
+        </div>
+        <div style="text-align:center;background:#fff;border-radius:7px;padding:8px">
+          <div style="font-size:9px;color:var(--tx3);text-transform:uppercase">Fórmula usada</div>
+          <div style="font-size:12px;font-weight:700;color:var(--navy)" id="cal-formula-lbl">—</div>
+        </div>
+      </div>
+      <button class="btn btn-green btn-sm" style="margin-top:10px;width:100%" onclick="aplicarCalorias()">✅ Usar estos valores en el plan</button>
+    </div>
+    <div class="sec-title" style="margin-top:4px">🥦 Plan Alimentario</div>
+    <div class="g3" style="margin-bottom:8px">
+      <div class="fi" style="margin:0"><label>Calorías totales (kcal)</label><input type="number" id="f-kcal" placeholder="0"></div>
+      <div class="fi" style="margin:0"><label>Proteínas (g)</label><input type="number" step="0.1" id="f-proteinas" placeholder="0"></div>
+      <div class="fi" style="margin:0"><label>Carbohidratos (g)</label><input type="number" step="0.1" id="f-carbos" placeholder="0"></div>
+      <div class="fi" style="margin:0"><label>Grasas (g)</label><input type="number" step="0.1" id="f-grasas" placeholder="0"></div>
+      <div class="fi" style="margin:0"><label>Tiempo de comidas</label>
         <select id="f-tiempos">
           <option value="">—</option><option>3 tiempos</option><option>4 tiempos</option><option>5 tiempos</option><option>6 tiempos</option>
         </select>
       </div>
+      <div class="fi" style="margin:0"><label>Próxima cita</label><input type="date" id="f-proxcita"></div>
     </div>
+    <div class="fi">
+      <label>Recomendaciones generales</label>
+      <textarea id="f-recomendaciones" rows="3" placeholder="Indicaciones de alimentación, hidratación, actividad física..."></textarea>
+    </div>
+
+    <!-- Generador de menú semanal -->
+    <div style="background:var(--surf3);border-radius:9px;padding:12px 14px;margin-bottom:10px">
+      <div style="font-size:11px;font-weight:700;color:var(--navy);margin-bottom:8px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:6px">
+        🗓️ Generador de Menú Semanal
+        <div style="display:flex;gap:6px;flex-wrap:wrap">
+          <select id="menu-base" style="padding:5px 9px;border:1.5px solid var(--bor);border-radius:6px;font-size:11px;font-family:inherit;outline:none">
+            <option value="chihuahua">Menú Chihuahua (norte de México)</option>
+            <option value="empresa">Menú comedor empresa</option>
+          </select>
+          <button class="btn btn-green btn-sm" onclick="generarMenu()">🍽️ Generar menú</button>
+          <label class="btn btn-ghost btn-sm" style="cursor:pointer;font-size:11px">📂 Cargar alimentos
+            <input type="file" accept=".xlsx,.xls,.csv,.txt" style="display:none" onchange="cargarAlimentos(this)">
+          </label>
+        </div>
+      </div>
+      <div id="menu-semana" style="display:none;overflow-x:auto"></div>
+    </div>
+
     <div class="fi">
       <label>Notas adicionales</label>
       <textarea id="f-notas" rows="2" placeholder="Observaciones, acuerdos con el paciente..."></textarea>
     </div>
   </div>
 
-  <button class="btn btn-gr" style="width:100%;padding:13px;font-size:14px" onclick="guardarConsulta()">✅ Guardar consulta nutricional</button>
+  <button class="btn btn-green" style="width:100%;padding:13px;font-size:14px" onclick="guardarConsulta()">
+    ✅ Guardar consulta nutricional
+  </button>
 </div>
 
-<!-- ══════════════════════════════════════
+<!-- ════════════════════════════════════════
      PACIENTES
-══════════════════════════════════════ -->
+════════════════════════════════════════ -->
 <div class="sc" id="sc-pac">
-  <div class="sh2">
-    <div><h2>Pacientes</h2><p id="pac-cnt">0 pacientes con historial</p></div>
-    <button class="btn btn-gh btn-sm" onclick="syncNut()">🔄 Sync</button>
+  <div class="sh">
+    <div><h2>Pacientes</h2><p id="pac-count">0 pacientes con historial</p></div>
+    <button class="btn btn-ghost btn-sm" onclick="syncNut()">🔄 Sync</button>
   </div>
   <div class="filters">
-    <div class="sw" style="flex:1;min-width:170px"><span class="si">🔍</span><input type="text" id="pac-q" placeholder="Nombre o No. empleado..." oninput="renderPacientes()"></div>
+    <div class="sw" style="flex:1;min-width:170px">
+      <span class="si">🔍</span>
+      <input type="text" id="pac-q" placeholder="Nombre o No. empleado..." oninput="renderPacientes()">
+    </div>
     <select id="pac-planta" onchange="renderPacientes()">
       <option value="">Todas las plantas</option>
       <option>Américas</option><option>Barrancas</option><option>Cantera</option><option>Juventud</option>
     </select>
-    <select id="pac-obj" onchange="renderPacientes()">
-      <option value="">Todos los objetivos</option>
-      <option value="perdida">Pérdida de peso</option>
-      <option value="muscular">Masa muscular</option>
-      <option value="mantenimiento">Mantenimiento</option>
-      <option value="diabetes">Diabetes</option>
+    <select id="pac-dx" onchange="renderPacientes()">
+      <option value="">Todos los diagnósticos</option>
+      <option>Sobrepeso</option><option>Obesidad grado I</option><option>Obesidad grado II</option>
+      <option>Obesidad grado III</option><option>Bajo peso</option><option>Peso normal</option>
     </select>
   </div>
-  <div id="pac-lista"></div>
+  <div id="pac-list"></div>
 </div>
 
-<!-- ══════════════════════════════════════
+<!-- ════════════════════════════════════════
      SEGUIMIENTO
-══════════════════════════════════════ -->
+════════════════════════════════════════ -->
 <div class="sc" id="sc-seg">
-  <div class="sh2"><div><h2>Seguimiento</h2><p>Evolución por paciente</p></div></div>
+  <div class="sh">
+    <div><h2>Seguimiento por Paciente</h2><p>Historial y evolución</p></div>
+  </div>
   <div class="card cp" style="margin-bottom:14px">
-    <div class="sw"><span class="si">🔍</span>
-      <input type="text" id="seg-q" placeholder="No. empleado o nombre..." oninput="buscarSeg(this.value)" autocomplete="off">
-      <div class="sd" id="seg-drop"></div>
+    <div class="sw">
+      <span class="si">🔍</span>
+      <input type="text" id="seg-q" placeholder="No. empleado o nombre..."
+        oninput="buscarSeg(this.value)" autocomplete="off">
+      <div class="sr-drop" id="seg-drop"></div>
     </div>
   </div>
   <div id="seg-content" style="display:none">
-    <div id="seg-emp-card" style="margin-bottom:14px"></div>
+    <div id="seg-emp-card" class="emp-card" style="margin-bottom:14px"></div>
+    <!-- Gráfica evolución peso -->
     <div class="card cp" style="margin-bottom:12px">
-      <div style="font-size:12px;font-weight:700;color:var(--nv);margin-bottom:10px">📉 Evolución de peso</div>
+      <div style="font-size:12px;font-weight:700;color:var(--navy);margin-bottom:10px">📉 Evolución de peso</div>
       <div class="cw"><canvas id="ch-peso"></canvas></div>
     </div>
+    <!-- Timeline de consultas -->
     <div class="card cp">
-      <div style="font-size:12px;font-weight:700;color:var(--nv);margin-bottom:12px">📋 Historial</div>
-      <ul class="tl" id="seg-tl"></ul>
+      <div style="font-size:12px;font-weight:700;color:var(--navy);margin-bottom:12px">📋 Historial de consultas</div>
+      <ul class="timeline" id="seg-timeline"></ul>
     </div>
   </div>
 </div>
 
-<!-- ══════════════════════════════════════
+<!-- ════════════════════════════════════════
      REPORTES
-══════════════════════════════════════ -->
+════════════════════════════════════════ -->
 <div class="sc" id="sc-rep">
-  <div class="sh2">
-    <div><h2>Reportes</h2></div>
+  <div class="sh">
+    <div><h2>Reportes</h2><p>Estadísticas nutricionales</p></div>
     <div style="display:flex;gap:8px">
-      <button class="btn btn-gh btn-sm" onclick="exportRep()">📊 Excel</button>
-      <button class="btn btn-gh btn-sm" onclick="syncNut()">🔄 Sync</button>
+      <button class="btn btn-ghost btn-sm" onclick="exportRep()">📊 Excel</button>
+      <button class="btn btn-ghost btn-sm" onclick="syncNut()">🔄 Sync</button>
     </div>
   </div>
   <div class="filters">
     <select id="rep-yr" onchange="renderRep()"></select>
+    <select id="rep-periodo" onchange="renderRep()">
+      <option value="anio">Por año</option><option value="mes">Por mes</option><option value="semana">Por semana</option>
+    </select>
     <select id="rep-planta" onchange="renderRep()">
       <option value="">Todas las plantas</option>
       <option>Américas</option><option>Barrancas</option><option>Cantera</option><option>Juventud</option>
@@ -472,50 +538,53 @@ body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;background:var(--sf2);
     </select>
   </div>
   <div class="kpis">
-    <div class="kpi gr"><div class="kv" id="r-tot">0</div><div class="kl">Total consultas</div></div>
+    <div class="kpi green"><div class="kv" id="r-tot">0</div><div class="kl">Total consultas</div></div>
     <div class="kpi"><div class="kv" id="r-pac">0</div><div class="kl">Pacientes únicos</div></div>
-    <div class="kpi am"><div class="kv" id="r-seg">0</div><div class="kl">En seguimiento</div></div>
-    <div class="kpi bl"><div class="kv" id="r-imc-p">—</div><div class="kl">IMC promedio</div></div>
+    <div class="kpi amber"><div class="kv" id="r-seg">0</div><div class="kl">En seguimiento</div></div>
+    <div class="kpi blue"><div class="kv" id="r-imc">—</div><div class="kl">IMC promedio</div></div>
   </div>
   <div style="display:grid;grid-template-columns:2fr 1fr;gap:12px;margin-bottom:12px">
-    <div class="card cp"><div style="font-size:12px;font-weight:700;color:var(--nv);margin-bottom:10px" id="rep-ct">Consultas por mes</div><div class="cw"><canvas id="ch-rep"></canvas></div></div>
-    <div class="card cp"><div style="font-size:12px;font-weight:700;color:var(--nv);margin-bottom:10px">Diagnósticos</div><div class="cw"><canvas id="ch-dx"></canvas></div></div>
+    <div class="card cp"><div style="font-size:12px;font-weight:700;color:var(--navy);margin-bottom:10px" id="rep-chart-title">Consultas por mes</div><div class="cw"><canvas id="ch-rep"></canvas></div></div>
+    <div class="card cp"><div style="font-size:12px;font-weight:700;color:var(--navy);margin-bottom:10px">Diagnósticos</div><div class="cw"><canvas id="ch-dx"></canvas></div></div>
   </div>
   <div class="card cp" style="margin-bottom:12px">
-    <div style="font-size:12px;font-weight:700;color:var(--nv);margin-bottom:10px">IMC por categoría</div>
+    <div style="font-size:12px;font-weight:700;color:var(--navy);margin-bottom:10px">📊 Distribución IMC</div>
     <div id="rep-imc-bars"></div>
   </div>
   <div class="card cp">
-    <div style="font-size:12px;font-weight:700;color:var(--nv);margin-bottom:10px">Pacientes en seguimiento activo</div>
-    <div id="rep-seg-lista"></div>
+    <div style="font-size:12px;font-weight:700;color:var(--navy);margin-bottom:10px">📋 Pacientes en seguimiento activo</div>
+    <div id="rep-seguimiento"></div>
   </div>
 </div>
 
-<!-- ══════════════════════════════════════
+<!-- ════════════════════════════════════════
      HEAD COUNT
-══════════════════════════════════════ -->
+════════════════════════════════════════ -->
 <div class="sc" id="sc-hc">
-  <div class="sh2">
+  <div class="sh">
     <div><h2>Head Count</h2><p id="hc-cnt">0 empleados</p></div>
     <div style="display:flex;gap:8px;flex-wrap:wrap">
-      <button class="btn btn-gh btn-sm" id="btn-del-hc" onclick="delHC()" style="display:none">🗑️ Limpiar</button>
-      <button class="btn btn-gh btn-sm" onclick="syncHC()">🔄 Sync desde GAS</button>
-      <label class="btn btn-gr btn-sm" style="cursor:pointer">📂 Importar Excel<input type="file" accept=".xlsx,.xls,.csv" style="display:none" onchange="importarHC(this)"></label>
+      <button class="btn btn-ghost btn-sm" id="btn-del-hc" onclick="delHC()" style="display:none">🗑️ Limpiar</button>
+      <button class="btn btn-ghost btn-sm" onclick="syncHC()">🔄 Sync desde GAS</button>
+      <label class="btn btn-green btn-sm" style="cursor:pointer">📂 Importar Excel
+        <input type="file" accept=".xlsx,.xls,.csv" style="display:none" onchange="importarHC(this)">
+      </label>
     </div>
   </div>
-  <div id="hc-upload" style="border:2px dashed var(--br2);border-radius:var(--r);padding:40px;text-align:center;color:var(--tx3);margin-bottom:14px">
+  <div id="hc-upload" style="border:2px dashed var(--bor2);border-radius:var(--r);padding:40px;text-align:center;color:var(--tx3);margin-bottom:14px">
     <div style="font-size:30px;margin-bottom:8px">📂</div>
     <div style="font-size:13px;font-weight:600">Arrastra un Excel o usa el botón de arriba</div>
   </div>
   <div id="hc-table" style="display:none">
     <div class="filters"><div class="sw" style="flex:1"><span class="si">🔍</span><input type="text" placeholder="Buscar..." oninput="renderHC(this.value)"></div></div>
-    <div style="overflow-x:auto;border-radius:var(--r);border:1px solid var(--br)">
+    <div style="overflow-x:auto;border-radius:var(--r);border:1px solid var(--bor)">
       <table style="width:100%;border-collapse:collapse;font-size:12px">
-        <thead><tr style="background:var(--sf3)">
-          <th style="padding:8px 11px;text-align:left;font-size:10px;font-weight:700;color:var(--tx2);text-transform:uppercase;border-bottom:1px solid var(--br)">No. Emp</th>
-          <th style="padding:8px 11px;text-align:left;font-size:10px;font-weight:700;color:var(--tx2);text-transform:uppercase;border-bottom:1px solid var(--br)">Nombre</th>
-          <th style="padding:8px 11px;text-align:left;font-size:10px;font-weight:700;color:var(--tx2);text-transform:uppercase;border-bottom:1px solid var(--br)">Planta</th>
-          <th style="padding:8px 11px;text-align:left;font-size:10px;font-weight:700;color:var(--tx2);text-transform:uppercase;border-bottom:1px solid var(--br)">Turno</th>
+        <thead><tr style="background:var(--surf3)">
+          <th style="padding:8px 11px;text-align:left;font-size:10px;font-weight:700;color:var(--tx2);text-transform:uppercase;border-bottom:1px solid var(--bor)">No. Emp</th>
+          <th style="padding:8px 11px;text-align:left;font-size:10px;font-weight:700;color:var(--tx2);text-transform:uppercase;border-bottom:1px solid var(--bor)">Nombre</th>
+          <th style="padding:8px 11px;text-align:left;font-size:10px;font-weight:700;color:var(--tx2);text-transform:uppercase;border-bottom:1px solid var(--bor)">Planta</th>
+          <th style="padding:8px 11px;text-align:left;font-size:10px;font-weight:700;color:var(--tx2);text-transform:uppercase;border-bottom:1px solid var(--bor)">Turno</th>
+          <th style="padding:8px 11px;text-align:left;font-size:10px;font-weight:700;color:var(--tx2);text-transform:uppercase;border-bottom:1px solid var(--bor)">Género</th>
         </tr></thead>
         <tbody id="hc-tbody"></tbody>
       </table>
@@ -523,94 +592,80 @@ body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;background:var(--sf2);
   </div>
 </div>
 
+<!-- MODAL EDITAR NOTA -->
+<div class="ov" id="mo-edit">
+  <div class="mo" style="max-width:500px">
+    <div class="mh"><div class="mt-modal" id="edit-title">Editar consulta</div><button class="mc" onclick="closeModal('mo-edit')">✕</button></div>
+    <div class="mb" id="edit-body"></div>
+    <div class="mf">
+      <button class="btn btn-ghost" onclick="closeModal('mo-edit')">Cancelar</button>
+      <button class="btn btn-green" onclick="guardarEdicion()">💾 Guardar cambios</button>
+    </div>
+  </div>
+</div>
+
 <div id="toast"></div>
-</div><!-- /app -->
+</div>
 
 <script>
 'use strict';
-// ══════════════════════════════════════════════════════════════════
-// CONSTANTES
-// ══════════════════════════════════════════════════════════════════
 const GAS='https://script.google.com/macros/s/AKfycbwQbVvbIJJwpqrXopIUvoTP8w7nu6c6v2XdhtCqsxEtbq5IC8T9Qt9l__p1Pz1ujhsimw/exec';
-const SK={hc:'so_hc8',nut:'so_nut_v3',users:'so_users_med_v1'};
+const SK={hc:'so_hc8',nut:'so_nut_v2',users:'so_users_med_v1'};
 const MESES=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
 const MSC=['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+const PLANTAS=['Américas','Barrancas','Cantera','Juventud'];
 
-// Distribución macros por objetivo
-const MACRO_DIST = {
-  perdida:     {label:'📉 Déficit moderado',         kcalAdj:-500, prot:.30,carbs:.40,grasa:.30},
-  muscular:    {label:'💪 Superávit + alta proteína', kcalAdj:+300, prot:.35,carbs:.45,grasa:.20},
-  mantenimiento:{label:'⚖️ Calorías de mantenimiento',kcalAdj:0,   prot:.25,carbs:.50,grasa:.25},
-  diabetes:    {label:'🩺 Bajo índice glucémico',     kcalAdj:-200, prot:.25,carbs:.35,grasa:.40},
-  colesterol:  {label:'❤️ Grasas saludables + fibra', kcalAdj:-100, prot:.25,carbs:.45,grasa:.30},
-  embarazo:    {label:'🤰 +350 kcal para el bebé',   kcalAdj:+350, prot:.20,carbs:.55,grasa:.25},
-  habitos:     {label:'🌱 Alimentación equilibrada',  kcalAdj:0,   prot:.25,carbs:.50,grasa:.25},
-};
+let HC=[],NUT=[],EMBARAZADAS=[],currentUser=null,_editId=null;
+let _charts={};
+let _segEmp=null;
 
-let HC=[],NUT=[],EMBARAZADAS=[],currentUser=null,_editId=null,_charts={},_segEmp=null,_menuDias=null;
-
-// ── Utils ──────────────────────────────────────────────────────────
 const ld=k=>{try{const r=localStorage.getItem(k);return r?JSON.parse(r):null;}catch(e){return null;}};
 const sv=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}};
-const g=id=>{const e=document.getElementById(id);return e?e.value.trim():'';};
-const sv2=(id,v)=>{const e=document.getElementById(id);if(e)e.value=v||'';};
-const esc=s=>String(s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-function toast(msg,type='ok'){const c=document.createElement('div');c.className='ti t'+(type==='err'?'err':type==='inf'?'inf':'ok');c.textContent=msg;document.getElementById('toast').appendChild(c);setTimeout(()=>c.remove(),3500);}
-function openModal(id){const e=document.getElementById(id);if(e)e.classList.add('open');}
-function closeModal(id){const e=document.getElementById(id);if(e)e.classList.remove('open');}
-function setSyncDot(s){const d=document.getElementById('sync-dot');if(d)d.className='dot '+(s==='ok'?'dok':s==='busy'?'dbusy':'derr');}
 
-// ── Network ────────────────────────────────────────────────────────
-async function gasGet(p){
-  try{const url=GAS+'?'+Object.entries(p).map(([k,v])=>k+'='+encodeURIComponent(v)).join('&');
-    const ctrl=new AbortController();setTimeout(()=>ctrl.abort(),10000);
-    const r=await fetch(url,{signal:ctrl.signal});return await r.json();
-  }catch(e){return{ok:false};}
-}
-async function gasPost(body){
-  try{const ctrl=new AbortController();setTimeout(()=>ctrl.abort(),10000);
-    const r=await fetch(GAS,{method:'POST',body:JSON.stringify(body),signal:ctrl.signal});return await r.json();
-  }catch(e){return{ok:false};}
-}
-
-// ══════════════════════════════════════════════════════════════════
+// ══════════════════════════════════════════════════
 // AUTH
-// ══════════════════════════════════════════════════════════════════
-function initUsers(){return ld(SK.users)||[];}
+// ══════════════════════════════════════════════════
+function initUsers(){
+  return ld(SK.users)||[];
+}
 function poblarSelect(){
-  const sel=document.getElementById('lu');if(!sel)return;
+  const sel=document.getElementById('lu'); if(!sel) return;
   const users=initUsers().filter(x=>x.activo!==false&&(x.app==='nutricion'||x.app==='medico'));
-  sel.innerHTML='<option value="">— Seleccionar —</option>'+users.map(u=>`<option value="${u.user}">${u.nombre}${u.planta&&u.planta!=='Todas'?' · '+u.planta:''}</option>`).join('');
+  sel.innerHTML='<option value="">— Seleccionar —</option>'
+    +users.map(u=>`<option value="${u.user}">${u.nombre}${u.planta&&u.planta!=='Todas'?' · '+u.planta:''}</option>`).join('');
 }
 async function doLogin(){
-  const u=(g('lu')||'').trim();
-  document.getElementById('lerr').style.display='none';
+  const u=(document.getElementById('lu').value||'').trim();
+  const err=document.getElementById('lerr');
+  err.style.display='none';
   if(!u){showErr('Selecciona tu usuario');return;}
   let users=initUsers();
   let found=users.find(x=>x.user===u&&x.activo!==false&&(x.app==='nutricion'||x.app==='medico'));
   if(!found){
-    try{const r=await gasGet({action:'getUsers'});if(r.ok&&Array.isArray(r.data)&&r.data.length){sv(SK.users,r.data);poblarSelect();found=r.data.find(x=>x.user===u&&x.activo!==false&&(x.app==='nutricion'||x.app==='medico'));}}catch(e){}
+    try{
+      const r=await gasGet({action:'getUsers'});
+      if(r.ok&&Array.isArray(r.data)&&r.data.length){sv(SK.users,r.data);poblarSelect();found=r.data.find(x=>x.user===u&&x.activo!==false&&(x.app==='nutricion'||x.app==='medico'));}
+    }catch(e){}
   }
   if(!found){showErr('Usuario no encontrado');return;}
   currentUser=found;
   document.getElementById('login-screen').style.display='none';
   document.getElementById('app').style.display='block';
   document.getElementById('nav-user').textContent=found.nombre;
-  const badge=document.getElementById('cons-badge');
+  const badge=document.getElementById('cons-nut-badge');
   if(badge&&found.planta&&found.planta!=='Todas'){badge.textContent='🥗 '+found.nombre;badge.style.display='inline-block';}
   init();
 }
 function showErr(m){const e=document.getElementById('lerr');e.textContent=m;e.style.display='block';}
 function doLogout(){currentUser=null;location.reload();}
 
-// ══════════════════════════════════════════════════════════════════
+// ══════════════════════════════════════════════════
 // INIT
-// ══════════════════════════════════════════════════════════════════
+// ══════════════════════════════════════════════════
 function init(){
-  HC=ld(SK.hc)||[];NUT=ld(SK.nut)||[];
+  HC=ld(SK.hc)||[]; NUT=ld(SK.nut)||[];
   document.getElementById('cons-fecha').textContent=new Date().toLocaleDateString('es-MX',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
   if(HC.length){document.getElementById('hc-upload').style.display='none';document.getElementById('hc-table').style.display='block';const bd=document.getElementById('btn-del-hc');if(bd)bd.style.display='';renderHC('');}
-  syncEmb();
 }
 function go(id){
   document.querySelectorAll('.sc').forEach(s=>s.classList.remove('on'));
@@ -622,403 +677,315 @@ function go(id){
   if(id==='hc'&&HC.length) renderHC('');
 }
 
-// ══════════════════════════════════════════════════════════════════
-// SYNC
-// ══════════════════════════════════════════════════════════════════
+// ══════════════════════════════════════════════════
+// NETWORK
+// ══════════════════════════════════════════════════
+async function gasGet(p){
+  try{const url=GAS+'?'+Object.entries(p).map(([k,v])=>k+'='+encodeURIComponent(v)).join('&');
+    const ctrl=new AbortController();setTimeout(()=>ctrl.abort(),8000);
+    const r=await fetch(url,{signal:ctrl.signal});return await r.json();
+  }catch(e){return{ok:false};}
+}
+async function gasPost(body){
+  try{const ctrl=new AbortController();setTimeout(()=>ctrl.abort(),8000);
+    const r=await fetch(GAS,{method:'POST',body:JSON.stringify(body),signal:ctrl.signal});return await r.json();
+  }catch(e){return{ok:false};}
+}
+function setSyncDot(s){const d=document.getElementById('sync-dot');if(d)d.className='dot '+(s==='ok'?'dok':s==='busy'?'dbusy':'derr');}
+async function syncEmb(){
+  try{const r=await gasGet({action:'getEmbarazadas'});if(r.ok&&Array.isArray(r.data))EMBARAZADAS=r.data;}catch(e){}
+}
 async function syncNut(){
-  setSyncDot('busy');toast('Sincronizando...','inf');
-  try{const r=await gasGet({action:'getNut'});
-    if(r.ok&&Array.isArray(r.data)){NUT=r.data;sv(SK.nut,NUT);setSyncDot('ok');toast('✅ '+NUT.length+' consultas','ok');renderPacientes();}
+  setSyncDot('busy'); toast('Sincronizando...','inf');
+  try{
+    const r=await gasGet({action:'getNut'});
+    if(r.ok&&Array.isArray(r.data)){NUT=r.data;sv(SK.nut,NUT);setSyncDot('ok');toast('✅ '+NUT.length+' consultas sincronizadas','ok');renderPacientes();}
     else setSyncDot('err');
   }catch(e){setSyncDot('err');}
 }
 async function syncHC(){
   setSyncDot('busy');
-  try{const r=await gasGet({action:'getHC'});
+  try{
+    const r=await gasGet({action:'getHC'});
     if(r.ok&&Array.isArray(r.data)&&r.data.length){HC=r.data;sv(SK.hc,HC);document.getElementById('hc-upload').style.display='none';document.getElementById('hc-table').style.display='block';const bd=document.getElementById('btn-del-hc');if(bd)bd.style.display='';renderHC('');document.getElementById('hc-cnt').textContent=HC.length+' empleados';setSyncDot('ok');toast('✅ HC: '+HC.length+' empleados','ok');}
     else{setSyncDot('err');toast('Sin datos en GAS','err');}
   }catch(e){setSyncDot('err');}
 }
-async function syncEmb(){
-  try{const r=await gasGet({action:'getEmbarazadas'});if(r.ok&&Array.isArray(r.data))EMBARAZADAS=r.data;}catch(e){}
-}
 
-// ══════════════════════════════════════════════════════════════════
+// ══════════════════════════════════════════════════
 // BUSCAR EMPLEADO
-// ══════════════════════════════════════════════════════════════════
+// ══════════════════════════════════════════════════
 function buscarEmp(val){
-  val=(val||'').trim();const drop=document.getElementById('f-emp-drop');
+  val=(val||'').trim();
+  const drop=document.getElementById('emp-drop');
   if(!val||val.length<2){drop.classList.remove('show');return;}
-  if(!HC.length){drop.innerHTML=`<div class="si-item" style="color:var(--am)">⚠️ Carga el Head Count primero</div>`;drop.classList.add('show');return;}
   const lc=val.toLowerCase();
   const matches=HC.filter(e=>String(e.noEmp||'').toLowerCase().includes(lc)||String(e.nombre||'').toLowerCase().includes(lc)).slice(0,6);
   if(!matches.length){drop.classList.remove('show');return;}
-  drop.innerHTML=matches.map(e=>`<div class="si-item" onclick="selEmp('${esc(e.noEmp)}')"><div class="si-name">${e.nombre}</div><div class="si-meta">No.${e.noEmp} · ${e.planta||'—'} · ${e.turno||'—'}</div></div>`).join('');
+  drop.innerHTML=matches.map(e=>`<div class="sr-item" onclick="selEmp('${esc(e.noEmp)}')" ><div class="sr-name">${e.nombre}</div><div class="sr-meta">No.${e.noEmp} · ${e.planta||'—'} · ${e.puesto||'—'}</div></div>`).join('');
   drop.classList.add('show');
 }
-
 function selEmp(noEmp){
-  const e=HC.find(x=>String(x.noEmp)===String(noEmp));if(!e)return;
-  sv2('f-noEmp',e.noEmp);sv2('f-nombre',e.nombre);sv2('f-planta',e.planta||'');sv2('f-turno',e.turno||'');sv2('f-depto',e.depto||'');sv2('f-nss',e.nss||'');sv2('f-genero',e.genero||'');
-  document.getElementById('f-emp-q').value=e.nombre+' (No.'+e.noEmp+')';
-  document.getElementById('f-emp-drop').classList.remove('show');
-  // Card empleado
-  const card=document.getElementById('f-emp-card');
-  card.innerHTML=`<div class="ec"><div class="ec-name">${e.nombre} <span class="ec-tag">No. ${e.noEmp}</span></div><div class="ec-grid"><div class="ec-f"><label>Planta</label><div>${e.planta||'—'}</div></div><div class="ec-f"><label>Turno</label><div>${e.turno||'—'}</div></div><div class="ec-f"><label>Depto</label><div>${e.depto||'—'}</div></div><div class="ec-f"><label>Género</label><div>${e.genero||'—'}</div></div></div></div>`;
+  const e=HC.find(x=>String(x.noEmp)===String(noEmp)); if(!e) return;
+  ['h-noEmp','h-nombre','h-planta','h-turno','h-depto','h-nss','h-genero'].forEach((id,i)=>{
+    const el=document.getElementById(id);if(el)el.value=[e.noEmp,e.nombre,e.planta,e.turno,e.depto,e.nss,e.genero][i]||'';
+  });
+  document.getElementById('num-emp').value=e.nombre+' (No.'+e.noEmp+')';
+  document.getElementById('emp-drop').classList.remove('show');
+  const card=document.getElementById('emp-card');
+  card.innerHTML=`<div class="emp-card">
+    <div class="ec-name">${e.nombre} <span class="ec-tag">No. ${e.noEmp}</span></div>
+    <div class="ec-grid">
+      <div class="ec-field"><label>Planta</label><div>${e.planta||'—'}</div></div>
+      <div class="ec-field"><label>Turno</label><div>${e.turno||'—'}</div></div>
+      <div class="ec-field"><label>Depto</label><div>${e.depto||'—'}</div></div>
+      <div class="ec-field"><label>Género</label><div>${e.genero||'—'}</div></div>
+    </div>
+  </div>`;
   card.style.display='block';
-  // Calcular edad desde HC automáticamente
-  calcEdad(e);
-  // Antecedentes nutricionales
   mostrarAntNut(e.noEmp);
-  // Autoselect seguimiento si ya tiene consultas
-  const hist=NUT.filter(r=>String(r.noEmp||'').toLowerCase()===String(e.noEmp||'').toLowerCase());
-  if(hist.length){
-    document.querySelector('input[name="tipo-cons"][value="Seguimiento"]').checked=true;
-    onTipoCons();
-    // Pre-fill datos previos
-    const ult=[...hist].sort((a,b)=>(b.fecha||'').localeCompare(a.fecha||''))[0];
-    if(ult){
-      if(ult.talla&&!g('f-talla')) sv2('f-talla',ult.talla);
-      if(ult.pesoMeta) sv2('f-peso-meta',ult.pesoMeta);
-      if(ult.comorbilidades) sv2('f-comorbilidades',ult.comorbilidades);
-    }
+  // Edad automática desde HC
+  const fn = e.fechaNacimiento||e.FechaNacimiento||'';
+  if(fn){
+    let anioNac = 0;
+    if(String(fn).includes('/')) anioNac = parseInt(String(fn).split('/').pop());
+    else if(String(fn).includes('-')) anioNac = parseInt(String(fn).split('-')[0]);
+    else anioNac = parseInt(String(fn).slice(0,4));
+    const edadCalc = new Date().getFullYear() - anioNac;
+    const edadEl = document.getElementById('f-edad');
+    if(edadEl && !edadEl.value && edadCalc>15 && edadCalc<80) edadEl.value=edadCalc;
   }
+  // Cargar datos de médico y enfermería desde GAS
+  cargarAntNutDesdeGAS(e.noEmp);
   // Banner embarazo
   const emb=EMBARAZADAS.find(x=>String(x.noEmp||'').toLowerCase()===String(e.noEmp||'').toLowerCase());
-  mostrarAntNut(e.noEmp, emb);
-}
-
-function calcEdad(emp){
-  // Intentar calcular edad desde fechaNacimiento o fechaIngreso del HC
-  const fn=emp.fechaNacimiento||emp.FechaNacimiento||emp.nacimiento||'';
-  if(fn){
-    let anio=0;
-    const s=String(fn);
-    if(s.includes('/')) anio=parseInt(s.split('/').pop()||s.split('/')[2]);
-    else if(s.includes('-')) anio=parseInt(s.split('-')[0]);
-    else anio=parseInt(s.slice(0,4));
-    if(anio>1940&&anio<2010){
-      const edad=new Date().getFullYear()-anio;
-      if(edad>15&&edad<80){
-        // Guardar en variable global para usar en cálculo
-        window._empEdad=edad;
-        return;
-      }
-    }
+  const panel=document.getElementById('ant-nut');
+  if(emb&&panel){
+    const semanas=emb.fum?Math.floor((new Date()-new Date(emb.fum.includes('/')?emb.fum.split('/').reverse().join('-'):emb.fum))/(1000*60*60*24*7)):'—';
+    const embHTML=`<div style="background:#FDF2F8;border:2px solid #F0ABFC;border-radius:9px;padding:10px 13px;margin-bottom:8px">
+      <div style="font-size:11px;font-weight:700;color:#A21CAF;margin-bottom:3px">🤰 TRABAJADORA EMBARAZADA · ${semanas} SDG</div>
+      <div style="font-size:11px;color:#86198F">${emb.restricciones?'⚠️ '+emb.restricciones:''}</div>
+    </div>`;
+    panel.innerHTML=embHTML+(panel.innerHTML||'');
+    panel.style.display='block';
   }
-  window._empEdad=null;
 }
 
-// ══════════════════════════════════════════════════════════════════
+// ══════════════════════════════════════════════════
 // ANTECEDENTES NUTRICIONALES
-// ══════════════════════════════════════════════════════════════════
-function mostrarAntNut(noEmp, emb){
+// ══════════════════════════════════════════════════
+function mostrarAntNut(noEmp){
   const lc=String(noEmp||'').toLowerCase();
   const hist=[...NUT].filter(r=>String(r.noEmp||'').toLowerCase()===lc).sort((a,b)=>(b.fecha||'').localeCompare(a.fecha||''));
-  const panel=document.getElementById('f-ant');
-  let html='';
-  // Banner embarazo
-  if(emb){
-    const semanas=emb.fum?Math.floor((new Date()-new Date(emb.fum.includes('/')?emb.fum.split('/').reverse().join('-'):emb.fum))/(1000*60*60*24*7)):'—';
-    html+=`<div style="background:#FDF2F8;border:2px solid #F0ABFC;border-radius:9px;padding:10px 13px;margin-bottom:8px"><div style="font-size:11px;font-weight:700;color:#A21CAF">🤰 EMBARAZADA · ${semanas} SDG${emb.altoRiesgo==='Sí'?' · ⚠️ ALTO RIESGO':''}</div>${emb.restricciones?`<div style="font-size:11px;color:#86198F;margin-top:2px">${emb.restricciones}</div>`:''}</div>`;
-    // Auto-set objetivo embarazo
-    const objEl=document.getElementById('f-objetivo');
-    if(objEl) objEl.value='embarazo';
-    onObjetivoChange();
-  }
-  if(!hist.length){panel.style.display=html?'block':'none';panel.innerHTML=html;return;}
+  const panel=document.getElementById('ant-nut');
+  if(!hist.length){panel.style.display='none';return;}
   const ult=hist[0];
-  html+=`<div style="background:var(--gr3);border:1.5px solid var(--gr4);border-radius:9px;padding:11px 13px"><div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--gr);margin-bottom:7px">📋 ${hist.length} consulta${hist.length>1?'s':''} previas — Última: ${ult.fecha||'—'}</div><div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:6px">
-    ${ult.peso?`<div><div style="font-size:9px;color:var(--tx3);text-transform:uppercase">Peso ant.</div><div style="font-weight:700">${ult.peso} kg</div></div>`:''}
-    ${ult.imc?`<div><div style="font-size:9px;color:var(--tx3);text-transform:uppercase">IMC ant.</div><div style="font-weight:700">${ult.imc}</div></div>`:''}
-    ${ult.pesoMeta?`<div><div style="font-size:9px;color:var(--tx3);text-transform:uppercase">Peso meta</div><div style="font-weight:700">${ult.pesoMeta} kg</div></div>`:''}
-    ${ult.dxCategoria||ult.diagnostico?`<div style="grid-column:span 2"><div style="font-size:9px;color:var(--tx3);text-transform:uppercase">Dx anterior</div><div style="font-weight:600;font-size:12px">${ult.dxCategoria||ult.diagnostico}</div></div>`:''}
-  </div></div>`;
-  // Autoselect objetivo si ya tenía uno previo
-  if(ult.objetivo){const objEl=document.getElementById('f-objetivo');if(objEl&&!objEl.value) objEl.value=ult.objetivo;}
-  panel.innerHTML=html;panel.style.display='block';
-}
-
-// ══════════════════════════════════════════════════════════════════
-// CÁLCULOS AUTOMÁTICOS
-// ══════════════════════════════════════════════════════════════════
-function onMedidaCambio(){
-  const peso=parseFloat(g('f-peso'))||0;
-  const talla=parseFloat(g('f-talla'))||0;
-  const act=parseFloat(g('f-actividad'))||0;
-  if(!peso||!talla) return;
-  // IMC
-  const t=talla/100;
-  const imc=+(peso/(t*t)).toFixed(1);
-  let cat='',color='';
-  if(imc<18.5){cat='Bajo peso';color='#3B82F6';}
-  else if(imc<25){cat='Normal';color='#22C55E';}
-  else if(imc<30){cat='Sobrepeso';color:'#F59E0B';}
-  else if(imc<35){cat='Obesidad I';color='#EF4444';}
-  else if(imc<40){cat='Obesidad II';color='#DC2626';}
-  else{cat='Obesidad III';color='#991B1B';}
-  // Actualizar vista IMC
-  document.getElementById('r-imc').textContent=imc;
-  document.getElementById('r-cat').textContent=cat;
-  document.getElementById('r-cat').style.color=color;
-  document.getElementById('f-dx-cat').value=cat;
-  // Meter IMC visual
-  const pct=Math.min(100,Math.max(0,(imc-10)/30*100));
-  document.getElementById('imc-needle').style.left=pct+'%';
-  document.getElementById('imc-label').innerHTML=`<span style="color:${color};font-weight:700">${imc} — ${cat}</span>`;
-  // Si hay actividad, calcular TMB/GET
-  if(act){
-    calcTMB(peso, talla, act);
+  panel.innerHTML=`<div style="background:var(--green3);border:1.5px solid var(--green4);border-radius:9px;padding:11px 13px">
+    <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--green);margin-bottom:7px">📋 ${hist.length} consulta${hist.length>1?'s':''} previas — Última: ${ult.fecha||'—'}</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:6px">
+      ${ult.peso?`<div><div style="font-size:9px;color:var(--tx3);text-transform:uppercase">Peso ant.</div><div style="font-weight:700">${ult.peso} kg</div></div>`:''}
+      ${ult.imc?`<div><div style="font-size:9px;color:var(--tx3);text-transform:uppercase">IMC ant.</div><div style="font-weight:700">${ult.imc}</div></div>`:''}
+      ${ult.pesoMeta?`<div><div style="font-size:9px;color:var(--tx3);text-transform:uppercase">Peso meta</div><div style="font-weight:700">${ult.pesoMeta} kg</div></div>`:''}
+      ${ult.diagnostico?`<div style="grid-column:span 2"><div style="font-size:9px;color:var(--tx3);text-transform:uppercase">Dx anterior</div><div style="font-weight:600;font-size:12px">${ult.diagnostico}</div></div>`:''}
+    </div>
+  </div>`;
+  panel.style.display='block';
+  // Autocompletar tipo según historial
+  const tipoSeg=document.querySelector('input[name="tipo-cons"][value="Seguimiento"]');
+  if(tipoSeg&&hist.length>0) tipoSeg.checked=true;
+  // Autorelleno desde consulta inicial: peso meta, actividad, edad
+  const inicial=hist.find(r=>r.tipoCons==='Evaluación inicial')||ult;
+  if(inicial){
+    const sv3=(id,v)=>{const e=document.getElementById(id);if(e&&!e.value&&v)e.value=v;};
+    sv3('f-peso-meta', inicial.pesoMeta);
+    sv3('f-actividad', inicial.actividad);
+    sv3('f-edad', inicial.edad);
+    sv3('f-formula', inicial.formula||'mifflin');
+    if(inicial.actividad||inicial.edad) setTimeout(calcCalorias,100);
   }
 }
 
-function calcTMB(peso, talla, act){
-  const genero=g('f-genero')||'M';
-  const edad=window._empEdad||35; // fallback 35 si no hay edad en HC
-  const esMasc=!genero.toLowerCase().includes('fem')&&genero!=='F';
-  // Mifflin-St Jeor
-  const tmb=esMasc?(10*peso)+(6.25*talla)-(5*edad)+5:(10*peso)+(6.25*talla)-(5*edad)-161;
-  const get=Math.round(tmb*act);
-  document.getElementById('r-tmb').textContent=Math.round(tmb);
-  document.getElementById('r-get').textContent=get;
-  // Si hay objetivo, calcular macros
-  const obj=g('f-objetivo');
-  if(obj) calcMacros(get, obj);
-  else {
-    // Mostrar panel sin macros
-    document.getElementById('calc-panel').style.display='block';
+// ══════════════════════════════════════════════════
+// CÁLCULOS
+// ══════════════════════════════════════════════════
+function calcIMC(){
+  const p=parseFloat(document.getElementById('f-peso').value);
+  const t=parseFloat(document.getElementById('f-talla').value)/100;
+  const imc=document.getElementById('f-imc');
+  const cat=document.getElementById('f-imc-cat');
+  const vis=document.getElementById('imc-visual');
+  if(p&&t&&t>0){
+    const val=(p/(t*t));
+    const v=val.toFixed(1);
+    imc.value=v;
+    let categoria='',color='';
+    if(val<18.5){categoria='Bajo peso';color='#3B82F6';}
+    else if(val<25){categoria='Normal';color='#22C55E';}
+    else if(val<30){categoria='Sobrepeso';color='#F59E0B';}
+    else if(val<35){categoria='Obesidad I';color='#EF4444';}
+    else if(val<40){categoria='Obesidad II';color='#DC2626';}
+    else{categoria='Obesidad III';color='#991B1B';}
+    cat.value=categoria;
+    // Autoseleccionar categoría de diagnóstico siempre (no solo si está vacío)
+    const dxCat=document.getElementById('f-dx-cat');
+    if(dxCat){
+      const map={'Bajo peso':'Bajo peso','Normal':'Peso normal','Sobrepeso':'Sobrepeso','Obesidad I':'Obesidad grado I','Obesidad II':'Obesidad grado II','Obesidad III':'Obesidad grado III'};
+      if(map[categoria]) dxCat.value=map[categoria];
+    }
+    // Visual meter
+    vis.style.display='block';
+    const pct=Math.min(100,Math.max(0,(val-10)/30*100));
+    document.getElementById('imc-needle').style.left=pct+'%';
+    document.getElementById('imc-label').innerHTML=`<span style="color:${color};font-weight:700">${v} — ${categoria}</span>`;
+  } else {imc.value='';cat.value='';vis.style.display='none';}
+  // Recalcular calorías + aplicar macros automáticamente
+  const actEl=document.getElementById('f-actividad');
+  const edadEl=document.getElementById('f-edad');
+  const objEl=document.getElementById('f-objetivo');
+  if(actEl&&actEl.value&&edadEl&&edadEl.value){
+    calcCalorias();
+    // Si hay objetivo seleccionado, aplicar macros automáticamente
+    if(objEl&&objEl.value) setTimeout(aplicarCalorias, 200);
   }
 }
-
-function onObjetivoChange(){
-  const obj=g('f-objetivo');
-  const info=document.getElementById('objetivo-info');
-  if(obj&&MACRO_DIST[obj]){info.textContent=MACRO_DIST[obj].label;info.style.display='block';}
-  else{info.style.display='none';}
-  const peso=parseFloat(g('f-peso'))||0;
-  const talla=parseFloat(g('f-talla'))||0;
-  const act=parseFloat(g('f-actividad'))||0;
-  if(peso&&talla&&act) onMedidaCambio();
+function calcICC(){
+  const cin=parseFloat(document.getElementById('f-cintura').value);
+  const cad=parseFloat(document.getElementById('f-cadera').value);
+  const icc=document.getElementById('f-icc');
+  if(cin&&cad&&cad>0) icc.value=(cin/cad).toFixed(2);
+  else icc.value='';
 }
-
-function calcMacros(get, obj){
-  const dist=MACRO_DIST[obj];
-  if(!dist) return;
-  const kcal=Math.max(1200, get+dist.kcalAdj);
-  const prot=Math.round((kcal*dist.prot)/4);
-  const carbs=Math.round((kcal*dist.carbs)/4);
-  const gras=Math.round((kcal*dist.grasa)/9);
-  document.getElementById('r-kcal').textContent=kcal;
-  document.getElementById('r-prot').textContent=prot;
-  document.getElementById('r-carbs').textContent=carbs;
-  document.getElementById('r-gras').textContent=gras;
-  // Barra macros
-  const total=prot*4+carbs*4+gras*9;
-  document.getElementById('bar-prot').style.width=(prot*4/total*100)+'%';
-  document.getElementById('bar-carbs').style.width=(carbs*4/total*100)+'%';
-  document.getElementById('bar-gras').style.width=(gras*9/total*100)+'%';
-  // Habilitar botón menú
-  document.getElementById('btn-menu').disabled=false;
-  document.getElementById('calc-panel').style.display='block';
-  // Guardar en campos ocultos para el guardado
-  window._calcResult={kcal,prot,carbs,gras,get,obj};
-}
-
 function onTipoCons(){
-  const ini=document.getElementById('lbl-ini');
-  const seg=document.getElementById('lbl-seg');
-  if(ini) ini.style.borderColor=document.querySelector('input[name="tipo-cons"][value="Evaluación inicial"]').checked?'var(--gr)':'var(--br)';
-  if(seg) seg.style.borderColor=document.querySelector('input[name="tipo-cons"][value="Seguimiento"]').checked?'var(--gr)':'var(--br)';
+  // Visual feedback on radio selection
+  document.getElementById('lbl-inicial').style.borderColor=document.querySelector('input[name="tipo-cons"][value="Evaluación inicial"]').checked?'var(--green)':'var(--bor)';
+  document.getElementById('lbl-seguimiento').style.borderColor=document.querySelector('input[name="tipo-cons"][value="Seguimiento"]').checked?'var(--green)':'var(--bor)';
 }
 
-// ══════════════════════════════════════════════════════════════════
-// MENÚ IA
-// ══════════════════════════════════════════════════════════════════
-async function generarMenuIA(){
-  if(!window._calcResult){toast('Completa los datos primero','err');return;}
-  const {kcal,prot,carbs,gras,obj}=window._calcResult;
-  const objLabel={perdida:'pérdida de peso',muscular:'aumento de masa muscular',mantenimiento:'mantenimiento de peso',diabetes:'control de diabetes',colesterol:'control de colesterol',embarazo:'embarazo y lactancia',habitos:'mejora de hábitos'}[obj]||obj;
-  const btn=document.getElementById('btn-menu');
-  btn.disabled=true;btn.textContent='🤖 Generando...';
-  const prompt=`Genera un menú semanal para un trabajador de planta industrial en México con objetivo de ${objLabel}.
-Calorías: ${kcal} kcal/día. Macros: Proteínas ${prot}g, Carbohidratos ${carbs}g, Grasas ${gras}g.
-Comida casera, accesible, variada. Responde SOLO en JSON sin texto extra ni backticks:
-{"dias":[{"dia":"Lunes","desayuno":"...","colacion_am":"...","comida":"...","colacion_pm":"...","cena":"...","kcal_total":0}]}
-Genera los 7 días. Platillos concretos y variados adaptados al objetivo.`;
-  try{
-    const resp=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:2000,messages:[{role:'user',content:prompt}]})});
-    const data=await resp.json();
-    const txt=(data.content||[]).map(x=>x.text||'').join('');
-    const clean=txt.replace(/```json|```/g,'').trim();
-    const menu=JSON.parse(clean);
-    renderMenuIA(menu.dias||[],kcal);
-  }catch(e){
-    toast('Error generando menú — intenta de nuevo','err');
-  }
-  btn.disabled=false;btn.textContent='🤖 Generar menú con IA';
-}
-
-function renderMenuIA(dias, kcalObj){
-  _menuDias=dias;
-  const COLS=['Día','Desayuno','Col. AM','Comida','Col. PM','Cena','kcal'];
-  let html=`<table class="menu-table"><thead><tr>${COLS.map(c=>`<th>${c}</th>`).join('')}</tr></thead><tbody>`;
-  dias.forEach((d,i)=>{
-    const ok=Math.abs((d.kcal_total||0)-kcalObj)<250;
-    html+=`<tr>
-      <td style="font-weight:700;color:var(--nv);white-space:nowrap">${d.dia}</td>
-      ${['desayuno','colacion_am','comida','colacion_pm','cena'].map(campo=>`<td><span class="cell-txt" ondblclick="editCell(this)">${d[campo]||'—'}</span><input class="menu-cell-edit" onblur="saveCell(this)" onkeydown="if(event.key==='Enter')this.blur()"></td>`).join('')}
-      <td style="font-weight:700;color:${ok?'var(--gr)':'var(--am)'}">${d.kcal_total||'—'}</td>
-    </tr>`;
-  });
-  html+='</tbody></table>';
-  document.getElementById('menu-tabla').innerHTML=html;
-  document.getElementById('menu-panel').style.display='block';
-  document.getElementById('menu-panel').scrollIntoView({behavior:'smooth',block:'nearest'});
-}
-
-function editCell(span){
-  const input=span.nextElementSibling;
-  input.value=span.textContent;
-  span.style.display='none';
-  input.style.display='block';
-  input.focus();
-}
-function saveCell(input){
-  const span=input.previousElementSibling;
-  span.textContent=input.value||span.textContent;
-  input.style.display='none';
-  span.style.display='';
-}
-function copiarMenuAlPlan(){
-  if(!_menuDias) return;
-  let txt='MENÚ SEMANAL:\n';
-  _menuDias.forEach(d=>{ txt+=d.dia+': '+d.desayuno+' / '+d.comida+' / '+d.cena+'\n'; });
-  const el=document.getElementById('f-rec');
-  if(el){el.value=(el.value?el.value+'\n\n':'')+txt;toast('✅ Menú copiado a recomendaciones','ok');}
-}
-function exportarMenu(){
-  if(!_menuDias||typeof XLSX==='undefined'){toast('Sin menú para exportar','err');return;}
-  const wb=XLSX.utils.book_new();
-  const rows=[['Día','Desayuno','Col. AM','Comida','Col. PM','Cena','kcal total']];
-  _menuDias.forEach(d=>rows.push([d.dia,d.desayuno||'',d.colacion_am||'',d.comida||'',d.colacion_pm||'',d.cena||'',d.kcal_total||'']));
-  XLSX.utils.book_append_sheet(wb,XLSX.utils.aoa_to_sheet(rows),'Menú');
-  XLSX.writeFile(wb,'Menu_IA_'+new Date().toLocaleDateString('es-MX').replace(/\//g,'-')+'.xlsx');
-  toast('✅ Excel exportado','ok');
-}
-
-// ══════════════════════════════════════════════════════════════════
+// ══════════════════════════════════════════════════
 // GUARDAR CONSULTA
-// ══════════════════════════════════════════════════════════════════
+// ══════════════════════════════════════════════════
 async function guardarConsulta(){
-  const noEmp=g('f-noEmp');if(!noEmp){toast('Selecciona un empleado primero','err');return;}
-  const obj=g('f-objetivo');if(!obj){toast('Selecciona el objetivo del plan','err');return;}
-  const calc=window._calcResult||{};
-  const tipoCons=document.querySelector('input[name="tipo-cons"]:checked')?.value||'Evaluación inicial';
+  const g=id=>{const e=document.getElementById(id);return e?e.value.trim():'';};
+  const noEmp=g('h-noEmp'); if(!noEmp){toast('Selecciona un empleado primero','err');return;}
+  const dxCat=g('f-dx-cat'),dx=g('f-dx');
+  if(!dxCat&&!dx){toast('El diagnóstico es obligatorio','err');return;}
   const ahora=new Date();
+  const tipoCons=document.querySelector('input[name="tipo-cons"]:checked')?.value||'Evaluación inicial';
   const nota={
     folio:'NUT-'+Date.now().toString().slice(-6),
     fecha:ahora.toLocaleDateString('es-MX'),
     hora:ahora.toLocaleTimeString('es-MX',{hour:'2-digit',minute:'2-digit'}),
-    mes:MESES[ahora.getMonth()],mesNum:ahora.getMonth()+1,anio:ahora.getFullYear(),
-    noEmp,nombre:g('f-nombre'),planta:g('f-planta'),turno:g('f-turno'),depto:g('f-depto'),nss:g('f-nss'),genero:g('f-genero'),
-    tipoCons,objetivo:obj,
-    peso:g('f-peso'),talla:g('f-talla'),actividad:g('f-actividad'),
-    imc:document.getElementById('r-imc').textContent,imcCategoria:document.getElementById('r-cat').textContent,
-    tmb:document.getElementById('r-tmb').textContent,get:document.getElementById('r-get').textContent,
-    kcal:calc.kcal||'',proteinas:calc.prot||'',carbos:calc.carbs||'',grasas:calc.gras||'',
-    dxCategoria:g('f-dx-cat'),diagnostico:g('f-dx'),pesoMeta:g('f-peso-meta'),comorbilidades:g('f-comorbilidades'),
-    recomendaciones:g('f-rec'),notas:g('f-notas'),proxCita:g('f-proxcita'),tiemposComida:g('f-tiempos'),
-    menu:_menuDias?JSON.stringify(_menuDias):'',
+    mes:MESES[ahora.getMonth()], mesNum:ahora.getMonth()+1, anio:ahora.getFullYear(),
+    noEmp, nombre:g('h-nombre'), planta:g('h-planta'), turno:g('h-turno'),
+    depto:g('h-depto'), nss:g('h-nss'), genero:g('h-genero'),
+    tipoCons,
+    // Antropometría
+    peso:g('f-peso'), talla:g('f-talla'), imc:g('f-imc'), imcCategoria:g('f-imc-cat'),
+    cintura:g('f-cintura'), cadera:g('f-cadera'), icc:g('f-icc'),
+    masaMuscular:g('f-muscular'), grasaCorporal:g('f-grasa'), aguaCorporal:g('f-agua'),
+    // Diagnóstico
+    dxCategoria:dxCat, diagnostico:dx||dxCat, pesoMeta:g('f-peso-meta'),
+    comorbilidades:g('f-comorbilidades'),
+    // Plan
+    edad:g('f-edad'), actividad:g('f-actividad'), formula:g('f-formula'),
+    kcal:g('f-kcal'), proteinas:g('f-proteinas'), carbos:g('f-carbos'), grasas:g('f-grasas'),
+    tiemposComida:g('f-tiempos'), proxCita:g('f-proxcita'),
+    recomendaciones:g('f-recomendaciones'), notas:g('f-notas'),
     nutriologa:currentUser?.nombre||'Nutriología'
   };
-  NUT.push(nota);sv(SK.nut,NUT);
-  toast('⏳ Guardando...','inf');setSyncDot('busy');
+  NUT.push(nota); sv(SK.nut,NUT);
+  toast('⏳ Guardando...','inf'); setSyncDot('busy');
   const r=await gasPost({action:'saveNut',val:nota});
   setSyncDot(r.ok?'ok':'err');
-  toast(r.ok?'✅ Consulta guardada — '+nota.nombre:'⚠️ Guardada local','ok');
+  toast(r.ok?'✅ Consulta guardada — '+nota.nombre:'⚠️ Guardada local, sin conexión','ok');
   resetConsulta();
 }
 
 function resetConsulta(){
-  ['f-emp-q','f-noEmp','f-nombre','f-planta','f-turno','f-depto','f-nss','f-genero',
-   'f-peso','f-talla','f-dx','f-peso-meta','f-comorbilidades','f-rec','f-notas','f-proxcita']
+  ['h-noEmp','h-nombre','h-planta','h-turno','h-depto','h-nss','h-genero','f-edad',
+   'f-peso','f-talla','f-imc','f-imc-cat','f-cintura','f-cadera','f-icc',
+   'f-muscular','f-grasa','f-agua','f-dx','f-peso-meta','f-comorbilidades',
+   'f-kcal','f-proteinas','f-carbos','f-grasas','f-recomendaciones','f-notas','f-proxcita']
   .forEach(id=>{const e=document.getElementById(id);if(e)e.value='';});
-  document.getElementById('f-actividad').value='';
-  document.getElementById('f-objetivo').value='';
+  document.getElementById('f-dx-cat').value='';
   document.getElementById('f-tiempos').value='';
   document.querySelector('input[name="tipo-cons"][value="Evaluación inicial"]').checked=true;
-  document.getElementById('f-emp-card').style.display='none';
-  document.getElementById('f-ant').style.display='none';
-  document.getElementById('calc-panel').style.display='none';
-  document.getElementById('menu-panel').style.display='none';
-  document.getElementById('objetivo-info').style.display='none';
-  document.getElementById('f-dx-cat').value='';
-  document.getElementById('btn-menu').disabled=true;
-  window._calcResult=null; window._menuDias=null; window._empEdad=null;
+  document.getElementById('emp-card').style.display='none';
+  document.getElementById('ant-nut').style.display='none';
+  document.getElementById('num-emp').value='';
+  document.getElementById('imc-visual').style.display='none';
   onTipoCons();
 }
 
-// ══════════════════════════════════════════════════════════════════
+// ══════════════════════════════════════════════════
 // PACIENTES
-// ══════════════════════════════════════════════════════════════════
+// ══════════════════════════════════════════════════
 function getPacientes(){
+  // Agrupar por noEmp — última consulta por paciente
   const map={};
-  NUT.forEach(r=>{const k=String(r.noEmp||'').toLowerCase();if(!map[k]||((r.fecha||'')>(map[k].fecha||'')))map[k]=r;});
+  NUT.forEach(r=>{
+    const k=String(r.noEmp||'').toLowerCase();
+    if(!map[k]||((r.fecha||'')>(map[k].fecha||''))) map[k]=r;
+  });
   return Object.values(map);
 }
+
 function renderPacientes(){
   const q=(document.getElementById('pac-q')||{}).value.toLowerCase()||'';
   const fp=(document.getElementById('pac-planta')||{}).value||'';
-  const fo=(document.getElementById('pac-obj')||{}).value||'';
+  const fdx=(document.getElementById('pac-dx')||{}).value||'';
   let lista=getPacientes();
   if(q) lista=lista.filter(r=>(r.nombre+r.noEmp).toLowerCase().includes(q));
   if(fp) lista=lista.filter(r=>r.planta===fp);
-  if(fo) lista=lista.filter(r=>(r.objetivo||'').includes(fo));
+  if(fdx) lista=lista.filter(r=>(r.dxCategoria||r.diagnostico||'').includes(fdx));
   lista.sort((a,b)=>(b.fecha||'').localeCompare(a.fecha||''));
-  document.getElementById('pac-cnt').textContent=lista.length+' pacientes con historial';
-  const el=document.getElementById('pac-lista');
-  if(!lista.length){el.innerHTML=`<div class="empty"><div class="empty-i">👤</div><div>${NUT.length?'Sin resultados':'Sin consultas. Usa 🔄 Sync.'}</div></div>`;return;}
-  const IMC_CLS={normal:'pgr',sobrepeso:'pam',bajo:'pbl',obeso:'prd'};
+  document.getElementById('pac-count').textContent=lista.length+' pacientes con historial';
+  const el=document.getElementById('pac-list');
+  if(!lista.length){el.innerHTML=`<div class="empty"><div class="empty-i">👤</div><div>${NUT.length?'Sin resultados':'Sin consultas aún. Usa 🔄 Sync o captura la primera consulta'}</div></div>`;return;}
   el.innerHTML=lista.map(r=>{
     const consultas=NUT.filter(x=>String(x.noEmp||'').toLowerCase()===String(r.noEmp||'').toLowerCase());
     const imcN=parseFloat(r.imc);
-    const imcCls=!imcN?'pgy':imcN<18.5?'pbl':imcN<25?'pgr':imcN<30?'pam':'prd';
-    const objLabel={perdida:'📉 Pérdida',muscular:'💪 Masa',mantenimiento:'⚖️ Mant.',diabetes:'🩺 Diabetes',colesterol:'❤️ Colesterol',embarazo:'🤰 Embarazo',habitos:'🌱 Hábitos'}[r.objetivo]||r.objetivo||'';
+    const imcCls=!imcN?'pgray':imcN<18.5?'pblue':imcN<25?'pgreen':imcN<30?'pamber':'pred';
     return `<div class="card cp" style="margin-bottom:8px">
       <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px;flex-wrap:wrap">
         <div style="flex:1">
           <div style="display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-bottom:4px">
             <span style="font-weight:700;font-size:13px">${r.nombre||'—'}</span>
-            ${r.imcCategoria||r.dxCategoria?`<span class="pill ${imcCls}">${r.imcCategoria||r.dxCategoria}</span>`:''}
-            ${objLabel?`<span class="pill pgy">${objLabel}</span>`:''}
+            ${r.dxCategoria?`<span class="pill ${imcCls}">${r.dxCategoria}</span>`:''}
           </div>
           <div style="font-size:12px;color:var(--tx2)">No.${r.noEmp||'—'} · ${r.planta||'—'} · ${r.turno||'—'}</div>
-          <div style="font-size:11px;color:var(--tx3);margin-top:3px;display:flex;gap:10px;flex-wrap:wrap">
+          <div style="font-size:11px;color:var(--tx3);margin-top:3px;display:flex;gap:12px;flex-wrap:wrap">
             <span>📅 Última: ${r.fecha||'—'}</span>
             ${r.peso?`<span>⚖️ ${r.peso}kg</span>`:''}
             ${r.imc?`<span>IMC: ${r.imc}</span>`:''}
             ${r.pesoMeta?`<span>🎯 Meta: ${r.pesoMeta}kg</span>`:''}
             <span>📋 ${consultas.length} consulta${consultas.length!==1?'s':''}</span>
           </div>
+          ${r.diagnostico?`<div style="font-size:11px;color:var(--tx2);margin-top:2px">${r.diagnostico}</div>`:''}
         </div>
-        <button class="btn btn-gh btn-xs" onclick="verSeguimiento('${esc(r.noEmp)}')">📈 Ver</button>
+        <div style="display:flex;flex-direction:column;gap:4px">
+          <button class="btn btn-ghost btn-xs" onclick="verSeguimiento('${esc(r.noEmp)}')">📈 Seguimiento</button>
+          <button class="btn btn-ghost btn-xs" onclick="editarNota('${esc(r.folio)}')">✏️ Editar</button>
+        </div>
       </div>
     </div>`;
   }).join('');
 }
 
-// ══════════════════════════════════════════════════════════════════
+// ══════════════════════════════════════════════════
 // SEGUIMIENTO
-// ══════════════════════════════════════════════════════════════════
+// ══════════════════════════════════════════════════
 function buscarSeg(val){
-  val=(val||'').trim();const drop=document.getElementById('seg-drop');
+  val=(val||'').trim();
+  const drop=document.getElementById('seg-drop');
   if(!val||val.length<2){drop.classList.remove('show');return;}
   const lc=val.toLowerCase();
   const pacs=getPacientes().filter(r=>(r.nombre+r.noEmp).toLowerCase().includes(lc)).slice(0,6);
   if(!pacs.length){drop.classList.remove('show');return;}
-  drop.innerHTML=pacs.map(r=>`<div class="si-item" onclick="verSeguimiento('${esc(r.noEmp)}')"><div class="si-name">${r.nombre}</div><div class="si-meta">No.${r.noEmp} · ${NUT.filter(x=>String(x.noEmp).toLowerCase()===String(r.noEmp).toLowerCase()).length} consultas</div></div>`).join('');
+  drop.innerHTML=pacs.map(r=>`<div class="sr-item" onclick="verSeguimiento('${esc(r.noEmp)}')"><div class="sr-name">${r.nombre}</div><div class="sr-meta">No.${r.noEmp} · ${r.planta||'—'} · ${NUT.filter(x=>String(x.noEmp).toLowerCase()===String(r.noEmp).toLowerCase()).length} consultas</div></div>`).join('');
   drop.classList.add('show');
 }
+
 function verSeguimiento(noEmp){
   go('seg');
   const lc=String(noEmp||'').toLowerCase();
@@ -1027,8 +994,17 @@ function verSeguimiento(noEmp){
   _segEmp=hist[hist.length-1];
   document.getElementById('seg-q').value=_segEmp.nombre+' (No.'+_segEmp.noEmp+')';
   document.getElementById('seg-drop').classList.remove('show');
+  // Emp card
   const card=document.getElementById('seg-emp-card');
-  card.innerHTML=`<div class="ec"><div class="ec-name">${_segEmp.nombre} <span class="ec-tag">No. ${_segEmp.noEmp}</span></div><div class="ec-grid"><div class="ec-f"><label>Planta</label><div>${_segEmp.planta||'—'}</div></div><div class="ec-f"><label>Objetivo</label><div>${_segEmp.objetivo||'—'}</div></div><div class="ec-f"><label>Consultas</label><div>${hist.length}</div></div><div class="ec-f"><label>Última</label><div>${_segEmp.fecha||'—'}</div></div></div></div>`;
+  card.innerHTML=`<div class="ec-name">${_segEmp.nombre} <span class="ec-tag">No. ${_segEmp.noEmp}</span></div>
+    <div class="ec-grid">
+      <div class="ec-field"><label>Planta</label><div>${_segEmp.planta||'—'}</div></div>
+      <div class="ec-field"><label>Turno</label><div>${_segEmp.turno||'—'}</div></div>
+      <div class="ec-field"><label>Consultas</label><div>${hist.length}</div></div>
+      <div class="ec-field"><label>Diagnóstico actual</label><div>${_segEmp.dxCategoria||_segEmp.diagnostico||'—'}</div></div>
+      ${_segEmp.peso?`<div class="ec-field"><label>Peso actual</label><div>${_segEmp.peso} kg</div></div>`:''}
+      ${_segEmp.pesoMeta?`<div class="ec-field"><label>Peso meta</label><div>${_segEmp.pesoMeta} kg</div></div>`:''}
+    </div>`;
   document.getElementById('seg-content').style.display='block';
   // Gráfica peso
   const pesos=hist.filter(r=>r.peso).map(r=>({fecha:r.fecha,peso:parseFloat(r.peso),meta:parseFloat(r.pesoMeta||0)}));
@@ -1037,28 +1013,155 @@ function verSeguimiento(noEmp){
     _charts.peso=new Chart(document.getElementById('ch-peso'),{type:'line',
       data:{labels:pesos.map(x=>x.fecha),datasets:[
         {label:'Peso (kg)',data:pesos.map(x=>x.peso),borderColor:'#16A34A',backgroundColor:'rgba(22,163,74,.1)',borderWidth:2.5,fill:true,tension:.3,pointRadius:4,pointBackgroundColor:'#16A34A'},
-        ...(pesos.some(x=>x.meta)?[{label:'Meta',data:pesos.map(x=>x.meta||null),borderColor:'#D97706',borderDash:[6,3],borderWidth:1.5,fill:false,pointRadius:0}]:[])
-      ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{font:{size:11}}}},scales:{y:{ticks:{callback:v=>v+'kg'}}}}});
+        ...(pesos.some(x=>x.meta)?[{label:'Peso meta',data:pesos.map(x=>x.meta||null),borderColor:'#D97706',borderDash:[6,3],borderWidth:1.5,fill:false,pointRadius:0}]:[])
+      ]},
+      options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{font:{size:11}}}},scales:{y:{beginAtZero:false,ticks:{callback:v=>v+'kg'}}}}});
   }
   // Timeline
-  const tl=document.getElementById('seg-tl');
-  tl.innerHTML=[...hist].reverse().map(r=>`<li class="tl-item">
-    <div class="tl-dot">${r.tipoCons==='Seguimiento'?'📈':'🩺'}</div>
-    <div class="tl-body">
-      <div style="font-size:10px;color:var(--tx3);margin-bottom:3px">${r.fecha||'—'} ${r.hora?'· '+r.hora:''} · <span class="folio">${r.folio}</span></div>
-      <div style="font-weight:700;font-size:13px">${r.imcCategoria||r.dxCategoria||r.diagnostico||'—'}</div>
-      <div style="font-size:11px;color:var(--tx3);margin-top:4px;display:flex;gap:10px;flex-wrap:wrap">
-        ${r.peso?`<span>⚖️ ${r.peso}kg</span>`:''}${r.imc?`<span>IMC: ${r.imc}</span>`:''}
-        ${r.kcal?`<span>🔥 ${r.kcal} kcal</span>`:''}${r.proteinas?`<span>P: ${r.proteinas}g</span>`:''}
+  const tl=document.getElementById('seg-timeline');
+  tl.innerHTML=[...hist].reverse().map(r=>`
+    <li class="tl-item">
+      <div class="tl-dot">${r.tipoCons==='Seguimiento'?'📈':'🩺'}</div>
+      <div class="tl-body">
+        <div class="tl-fecha">${r.fecha||'—'} ${r.hora?'· '+r.hora:''} · <span class="folio">${r.folio}</span></div>
+        <div class="tl-dx">${r.diagnostico||r.dxCategoria||'—'}</div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;font-size:11px;color:var(--tx3);margin-top:4px">
+          ${r.peso?`<span>⚖️ ${r.peso}kg</span>`:''}
+          ${r.imc?`<span>IMC: ${r.imc} (${r.imcCategoria||''})</span>`:''}
+          ${r.cintura?`<span>Cintura: ${r.cintura}cm</span>`:''}
+          ${r.grasaCorporal?`<span>Grasa: ${r.grasaCorporal}%</span>`:''}
+          ${r.masaMuscular?`<span>Músculo: ${r.masaMuscular}kg</span>`:''}
+        </div>
+        ${r.recomendaciones?`<div style="font-size:11px;color:var(--tx2);margin-top:5px;background:var(--surf2);border-radius:6px;padding:6px 9px">${r.recomendaciones}</div>`:''}
+        <div style="display:flex;gap:6px;margin-top:6px">
+          <button class="btn btn-ghost btn-xs" onclick="editarNota('${r.folio}')">✏️ Editar</button>
+          <button class="btn btn-ghost btn-xs" onclick="imprimirNota('${r.folio}')">🖨️ Imprimir</button>
+        </div>
       </div>
-      ${r.recomendaciones?`<div style="font-size:11px;color:var(--tx2);margin-top:5px;background:var(--sf2);border-radius:6px;padding:6px 9px">${r.recomendaciones.slice(0,120)}${r.recomendaciones.length>120?'...':''}</div>`:''}
-    </div>
-  </li>`).join('');
+    </li>`).join('');
 }
 
-// ══════════════════════════════════════════════════════════════════
+// ══════════════════════════════════════════════════
+// EDITAR NOTA
+// ══════════════════════════════════════════════════
+function editarNota(folio){
+  const r=NUT.find(x=>x.folio===folio); if(!r) return;
+  _editId=folio;
+  document.getElementById('edit-title').textContent='Editar — '+r.nombre;
+  document.getElementById('edit-body').innerHTML=`
+    <div class="fi"><label>Diagnóstico (categoría)</label>
+      <select id="ed-cat"><option value="">—</option>${['Peso normal','Sobrepeso','Obesidad grado I','Obesidad grado II','Obesidad grado III','Bajo peso','Desnutrición leve','Desnutrición moderada','Otro'].map(o=>`<option${o===r.dxCategoria?' selected':''}>${o}</option>`).join('')}</select>
+    </div>
+    <div class="fi"><label>Diagnóstico detallado</label><input id="ed-dx" value="${esc(r.diagnostico)}"></div>
+    <div class="g2">
+      <div class="fi" style="margin:0"><label>Peso (kg)</label><input type="number" id="ed-peso" step="0.1" value="${r.peso||''}"></div>
+      <div class="fi" style="margin:0"><label>Peso meta (kg)</label><input type="number" id="ed-meta" step="0.1" value="${r.pesoMeta||''}"></div>
+    </div>
+    <div class="fi"><label>Recomendaciones</label><textarea id="ed-rec" rows="3">${esc(r.recomendaciones)}</textarea></div>
+    <div class="fi"><label>Notas</label><textarea id="ed-notas" rows="2">${esc(r.notas)}</textarea></div>`;
+  openModal('mo-edit');
+}
+function guardarEdicion(){
+  if(!_editId) return;
+  const g=id=>{const e=document.getElementById(id);return e?e.value.trim():'';};
+  const idx=NUT.findIndex(x=>x.folio===_editId); if(idx<0) return;
+  Object.assign(NUT[idx],{dxCategoria:g('ed-cat'),diagnostico:g('ed-dx')||g('ed-cat'),
+    peso:g('ed-peso'),pesoMeta:g('ed-meta'),recomendaciones:g('ed-rec'),notas:g('ed-notas'),
+    editado:new Date().toLocaleDateString('es-MX')});
+  sv(SK.nut,NUT); renderPacientes(); toast('✅ Nota actualizada','ok');
+  closeModal('mo-edit'); _editId=null;
+  if(_segEmp) verSeguimiento(_segEmp.noEmp);
+}
+
+// ══════════════════════════════════════════════════
+// IMPRIMIR NOTA
+// ══════════════════════════════════════════════════
+function imprimirNota(folio){
+  const r=NUT.find(x=>x.folio===folio); if(!r) return;
+  const w=window.open('','_blank','width=800,height=950'); if(!w){toast('Popup bloqueado','err');return;}
+  w.document.write(`<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><title>Nota Nutricional ${r.folio}</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap');
+    *{box-sizing:border-box;margin:0;padding:0}body{font-family:'Plus Jakarta Sans',Arial,sans-serif;font-size:11.5px}
+    @page{size:letter;margin:14mm 16mm}@media print{.no-print{display:none!important}}
+    .page{max-width:680px;margin:0 auto;padding:20px}
+    .hdr{display:flex;justify-content:space-between;align-items:flex-start;padding-bottom:10px;border-bottom:2.5px solid #16A34A;margin-bottom:14px}
+    .hdr h1{font-size:15px;font-weight:800;color:#0F2942}.hdr p{font-size:10px;color:#666;margin-top:2px}
+    .hdr-r{text-align:right;font-size:10px;color:#666}
+    .sec{margin-bottom:12px}
+    .sec-title{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;color:#64748B;margin-bottom:6px;padding-bottom:4px;border-bottom:1px solid #E2E8F0}
+    .pac{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;background:#F8FAFC;border:1px solid #E2E8F0;border-radius:7px;padding:10px}
+    .pf label{font-size:9px;text-transform:uppercase;color:#94A3B8;display:block}.pf span{font-size:12px;font-weight:700}
+    .antro{display:grid;grid-template-columns:repeat(5,1fr);gap:5px}
+    .av{background:#F0FDF4;border:1px solid #BBF7D0;border-radius:6px;padding:6px;text-align:center}
+    .av label{font-size:8.5px;text-transform:uppercase;color:#94A3B8;display:block}
+    .av span{font-size:14px;font-weight:800;color:#15803D}
+    .dx-box{background:#F0FDF4;border:2px solid #16A34A;border-radius:8px;padding:12px;margin-bottom:12px}
+    .dx-cat{font-size:16px;font-weight:800;color:#0F2942;margin-bottom:4px}
+    .mt{background:#FAFAFA;border:1px solid #E2E8F0;border-radius:6px;padding:9px 11px;font-size:11.5px;line-height:1.55}
+    .sig{margin-top:30px;display:flex;justify-content:flex-end}
+    .sig-box{text-align:center;width:200px;border-top:1.5px solid #0F2942;padding-top:5px;font-size:11px;font-weight:700}
+    .print-btn{position:fixed;bottom:16px;right:16px;background:#16A34A;color:#fff;border:none;padding:10px 20px;border-radius:8px;cursor:pointer;font-family:inherit;font-size:13px}
+  </style></head><body>
+  <div class="page">
+    <div class="hdr">
+      <div><h1>Nota de Consulta Nutricional</h1><p>Teleflex · Salud Ocupacional · NOM-030-STPS</p></div>
+      <div class="hdr-r"><strong>${r.nutriologa||'Nutriología'}</strong><br>Folio: ${r.folio}<br>${r.fecha||'—'} ${r.hora?'· '+r.hora:''}</div>
+    </div>
+    <div class="sec">
+      <div class="sec-title">Datos del paciente</div>
+      <div class="pac">
+        <div class="pf"><label>Nombre</label><span>${r.nombre||'—'}</span></div>
+        <div class="pf"><label>No. Empleado</label><span>${r.noEmp||'—'}</span></div>
+        <div class="pf"><label>NSS</label><span>${r.nss||'—'}</span></div>
+        <div class="pf"><label>Planta</label><span>${r.planta||'—'}</span></div>
+        <div class="pf"><label>Turno</label><span>${r.turno||'—'}</span></div>
+        <div class="pf"><label>Tipo</label><span>${r.tipoCons||'—'}</span></div>
+      </div>
+    </div>
+    ${(r.peso||r.imc||r.cintura)?`<div class="sec">
+      <div class="sec-title">Antropometría</div>
+      <div class="antro">
+        ${r.peso?`<div class="av"><label>Peso</label><span>${r.peso} kg</span></div>`:''}
+        ${r.talla?`<div class="av"><label>Talla</label><span>${r.talla} cm</span></div>`:''}
+        ${r.imc?`<div class="av"><label>IMC</label><span>${r.imc}</span></div>`:''}
+        ${r.cintura?`<div class="av"><label>Cintura</label><span>${r.cintura} cm</span></div>`:''}
+        ${r.cadera?`<div class="av"><label>Cadera</label><span>${r.cadera} cm</span></div>`:''}
+        ${r.icc?`<div class="av"><label>ICC</label><span>${r.icc}</span></div>`:''}
+        ${r.masaMuscular?`<div class="av"><label>Músculo</label><span>${r.masaMuscular} kg</span></div>`:''}
+        ${r.grasaCorporal?`<div class="av"><label>Grasa</label><span>${r.grasaCorporal}%</span></div>`:''}
+        ${r.aguaCorporal?`<div class="av"><label>Agua</label><span>${r.aguaCorporal}%</span></div>`:''}
+      </div>
+    </div>`:''}
+    <div class="dx-box">
+      <div class="dx-cat">${r.dxCategoria||r.diagnostico||'—'}</div>
+      ${r.diagnostico&&r.diagnostico!==r.dxCategoria?`<div style="font-size:12px;color:#166534">${r.diagnostico}</div>`:''}
+      ${r.pesoMeta?`<div style="font-size:11px;color:#64748B;margin-top:4px">Peso meta: <strong>${r.pesoMeta} kg</strong></div>`:''}
+      ${r.comorbilidades?`<div style="font-size:11px;color:#64748B;margin-top:2px">Comorbilidades: ${r.comorbilidades}</div>`:''}
+    </div>
+    ${r.recomendaciones?`<div class="sec"><div class="sec-title">Plan y recomendaciones</div><div class="mt">${r.recomendaciones.replace(/\n/g,'<br>')}</div></div>`:''}
+    ${(r.kcal||r.proteinas)?`<div class="sec"><div class="sec-title">Plan alimentario</div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;font-size:11.5px">
+        ${r.kcal?`<span>Calorías: <strong>${r.kcal} kcal</strong></span>`:''}
+        ${r.proteinas?`<span>Proteínas: <strong>${r.proteinas}g</strong></span>`:''}
+        ${r.carbos?`<span>Carbohidratos: <strong>${r.carbos}g</strong></span>`:''}
+        ${r.grasas?`<span>Grasas: <strong>${r.grasas}g</strong></span>`:''}
+        ${r.tiemposComida?`<span>Tiempos: <strong>${r.tiemposComida}</strong></span>`:''}
+      </div>
+    </div>`:''}
+    ${r.notas?`<div class="sec"><div class="sec-title">Notas</div><div class="mt">${r.notas}</div></div>`:''}
+    ${r.proxCita?`<div style="background:#F0FDF4;border:1px solid #BBF7D0;border-radius:7px;padding:8px 12px;font-size:12px"><strong>Próxima cita:</strong> ${r.proxCita}</div>`:''}
+    <div class="sig"><div class="sig-box">${r.nutriologa||'Nutrióloga'}<br><small>Teleflex SO · ${r.fecha||''}</small></div></div>
+  </div>
+  <button class="print-btn no-print" onclick="window.print()">🖨️ Imprimir / PDF</button>
+  <script>setTimeout(()=>window.print(),700);<\/script>
+  </body></html>`);
+  w.document.close();
+}
+
+// ══════════════════════════════════════════════════
 // REPORTES
-// ══════════════════════════════════════════════════════════════════
+// ══════════════════════════════════════════════════
 function renderRep(){
   const yr=document.getElementById('rep-yr');
   const years=[...new Set(NUT.map(r=>r.anio||new Date().getFullYear()))].sort((a,b)=>b-a);
@@ -1067,58 +1170,77 @@ function renderRep(){
   yr.innerHTML=years.map(y=>`<option value="${y}"${y===sy?' selected':''}>${y}</option>`).join('');
   const fp=(document.getElementById('rep-planta')||{}).value||'';
   const fn=(document.getElementById('rep-nut')||{}).value||'';
+  const periodo=(document.getElementById('rep-periodo')||{}).value||'anio';
   let data=NUT.filter(r=>(r.anio||new Date().getFullYear())===sy);
   if(fp) data=data.filter(r=>r.planta===fp);
   if(fn) data=data.filter(r=>r.nutriologa===fn);
+  // KPIs
   const pacs=new Set(data.map(r=>String(r.noEmp||'').toLowerCase()));
   const enSeg=Object.values(Object.fromEntries([...pacs].map(p=>[p,data.filter(r=>String(r.noEmp||'').toLowerCase()===p)]))).filter(arr=>arr.length>1);
   const imcs=data.filter(r=>r.imc).map(r=>parseFloat(r.imc)).filter(x=>!isNaN(x));
   const imcProm=imcs.length?(imcs.reduce((a,b)=>a+b,0)/imcs.length).toFixed(1):null;
-  const sv3=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v;};
-  sv3('r-tot',data.length);sv3('r-pac',pacs.size);sv3('r-seg',enSeg.length);sv3('r-imc-p',imcProm||'—');
-  // Gráfica meses
-  const mVal=Array(12).fill(0);
-  data.forEach(r=>{const m=(r.mesNum||1)-1;if(m>=0&&m<12)mVal[m]++;});
+  const sv2=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v;};
+  sv2('r-tot',data.length); sv2('r-pac',pacs.size); sv2('r-seg',enSeg.length); sv2('r-imc',imcProm||'—');
+  // Chart principal
+  let labels=MSC,valores=Array(12).fill(0);
+  if(periodo==='anio'){data.forEach(r=>{const m=(r.mesNum||1)-1;if(m>=0&&m<12)valores[m]++;});}
+  else{labels=['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'];valores=Array(7).fill(0);data.forEach(r=>{if(!r.fecha)return;const p=r.fecha.split('/');if(p.length<3)return;const d=new Date(p[2]+'-'+p[1].padStart(2,'0')+'-'+p[0].padStart(2,'0'));if(!isNaN(d))valores[d.getDay()]++;});}
+  document.getElementById('rep-chart-title').textContent=periodo==='anio'?'Consultas por mes':'Consultas por día';
   if(_charts.rep){try{_charts.rep.destroy();}catch(e){}}
-  _charts.rep=new Chart(document.getElementById('ch-rep'),{type:'bar',data:{labels:MSC,datasets:[{label:'Consultas',data:mVal,backgroundColor:'rgba(22,163,74,.15)',borderColor:'#16A34A',borderWidth:2,borderRadius:5}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,ticks:{stepSize:1}}}}});
-  // Diagnósticos donut
-  const dxCnt={};data.forEach(r=>{const d=r.imcCategoria||r.dxCategoria||r.diagnostico||'Sin dx';dxCnt[d]=(dxCnt[d]||0)+1;});
+  _charts.rep=new Chart(document.getElementById('ch-rep'),{type:'bar',data:{labels,datasets:[{label:'Consultas',data:valores,backgroundColor:'rgba(22,163,74,.15)',borderColor:'#16A34A',borderWidth:2,borderRadius:5}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,ticks:{stepSize:1}}}}});
+  // Dx chart
+  const dxCnt={};data.forEach(r=>{const d=r.dxCategoria||r.diagnostico||'Sin dx';dxCnt[d]=(dxCnt[d]||0)+1;});
   const dxArr=Object.entries(dxCnt).sort((a,b)=>b[1]-a[1]).slice(0,6);
   const COLORS=['#16A34A','#D97706','#EF4444','#2563EB','#7C3AED','#0D9488'];
   if(_charts.dx){try{_charts.dx.destroy();}catch(e){}}
   if(dxArr.length) _charts.dx=new Chart(document.getElementById('ch-dx'),{type:'doughnut',data:{labels:dxArr.map(([k])=>k),datasets:[{data:dxArr.map(([,v])=>v),backgroundColor:COLORS.map(c=>c+'55'),borderColor:COLORS,borderWidth:2}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{font:{size:10},boxWidth:10}}}}});
   // IMC bars
-  const imcCats={'Bajo peso':0,'Normal':0,'Sobrepeso':0,'Obesidad I':0,'Obesidad II':0,'Obesidad III':0};
-  data.forEach(r=>{const c=r.imcCategoria||r.dxCategoria||'';if(c&&imcCats[c]!==undefined)imcCats[c]++;});
-  const total2=data.length||1;
+  const imcCats={'Bajo peso':0,'Peso normal':0,'Sobrepeso':0,'Obesidad grado I':0,'Obesidad grado II':0,'Obesidad grado III':0};
+  data.forEach(r=>{if(r.dxCategoria&&imcCats[r.dxCategoria]!==undefined)imcCats[r.dxCategoria]++;});
+  const total=data.length||1;
   document.getElementById('rep-imc-bars').innerHTML=Object.entries(imcCats).filter(([,v])=>v>0).map(([k,v])=>{
-    const pct=Math.round(v/total2*100);
+    const pct=Math.round(v/total*100);
     const c=k.includes('Obesidad')?'#EF4444':k==='Sobrepeso'?'#F59E0B':k==='Bajo peso'?'#3B82F6':'#16A34A';
-    return `<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><div style="font-size:11px;font-weight:600;min-width:120px">${k}</div><div style="flex:1;background:var(--sf3);border-radius:4px;height:8px;overflow:hidden"><div style="width:${pct}%;height:100%;background:${c};border-radius:4px;transition:.4s"></div></div><div style="font-size:11px;font-weight:700;color:var(--tx2);min-width:24px">${v}</div><span style="font-size:10px;color:var(--tx3);min-width:30px">${pct}%</span></div>`;
+    return `<div class="pr-row"><div class="pr-lbl">${k}</div><div class="pr-wrap"><div class="pr-bar" style="width:${pct}%;background:${c}"></div></div><div class="pr-n">${v}</div><span style="font-size:10px;color:var(--tx3);min-width:30px;text-align:right">${pct}%</span></div>`;
   }).join('')||'<div style="color:var(--tx3);font-size:12px;text-align:center;padding:12px">Sin datos</div>';
   // Seguimiento activo
   const prox30=new Date();prox30.setDate(prox30.getDate()+30);
-  document.getElementById('rep-seg-lista').innerHTML=enSeg.map(arr=>{
+  const segRows=enSeg.map(arr=>{
     const ult=arr.sort((a,b)=>(b.fecha||'').localeCompare(a.fecha||''))[0];
     const prox=ult.proxCita?new Date(ult.proxCita+'T12:00'):null;
     const vence=prox&&prox<=prox30;
-    return `<div style="display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid var(--br);flex-wrap:wrap;gap:6px"><div><span style="font-weight:600">${ult.nombre||'—'}</span> <span style="font-size:11px;color:var(--tx3)">· No.${ult.noEmp||'—'} · ${ult.planta||'—'}</span></div><div style="display:flex;align-items:center;gap:8px;font-size:11px"><span style="color:var(--tx3)">${arr.length} consultas</span>${ult.proxCita?`<span class="pill ${vence?'prd':'pgr'}">${vence?'⚠️ ':''}Próx: ${ult.proxCita}</span>`:''}</div></div>`;
-  }).join('')||'<div style="color:var(--tx3);font-size:12px;text-align:center;padding:12px">Sin pacientes en seguimiento</div>';
+    return `<div style="display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid var(--bor);flex-wrap:wrap;gap:6px">
+      <div><span style="font-weight:600">${ult.nombre||'—'}</span> <span style="font-size:11px;color:var(--tx3)">· No.${ult.noEmp||'—'} · ${ult.planta||'—'}</span></div>
+      <div style="display:flex;align-items:center;gap:8px;font-size:11px">
+        <span style="color:var(--tx3)">${arr.length} consultas</span>
+        ${ult.proxCita?`<span class="pill ${vence?'pred':'pgreen'}">${vence?'⚠️ ':''}Próx: ${ult.proxCita}</span>`:''}
+      </div>
+    </div>`;
+  }).join('');
+  document.getElementById('rep-seguimiento').innerHTML=segRows||'<div style="color:var(--tx3);font-size:12px;text-align:center;padding:12px">Sin pacientes en seguimiento</div>';
 }
+
 function exportRep(){
   if(typeof XLSX==='undefined'){toast('XLSX no disponible','err');return;}
   const wb=XLSX.utils.book_new();
   const sy=parseInt(document.getElementById('rep-yr').value)||new Date().getFullYear();
-  const rows=[['Folio','Fecha','No.Emp','Nombre','Planta','Turno','Tipo','Objetivo','Peso','Talla','IMC','Categoría IMC','kcal','Proteínas','Carbos','Grasas','Dx','Peso Meta','Recomendaciones','Nutrióloga','Mes','Año']];
-  NUT.filter(r=>(r.anio||new Date().getFullYear())===sy).forEach(r=>rows.push([r.folio||'',r.fecha||'',r.noEmp||'',r.nombre||'',r.planta||'',r.turno||'',r.tipoCons||'',r.objetivo||'',r.peso||'',r.talla||'',r.imc||'',r.imcCategoria||'',r.kcal||'',r.proteinas||'',r.carbos||'',r.grasas||'',r.diagnostico||'',r.pesoMeta||'',r.recomendaciones||'',r.nutriologa||'',r.mes||'',r.anio||'']));
+  const rows=[['Folio','Fecha','No.Emp','Nombre','Planta','Turno','Tipo','Peso','Talla','IMC','Clasificación','Cintura','Cadera','ICC','Músculo','Grasa%','Agua%','Dx Categoría','Diagnóstico','Peso Meta','Comorbilidades','Kcal','Proteínas','Carbos','Grasas','Recomendaciones','Próxima cita','Nutrióloga','Mes','Año']];
+  NUT.filter(r=>(r.anio||new Date().getFullYear())===sy).forEach(r=>rows.push([
+    r.folio||'',r.fecha||'',r.noEmp||'',r.nombre||'',r.planta||'',r.turno||'',r.tipoCons||'',
+    r.peso||'',r.talla||'',r.imc||'',r.imcCategoria||'',r.cintura||'',r.cadera||'',r.icc||'',
+    r.masaMuscular||'',r.grasaCorporal||'',r.aguaCorporal||'',
+    r.dxCategoria||'',r.diagnostico||'',r.pesoMeta||'',r.comorbilidades||'',
+    r.kcal||'',r.proteinas||'',r.carbos||'',r.grasas||'',
+    r.recomendaciones||'',r.proxCita||'',r.nutriologa||'',r.mes||'',r.anio||''
+  ]));
   XLSX.utils.book_append_sheet(wb,XLSX.utils.aoa_to_sheet(rows),'Nutriología');
   XLSX.writeFile(wb,'Nutriologia_'+sy+'.xlsx');
   toast('✅ Excel exportado','ok');
 }
 
-// ══════════════════════════════════════════════════════════════════
+// ══════════════════════════════════════════════════
 // HEAD COUNT
-// ══════════════════════════════════════════════════════════════════
+// ══════════════════════════════════════════════════
 function importarHC(input){
   const file=input.files[0];if(!file)return;
   const reader=new FileReader();
@@ -1130,38 +1252,46 @@ function importarHC(input){
       if(!rows.length){toast('Archivo vacío','err');return;}
       const cols=Object.keys(rows[0]);
       const find=pats=>cols.find(c=>pats.some(p=>c.toLowerCase().includes(p)))||'';
-      const m={noEmp:find(['no.emp','noemp','numero','empleado']),nombre:find(['nombre']),depto:find(['depto','departamento','area']),puesto:find(['puesto','cargo']),planta:find(['planta','site']),turno:find(['turno','shift']),nss:find(['nss','seguro']),genero:find(['genero','género','sexo']),fechaNacimiento:find(['nacimiento','nac','birth'])};
-      HC=rows.map(r=>({noEmp:String(r[m.noEmp]||'').trim(),nombre:String(r[m.nombre]||'').trim(),depto:String(r[m.depto]||'').trim(),puesto:String(r[m.puesto]||'').trim(),planta:String(r[m.planta]||'').trim(),turno:String(r[m.turno]||'').trim(),nss:String(r[m.nss]||'').trim(),genero:String(r[m.genero]||'').trim(),fechaNacimiento:String(r[m.fechaNacimiento]||'').trim()})).filter(r=>r.noEmp&&r.nombre);
-      sv(SK.hc,HC);
-      document.getElementById('hc-upload').style.display='none';document.getElementById('hc-table').style.display='block';
-      const bd=document.getElementById('btn-del-hc');if(bd)bd.style.display='';
-      renderHC('');document.getElementById('hc-cnt').textContent=HC.length+' empleados';
-      toast('✅ HC: '+HC.length+' empleados','ok');
+      const m={noEmp:find(['no.emp','noemp','numero']),nombre:find(['nombre']),depto:find(['depto','departamento','area']),puesto:find(['puesto','cargo']),planta:find(['planta','site']),turno:find(['turno','shift']),nss:find(['nss','seguro']),genero:find(['genero','género','sexo'])};
+      HC=rows.map(r=>({noEmp:String(r[m.noEmp]||'').trim(),nombre:String(r[m.nombre]||'').trim(),curp:String(r[m.curp]||'').trim(),supervisor:String(r[m.supervisor]||'').trim(),puesto:String(r[m.puesto]||'').trim(),planta:String(r[m.planta]||'').trim(),categoria:String(r[m.categoria]||'').trim()})).filter(r=>r.noEmp&&r.nombre);
+      sv(SK.hc,HC);document.getElementById('hc-upload').style.display='none';document.getElementById('hc-table').style.display='block';const bd=document.getElementById('btn-del-hc');if(bd)bd.style.display='';renderHC('');document.getElementById('hc-cnt').textContent=HC.length+' empleados';toast('✅ HC: '+HC.length+' empleados','ok');
     }catch(err){toast('Error: '+err.message,'err');}
   };
   reader.readAsBinaryString(file);
 }
 function renderHC(q){
   q=(q||'').toLowerCase();
-  const lista=HC.filter(e=>!q||(e.nombre+e.noEmp+e.depto).toLowerCase().includes(q)).slice(0,100);
-  document.getElementById('hc-tbody').innerHTML=lista.map(e=>`<tr><td style="padding:8px 11px;border-bottom:1px solid var(--br)"><span class="folio">${e.noEmp}</span></td><td style="padding:8px 11px;border-bottom:1px solid var(--br)"><strong>${e.nombre}</strong></td><td style="padding:8px 11px;border-bottom:1px solid var(--br)">${e.planta||'—'}</td><td style="padding:8px 11px;border-bottom:1px solid var(--br)">${e.turno||'—'}</td></tr>`).join('');
+  const lista=HC.filter(e=>!q||(e.nombre+e.noEmp+e.puesto+e.planta).toLowerCase().includes(q)).slice(0,150);
+  document.getElementById('hc-tbody').innerHTML=lista.map(e=>`<tr>
+    <td style="padding:8px 11px;border-bottom:1px solid var(--bor)"><span class="folio">${e.noEmp}</span></td>
+    <td style="padding:8px 11px;border-bottom:1px solid var(--bor)"><strong>${e.nombre}</strong></td>
+    <td style="padding:8px 11px;border-bottom:1px solid var(--bor)">${e.planta||'—'}</td>
+    <td style="padding:8px 11px;border-bottom:1px solid var(--bor)">${e.puesto||'—'}</td>
+  </tr>`).join('');
   document.getElementById('hc-cnt').textContent=HC.length+' empleados'+(q?' (filtrado)':'');
 }
+
 function delHC(){if(!confirm('¿Eliminar head count?'))return;HC=[];sv(SK.hc,HC);document.getElementById('hc-upload').style.display='block';document.getElementById('hc-table').style.display='none';const bd=document.getElementById('btn-del-hc');if(bd)bd.style.display='none';document.getElementById('hc-cnt').textContent='0 empleados';}
 
-// ══════════════════════════════════════════════════════════════════
-// EVENTS
-// ══════════════════════════════════════════════════════════════════
-document.addEventListener('click',e=>{
-  if(!e.target.closest('.sw')&&!e.target.closest('.sd')) document.querySelectorAll('.sd').forEach(d=>d.classList.remove('show'));
-  if(e.target.classList.contains('ov')) e.target.classList.remove('open');
-});
+// ══════════════════════════════════════════════════
+// UTILS
+// ══════════════════════════════════════════════════
+function openModal(id){const el=document.getElementById(id);if(el)el.classList.add('open');}
+function closeModal(id){const el=document.getElementById(id);if(el)el.classList.remove('open');}
+function toast(msg,type='ok'){const c=document.createElement('div');c.className='ti t'+(type==='err'?'err':type==='inf'?'inf':'ok');c.textContent=msg;document.getElementById('toast').appendChild(c);setTimeout(()=>c.remove(),3500);}
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 
-document.addEventListener('DOMContentLoaded',async function(){
-  try{const r=await gasGet({action:'getUsers'});if(r.ok&&Array.isArray(r.data)&&r.data.length)sv(SK.users,r.data);}catch(e){}
+document.addEventListener('click',e=>{if(!e.target.closest('.sw'))document.querySelectorAll('.sr-drop').forEach(d=>d.classList.remove('show'));if(e.target.classList.contains('ov'))e.target.classList.remove('open');});
+
+document.addEventListener('DOMContentLoaded', async function(){
+  try{
+    const r=await gasGet({action:'getUsers'});
+    if(r.ok&&Array.isArray(r.data)&&r.data.length) sv(SK.users,r.data);
+  }catch(e){}
   poblarSelect();
+  syncEmb();
 });
-window.addEventListener('error',e=>{console.warn('[NUT]',e.message);});
+window.addEventListener('error',e=>{console.warn('[NUT]',e.message,e.lineno);});
 window.addEventListener('unhandledrejection',e=>{console.warn('[NUT]',e.reason);});
 </script>
 </body>
