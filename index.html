@@ -657,32 +657,69 @@ function buscarEmp(val){
   drop.classList.add('show');
 }
 
-function selEmp(noEmp){
-  const e=HC.find(x=>String(x.noEmp)===String(noEmp));if(!e)return;
-  sv2('f-noEmp',e.noEmp);sv2('f-nombre',e.nombre);sv2('f-planta',e.planta||'');sv2('f-turno',e.turno||'');sv2('f-depto',e.depto||'');sv2('f-nss',e.nss||'');sv2('f-genero',e.genero||'');
-  document.getElementById('f-emp-q').value=e.nombre+' (No.'+e.noEmp+')';
-  document.getElementById('f-emp-drop').classList.remove('show');
-  // Card empleado
-  const card=document.getElementById('f-emp-card');
-  card.innerHTML=`<div class="ec"><div class="ec-name">${e.nombre} <span class="ec-tag">No. ${e.noEmp}</span></div><div class="ec-grid"><div class="ec-f"><label>Planta</label><div>${e.planta||'—'}</div></div><div class="ec-f"><label>Turno</label><div>${e.turno||'—'}</div></div><div class="ec-f"><label>Depto</label><div>${e.depto||'—'}</div></div><div class="ec-f"><label>Género</label><div>${e.genero||'—'}</div></div></div></div>`;
-  card.style.display='block';
-  // Calcular edad desde HC automáticamente
-  calcEdad(e);
-  // Antecedentes nutricionales
+async function selEmp(noEmp){
+  const e = HC.find(x => String(x.noEmp) === String(noEmp));
+  if (!e) return;
+
+  const vals = [e.noEmp, e.nombre, e.planta, e.depto, e.nss, e.genero, e.categoria, e.puesto];
+  ['h-noEmp','h-nombre','h-planta','h-depto','h-nss','h-genero','h-categoria','h-puesto'].forEach((id,i)=>{
+    const el = document.getElementById(id);
+    if (el) el.value = vals[i] || '';
+  });
+
+  document.getElementById('num-emp').value = e.nombre + ' (No.' + e.noEmp + ')';
+  document.getElementById('emp-drop').classList.remove('show');
+
+  const card = document.getElementById('emp-card');
+  card.innerHTML = `
+    <div class="emp-card">
+      <div class="ec-name">${e.nombre} <span class="ec-tag">No. ${e.noEmp}</span></div>
+      <div class="ec-grid">
+        <div class="ec-field"><label>Planta</label><div>${e.planta || '—'}</div></div>
+        <div class="ec-field"><label>Turno</label><div>${e.turno || '—'}</div></div>
+        <div class="ec-field"><label>Depto</label><div>${e.depto || '—'}</div></div>
+        <div class="ec-field"><label>Género</label><div>${e.genero || '—'}</div></div>
+      </div>
+    </div>`;
+  card.style.display = 'block';
+
+  // Historial local de nutrición
   mostrarAntNut(e.noEmp);
-  // Autoselect seguimiento si ya tiene consultas
-  const hist=NUT.filter(r=>String(r.noEmp||'').toLowerCase()===String(e.noEmp||'').toLowerCase());
-  if(hist.length){
-    document.querySelector('input[name="tipo-cons"][value="Seguimiento"]').checked=true;
-    onTipoCons();
-    // Pre-fill datos previos
-    const ult=[...hist].sort((a,b)=>(b.fecha||'').localeCompare(a.fecha||''))[0];
-    if(ult){
-      if(ult.talla&&!g('f-talla')) sv2('f-talla',ult.talla);
-      if(ult.pesoMeta) sv2('f-peso-meta',ult.pesoMeta);
-      if(ult.comorbilidades) sv2('f-comorbilidades',ult.comorbilidades);
-    }
+
+  // Edad automática desde HC
+  const fn = e.fechaNacimiento || e.FechaNacimiento || '';
+  if (fn) {
+    let anioNac = 0;
+    if (String(fn).includes('/')) anioNac = parseInt(String(fn).split('/').pop());
+    else if (String(fn).includes('-')) anioNac = parseInt(String(fn).split('-')[0]);
+    else anioNac = parseInt(String(fn).slice(0,4));
+
+    const edadCalc = new Date().getFullYear() - anioNac;
+    const edadEl = document.getElementById('f-edad');
+    if (edadEl && !edadEl.value && edadCalc > 15 && edadCalc < 80) edadEl.value = edadCalc;
   }
+
+  // Expediente compartido desde GAS
+  await cargarAntNutDesdeGAS(e.noEmp);
+
+  // Banner embarazo
+  const emb = EMBARAZADAS.find(x => String(x.noEmp || '').toLowerCase() === String(e.noEmp || '').toLowerCase());
+  const panel = document.getElementById('ant-nut');
+  if (emb && panel) {
+    const semanas = emb.fum
+      ? Math.floor((new Date() - new Date(emb.fum.includes('/') ? emb.fum.split('/').reverse().join('-') : emb.fum)) / (1000*60*60*24*7))
+      : '—';
+
+    const embHTML = `
+      <div style="background:#FDF2F8;border:2px solid #F0ABFC;border-radius:9px;padding:10px 13px;margin-bottom:8px">
+        <div style="font-size:11px;font-weight:700;color:#A21CAF;margin-bottom:3px">🤰 TRABAJADORA EMBARAZADA · ${semanas} SDG</div>
+        <div style="font-size:11px;color:#86198F">${emb.restricciones ? '⚠️ ' + emb.restricciones : ''}</div>
+      </div>`;
+    panel.innerHTML = embHTML + (panel.innerHTML || '');
+    panel.style.display = 'block';
+  }
+}
+  
   // Banner embarazo
   const emb=EMBARAZADAS.find(x=>String(x.noEmp||'').toLowerCase()===String(e.noEmp||'').toLowerCase());
   mostrarAntNut(e.noEmp, emb);
@@ -1189,6 +1226,109 @@ document.addEventListener('DOMContentLoaded',async function(){
 });
 window.addEventListener('error',e=>{console.warn('[NUT]',e.message);});
 window.addEventListener('unhandledrejection',e=>{console.warn('[NUT]',e.reason);});
+  async function cargarAntNutDesdeGAS(noEmp){
+  const panel = document.getElementById('ant-nut');
+  if (!panel || !noEmp) return;
+
+  try{
+    const r = await gasGet({ action:'getExpCompleto', noEmp });
+    if (!r.ok || !r.data) return;
+
+    const data = r.data;
+    const exp = data.expediente || {};
+    const res = data.resumen || {};
+    const timeline = data.timeline || [];
+
+    const alergias = [...new Set([
+      ...(res.alergias || []),
+      ...String(exp.Alergias || '').split(/[,;]+/).map(x => x.trim()).filter(Boolean)
+    ])];
+
+    const cronicos = [...new Set([
+      ...(res.cronicosAntecedentes || []),
+      ...String(exp.AntPatologicos || '').split(/[,;]+/).map(x => x.trim()).filter(Boolean)
+    ])];
+
+    const tratamientos = [...new Set([
+      ...(res.tratamientosActivos || [])
+    ])].filter(Boolean);
+
+    const tlHtml = timeline.slice(0, 8).map(ev => `
+      <div style="padding:8px 0;border-bottom:1px solid #E5E7EB">
+        <div style="font-size:10px;color:var(--tx3)">${ev.fecha || '—'} ${ev.hora ? '· ' + ev.hora : ''}</div>
+        <div style="font-size:12px;font-weight:700">${ev.origen || 'Consulta'} · ${ev.titulo || '—'}</div>
+        ${ev.detalle ? `<div style="font-size:11px;color:var(--tx2);margin-top:2px">${ev.detalle}</div>` : ''}
+        <div style="font-size:10px;color:var(--tx3);margin-top:2px">${ev.registradoPor || ''}</div>
+      </div>
+    `).join('');
+
+    const bloqueCompartido = `
+      <div style="background:#EFF6FF;border:1.5px solid #BFDBFE;border-radius:9px;padding:11px 13px;margin-top:10px">
+        <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:#1D4ED8;margin-bottom:7px">🩺 Expediente clínico compartido</div>
+
+        ${alergias.length ? `
+          <div style="margin-bottom:8px">
+            <div style="font-size:10px;color:#991B1B;font-weight:700;margin-bottom:4px">Alergias</div>
+            <div>${alergias.map(a => `<span style="display:inline-block;background:#FEE2E2;color:#991B1B;border-radius:999px;padding:4px 8px;font-size:11px;font-weight:700;margin:2px">${a}</span>`).join('')}</div>
+          </div>` : ''}
+
+        ${cronicos.length ? `
+          <div style="margin-bottom:8px">
+            <div style="font-size:10px;color:#92400E;font-weight:700;margin-bottom:4px">Antecedentes / comorbilidades</div>
+            <div>${cronicos.map(c => `<span style="display:inline-block;background:#FEF3C7;color:#92400E;border-radius:999px;padding:4px 8px;font-size:11px;font-weight:700;margin:2px">${c}</span>`).join('')}</div>
+          </div>` : ''}
+
+        ${tratamientos.length ? `
+          <div style="margin-bottom:8px">
+            <div style="font-size:10px;color:#166534;font-weight:700;margin-bottom:4px">Tratamientos activos</div>
+            <div style="background:#fff;border:1px solid #DBEAFE;border-radius:8px;padding:8px">
+              ${tratamientos.map(t => `<div style="font-size:11px;padding:2px 0">• ${t}</div>`).join('')}
+            </div>
+          </div>` : ''}
+
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:6px;margin-bottom:8px">
+          <div style="background:#fff;border:1px solid #DBEAFE;border-radius:8px;padding:8px">
+            <div style="font-size:9px;color:var(--tx3);text-transform:uppercase">Consultas médicas</div>
+            <div style="font-size:16px;font-weight:800;color:#1D4ED8">${(data.valoraciones || []).length}</div>
+          </div>
+          <div style="background:#fff;border:1px solid #DBEAFE;border-radius:8px;padding:8px">
+            <div style="font-size:9px;color:var(--tx3);text-transform:uppercase">Enfermería</div>
+            <div style="font-size:16px;font-weight:800;color:#059669">${(data.enfermeria || []).length}</div>
+          </div>
+          <div style="background:#fff;border:1px solid #DBEAFE;border-radius:8px;padding:8px">
+            <div style="font-size:9px;color:var(--tx3);text-transform:uppercase">Nutrición</div>
+            <div style="font-size:16px;font-weight:800;color:#16A34A">${(data.nutricion || []).length}</div>
+          </div>
+        </div>
+
+        ${tlHtml ? `
+          <div style="margin-top:6px">
+            <div style="font-size:10px;color:#1E3A8A;font-weight:700;margin-bottom:4px">Últimos eventos clínicos</div>
+            <div style="background:#fff;border:1px solid #DBEAFE;border-radius:8px;padding:8px">
+              ${tlHtml}
+            </div>
+          </div>` : ''}
+      </div>`;
+
+    panel.innerHTML = (panel.innerHTML || '') + bloqueCompartido;
+    panel.style.display = 'block';
+  }catch(e){
+    console.error('Error cargando expediente compartido en nutrición:', e);
+  }
+}
+  setInterval(() => {
+  try {
+    if (typeof syncNut === 'function') syncNut();
+    if (typeof syncHC === 'function') syncHC();
+  } catch(e){}
+}, 45000);
+
+window.addEventListener('focus', () => {
+  try {
+    if (typeof syncNut === 'function') syncNut();
+    if (typeof syncHC === 'function') syncHC();
+  } catch(e){}
+});
 </script>
 </body>
 </html>
