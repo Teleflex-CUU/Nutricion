@@ -657,7 +657,8 @@ function buscarEmp(val){
   drop.classList.add('show');
 }
 
-async function selEmp(noEmp){
+{
+  async function selEmp(noEmp){
   const e = HC.find(x => String(x.noEmp) === String(noEmp));
   if (!e) return;
 
