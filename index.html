@@ -727,8 +727,8 @@ function buscarEmp(val){
 }
 function selEmp(noEmp){
   const e=HC.find(x=>String(x.noEmp)===String(noEmp)); if(!e) return;
-  ['h-noEmp','h-nombre','h-planta','h-turno','h-depto','h-nss','h-genero'].forEach((id,i)=>{
-    const el=document.getElementById(id);if(el)el.value=[e.noEmp,e.nombre,e.planta,e.turno,e.depto,e.nss,e.genero][i]||'';
+  ['h-noEmp','h-nombre','h-planta','h-depto','h-nss','h-genero','h-categoria','h-puesto'].forEach((id,i)=>{
+    const el=document.getElementById(id);if(el)el.value=[e.noEmp,e.nombre,e.planta,e.depto,e.nss,e.genero,e.categoria,e.puesto][i]||'';
   });
   document.getElementById('num-emp').value=e.nombre+' (No.'+e.noEmp+')';
   document.getElementById('emp-drop').classList.remove('show');
@@ -1262,6 +1262,7 @@ function importarHC(input){
         nss:      String(r[m.nss]||'').trim(),
         planta:   String(r[m.planta]||'').trim(),
         genero:   String(r[m.genero]||'').trim(),
+        fechaIngreso: String(r[m.fechaIngreso]||'').trim(),
         fechaNacimiento: String(r[m.fechaNacimiento]||'').trim(),
         edad:     String(r[m.edad]||'').trim(),
         telefono: String(r[m.telefono]||'').trim()
