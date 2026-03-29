@@ -2320,8 +2320,9 @@ function loadReportes() {
   const anio = parseInt(document.getElementById('rep-anio').value);
   const planta = document.getElementById('rep-planta').value;
 
-  const cs = state.consultas.filter(c =>
-    c.Anio === anio && (planta === '' || c.Planta === planta)
+ const cs = state.consultas.filter(c => String(c.NoEmp) === String(noEmp)).sort((a,b) => new Date(b.Fecha)-new Date(a.Fecha));
+  if (!cs.length) return;
+  const first = cs[cs.length-1];
   );
 
   const pacientesUnicos = new Set(cs.map(c => c.NoEmp)).size;
