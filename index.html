@@ -1739,6 +1739,7 @@ const actividad = parseFloat(document.getElementById('c-actividad').value) || 1.
     const objPre = document.getElementById('c-objetivo').value;
     diagElPre.value = getDiagnostico('Normal', objPre);
   }
+
   if (peso > 0 && talla > 0) {
      const imc = peso / ((talla/100)**2);
     const imcStr = imc.toFixed(1);
@@ -1858,14 +1859,15 @@ function searchEmployee(query) {
   const q = query.toLowerCase();
   const results = state.headcount.filter(e =>
     e.Nombre?.toLowerCase().includes(q) ||
-    e.NoEmp?.toLowerCase().includes(q) ||
-    e.NSS?.includes(q)
+    String(e.NoEmp ?? '').toLowerCase().includes(q) ||
+    String(e.NSS ?? '').includes(q)
   ).slice(0, 8);
 
   if (!results.length) { dd.classList.remove('show'); return; }
 
- dd.innerHTML = results.map(e => `
-    <div class="emp-option" onclick='selectEmployee(${JSON.stringify(e)})'>
+ window._empSearchResults = results;
+  dd.innerHTML = results.map((e, i) => `
+    <div class="emp-option" onclick="selectEmployee(window._empSearchResults[${i}])">
       <div class="emp-option-name">${e.Nombre}</div>
       <div class="emp-option-meta">${e.NoEmp} · ${e.Planta} · ${e.Departamento} · ${e.Genero==='F'?'Femenino':'Masculino'}</div>
     </div>`).join('');
@@ -1897,7 +1899,7 @@ function checkFrequency(noEmp) {
   const now = new Date();
   const since = new Date(now - 30*24*60*60*1000);
   const count = state.consultas.filter(c =>
-    c.NoEmp === noEmp && new Date(c.Fecha) >= since
+    String(c.NoEmp) === String(noEmp) && new Date(c.Fecha) >= since
   ).length;
 
   const el = document.getElementById('freq-indicator');
@@ -2024,7 +2026,7 @@ function searchHistorial(query) {
 
   const pacientes = {};
   state.consultas.forEach(c => {
-    if (c.Nombre?.toLowerCase().includes(q) || c.NoEmp?.toLowerCase().includes(q)) {
+    if (c.Nombre?.toLowerCase().includes(q) || String(c.NoEmp ?? '').toLowerCase().includes(q)) {
       if (!pacientes[c.NoEmp]) {
         pacientes[c.NoEmp] = { nombre: c.Nombre, planta: c.Planta, noEmp: c.NoEmp, consultas: [] };
       }
@@ -2055,12 +2057,14 @@ function searchHistorial(query) {
   }).join('');
 }
 
-const count = state.consultas.filter(c =>
-    String(c.NoEmp) === String(noEmp) && new Date(c.Fecha) >= since).length;
-   
+function showExpediente(noEmp) {
+  const cs = state.consultas
+    .filter(c => String(c.NoEmp) === String(noEmp))
+    .sort((a,b) => new Date(b.Fecha) - new Date(a.Fecha));
+
   if (!cs.length) return;
   const first = cs[cs.length-1];
-  const emp = state.headcount.find(h => h.NoEmp === noEmp) || {};
+  const emp = state.headcount.find(h => String(h.NoEmp) === String(noEmp)) || {};
 
   const expDiv = document.getElementById('hist-expediente');
   expDiv.classList.remove('hidden');
@@ -2137,7 +2141,7 @@ function searchSeguimiento(query) {
 
   const pacientes = {};
   state.consultas.forEach(c => {
-    if (c.Nombre?.toLowerCase().includes(q) || c.NoEmp?.toLowerCase().includes(q)) {
+    if (c.Nombre?.toLowerCase().includes(q) || String(c.NoEmp ?? '').toLowerCase().includes(q)) {
       if (!pacientes[c.NoEmp]) {
         pacientes[c.NoEmp] = { nombre: c.Nombre, planta: c.Planta, noEmp: c.NoEmp, consultas: 0 };
       }
@@ -2320,9 +2324,8 @@ function loadReportes() {
   const anio = parseInt(document.getElementById('rep-anio').value);
   const planta = document.getElementById('rep-planta').value;
 
- const cs = state.consultas.filter(c => String(c.NoEmp) === String(noEmp)).sort((a,b) => new Date(b.Fecha)-new Date(a.Fecha));
-  if (!cs.length) return;
-  const first = cs[cs.length-1];
+  const cs = state.consultas.filter(c =>
+    c.Anio === anio && (planta === '' || c.Planta === planta)
   );
 
   const pacientesUnicos = new Set(cs.map(c => c.NoEmp)).size;
@@ -2522,7 +2525,6 @@ function syncHC() {
 // ENCUESTA
 // =============================================
 function openEncuesta() {
-  function openEncuesta() {
   document.getElementById('enc-fecha').value = new Date().toISOString().split('T')[0];
   document.getElementById('enc-nutri').value = state.user?.nombre || '';
   buildEncEnfs();
@@ -2532,8 +2534,7 @@ function openEncuesta() {
     const emp = state.currentEmployee;
     document.getElementById('enc-nombre').value = emp.Nombre || '';
     document.getElementById('enc-edad').value   = emp.Edad   || '';
-    document.getElementById('enc-sexo').value   = (emp.Genero === 'F' || emp.Genero?.toLowerCase().startsWith('f')) ? 'Femenino' : 'Masculino';
-    // Sincronizar también los campos de medición si ya los capturó
+    document.getElementById('enc-sexo').value   = (emp.Genero === 'F' || String(emp.Genero ?? '').toLowerCase().startsWith('f')) ? 'Femenino' : 'Masculino';
     const pesoVal = document.getElementById('c-peso').value;
     const tallaVal = document.getElementById('c-talla').value;
     if (pesoVal)  document.getElementById('enc-peso').value  = pesoVal;
