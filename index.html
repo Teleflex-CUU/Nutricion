@@ -1727,8 +1727,9 @@ function recalculate() {
   const peso = parseFloat(document.getElementById('c-peso').value) || 0;
   const talla = parseFloat(document.getElementById('c-talla').value) || 0;
   const edad = parseFloat(document.getElementById('c-edad').value) || 30;
-  const genero = document.getElementById('c-genero').value || 'M';
-  const actividad = parseFloat(document.getElementById('c-actividad').value) || 1.55;
+const generoRaw = document.getElementById('c-genero').value || 'M';
+  const genero = (generoRaw === 'F' || generoRaw.toLowerCase().startsWith('f')) ? 'F' : 'M';
+const actividad = parseFloat(document.getElementById('c-actividad').value) || 1.55;
   const objetivo = document.getElementById('c-objetivo').value;
   const grasa = parseFloat(document.getElementById('c-grasa').value) || 0;
 
@@ -2520,9 +2521,24 @@ function syncHC() {
 // ENCUESTA
 // =============================================
 function openEncuesta() {
+  function openEncuesta() {
   document.getElementById('enc-fecha').value = new Date().toISOString().split('T')[0];
   document.getElementById('enc-nutri').value = state.user?.nombre || '';
   buildEncEnfs();
+
+  // Rellenar datos del empleado actual al momento de abrir (no solo al seleccionar)
+  if (state.currentEmployee) {
+    const emp = state.currentEmployee;
+    document.getElementById('enc-nombre').value = emp.Nombre || '';
+    document.getElementById('enc-edad').value   = emp.Edad   || '';
+    document.getElementById('enc-sexo').value   = (emp.Genero === 'F' || emp.Genero?.toLowerCase().startsWith('f')) ? 'Femenino' : 'Masculino';
+    // Sincronizar también los campos de medición si ya los capturó
+    const pesoVal = document.getElementById('c-peso').value;
+    const tallaVal = document.getElementById('c-talla').value;
+    if (pesoVal)  document.getElementById('enc-peso').value  = pesoVal;
+    if (tallaVal) document.getElementById('enc-talla').value = tallaVal;
+    if (pesoVal && tallaVal) calcEncIMC();
+  }
   document.getElementById('encuesta-modal').classList.remove('hidden');
 }
 
