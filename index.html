@@ -1732,8 +1732,14 @@ function recalculate() {
   const objetivo = document.getElementById('c-objetivo').value;
   const grasa = parseFloat(document.getElementById('c-grasa').value) || 0;
 
+  // Diagnóstico siempre se autorrellena si hay empleado seleccionado
+  const diagElPre = document.getElementById('c-diagnostico');
+  if (!diagElPre.dataset.edited && state.currentEmployee) {
+    const objPre = document.getElementById('c-objetivo').value;
+    diagElPre.value = getDiagnostico('Normal', objPre);
+  }
   if (peso > 0 && talla > 0) {
-    const imc = peso / ((talla/100)**2);
+     const imc = peso / ((talla/100)**2);
     const imcStr = imc.toFixed(1);
     const imcCat = getIMCCat(imc);
     document.getElementById('c-imc').value = imcStr;
@@ -1857,7 +1863,7 @@ function searchEmployee(query) {
 
   if (!results.length) { dd.classList.remove('show'); return; }
 
-  dd.innerHTML = results.map(e => `
+ dd.innerHTML = results.map(e => `
     <div class="emp-option" onclick='selectEmployee(${JSON.stringify(e)})'>
       <div class="emp-option-name">${e.Nombre}</div>
       <div class="emp-option-meta">${e.NoEmp} · ${e.Planta} · ${e.Departamento} · ${e.Genero==='F'?'Femenino':'Masculino'}</div>
