@@ -2055,8 +2055,9 @@ function searchHistorial(query) {
   }).join('');
 }
 
-function showExpediente(noEmp) {
-  const cs = state.consultas.filter(c => c.NoEmp === noEmp).sort((a,b) => new Date(b.Fecha)-new Date(a.Fecha));
+const count = state.consultas.filter(c =>
+    String(c.NoEmp) === String(noEmp) && new Date(c.Fecha) >= since).length;
+   
   if (!cs.length) return;
   const first = cs[cs.length-1];
   const emp = state.headcount.find(h => h.NoEmp === noEmp) || {};
@@ -2158,8 +2159,7 @@ function searchSeguimiento(query) {
 }
 
 function loadSeguimiento(noEmp) {
-  const cs = state.consultas
-    .filter(c => c.NoEmp === noEmp)
+   const cs = state.consultas.filter(c => String(c.NoEmp) === String(noEmp))
     .sort((a,b) => new Date(a.Fecha) - new Date(b.Fecha));
 
   const content = document.getElementById('seg-content');
